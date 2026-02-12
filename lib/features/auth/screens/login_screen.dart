@@ -11,30 +11,30 @@ class LoginScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 공통 너비 설정
-    final double contentWidth = MediaQuery.of(context).size.width * 0.63;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: SingleChildScrollView(
-            child: SizedBox(
-              width: contentWidth,
-              child: const Column(
-                children: [
-                  _HeaderSection(),
-
-                  SizedBox(height: 30),
-
-                  _LoginForm(),
-
-                  SizedBox(height: 35),
-
-                  _FooterSection(),
-
-                   SizedBox(height: 100),
-                ],
+            // 1. 양옆에 고정 패딩을 줍니다 (팀장님 말씀하신 32 기준)
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 72),
+              child: Center(
+                // 2. 너무 큰 화면(태블릿 등)에서 무한정 늘어나지 않게 최대 너비만 제한합니다.
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 400), 
+                  child: const Column(
+                    mainAxisSize: MainAxisSize.min, // 중앙 정렬을 위해 최소 크기로
+                    children: [
+                      _HeaderSection(),
+                      SizedBox(height: 32), // 4의 배수 적용!
+                      _LoginForm(),
+                      SizedBox(height: 36), // 4의 배수 적용!
+                      _FooterSection(),
+                      SizedBox(height: 100),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
