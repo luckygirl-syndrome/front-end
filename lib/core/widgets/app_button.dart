@@ -30,7 +30,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     // 1. 스타일을 변수로 빼서 가독성을 높입니다.
     final TextStyle finalTextStyle = (textStyle ?? AppTextStyles.ptdBold(20)).copyWith(
-      color: textStyle?.color ?? textColor ?? AppColors.white0,
+      color: textStyle?.color ?? textColor ?? AppColors.white,
     );
 
     return SizedBox(
@@ -38,7 +38,7 @@ class AppButton extends StatelessWidget {
       height: height ?? 56, // 아까 노션에 정리한대로 56으로 맞췄습니다!
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: backgroundColor ?? AppColors.primary,
+          backgroundColor: backgroundColor ?? AppColors.primaryMain,
           // 2. 중요! 보라색 방지용 (글자/아이콘 색상 강제 지정)
           foregroundColor: finalTextStyle.color, 
           elevation: 0,

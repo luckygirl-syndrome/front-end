@@ -71,15 +71,15 @@ class _LoginForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start, // 텍스트 라벨 왼쪽 정렬
       children: [
-        Text('아이디', style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black0)),
+        Text('아이디', style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black)),
         const SizedBox(height: 8),
-        const AppTextField(hint: '아이디를 입력해주세요', fontSize: 12, focusedBorderColor: Colors.yellow),
+        const AppTextField(hint: '아이디를 입력해주세요', fontSize: 12),
         
         const SizedBox(height: 20),
         
-        Text('비밀번호', style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black0)),
+        Text('비밀번호', style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black)),
         const SizedBox(height: 8),
-        const AppTextField(hint: '비밀번호를 입력해주세요', fontSize: 12, obscureText: true, focusedBorderColor: Colors.yellow),
+        const AppTextField(hint: '비밀번호를 입력해주세요', fontSize: 12, obscureText: true),
         
         const SizedBox(height: 12),
         AppButton(
@@ -87,7 +87,7 @@ class _LoginForm extends StatelessWidget {
           onPressed: () => context.go('/home'),
           borderRadius: 4,
           height: 40,
-          textStyle: AppTextStyles.ptdBold(12).copyWith(color: AppColors.white0),
+          textStyle: AppTextStyles.ptdBold(12).copyWith(color: AppColors.white),
         ),
       ],
     );
@@ -103,7 +103,7 @@ class _FooterSection extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text('아직 회원이 아닌가요?', 
-          style: AppTextStyles.ptdRegular(12).copyWith(color: AppColors.grey0)),
+          style: AppTextStyles.ptdRegular(12).copyWith(color: AppColors.lightGrey)),
 
         const SizedBox(width: 8),
         
@@ -111,7 +111,7 @@ class _FooterSection extends StatelessWidget {
           onTap: () => context.push('/signup'),
           child: Text('회원가입',
             style: AppTextStyles.ptdRegular(12).copyWith(
-              color: AppColors.black0,
+              color: AppColors.black,
               decoration: TextDecoration.underline,
             )),
         ),

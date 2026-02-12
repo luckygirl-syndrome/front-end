@@ -68,8 +68,8 @@ class _AppTextFieldState extends State<AppTextField> {
   Widget build(BuildContext context) {
     // 3. 값이 있으면 노란색(focusedBorderColor), 없으면 기본 회색(borderColor)
     final activeBorderColor = _hasText 
-        ? (widget.focusedBorderColor ?? AppColors.primary) 
-        : (widget.borderColor ?? AppColors.grey0);
+        ? (widget.focusedBorderColor ?? AppColors.primaryMain) 
+        : (widget.borderColor ?? AppColors.lightGrey);
 
     return SizedBox(
       height: widget.height ?? 40,
@@ -78,13 +78,13 @@ class _AppTextFieldState extends State<AppTextField> {
         obscureText: widget.obscureText,
         textAlignVertical: TextAlignVertical.center,
         style: AppTextStyles.ptdRegular(widget.fontSize ?? 16).copyWith(
-          color: AppColors.black0,
+          color: AppColors.black,
           fontWeight: widget.fontWeight ?? FontWeight.normal,
         ),
         decoration: InputDecoration(
           hintText: widget.hint,
           hintStyle: AppTextStyles.ptdRegular(widget.fontSize ?? 16).copyWith(
-            color: AppColors.grey0,
+            color: AppColors.lightGrey,
             fontWeight: widget.fontWeight ?? FontWeight.normal,
           ),
           isDense: true,
@@ -103,7 +103,7 @@ class _AppTextFieldState extends State<AppTextField> {
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 4),
             borderSide: BorderSide(
-              color: widget.focusedBorderColor ?? AppColors.primary, 
+              color: widget.focusedBorderColor ?? AppColors.primaryMain, 
               width: 1,
             ),
           ),
