@@ -19,17 +19,16 @@ class LoginScreen extends ConsumerWidget {
             // 1. 양옆에 고정 패딩을 줍니다 (팀장님 말씀하신 32 기준)
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 72),
-              child: Center(
                 // 2. 너무 큰 화면(태블릿 등)에서 무한정 늘어나지 않게 최대 너비만 제한합니다.
                 child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 400), 
+                  constraints: const BoxConstraints(maxWidth: 400),
                   child: const Column(
                     mainAxisSize: MainAxisSize.min, // 중앙 정렬을 위해 최소 크기로
                     children: [
                       _HeaderSection(),
-                      SizedBox(height: 32), // 4의 배수 적용!
+                      SizedBox(height: 44), // 4의 배수 적용!
                       _LoginForm(),
-                      SizedBox(height: 36), // 4의 배수 적용!
+                      SizedBox(height: 40), // 4의 배수 적용!
                       _FooterSection(),
                       SizedBox(height: 100),
                     ],
@@ -37,7 +36,6 @@ class LoginScreen extends ConsumerWidget {
                 ),
               ),
             ),
-          ),
         ),
       ),
     );
@@ -51,11 +49,15 @@ class _HeaderSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Image.asset('assets/images/logo.png'),
+        Image.asset(
+          'assets/images/logo.png',
+          height: 70,
+          fit: BoxFit.contain,
+        ),
         const SizedBox(height: 28),
         Text('또 사기 전에', style: AppTextStyles.ptdMedium(24)),
         Transform.translate(
-          offset: const Offset(0, -5),
+          offset: const Offset(0, -5), //
           child: Text('또바바', style: AppTextStyles.ptdExtraBold(40)),
         ),
       ],
@@ -71,22 +73,21 @@ class _LoginForm extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start, // 텍스트 라벨 왼쪽 정렬
       children: [
-        Text('아이디', style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black)),
+        Text('아이디', 
+            style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black)),
         const SizedBox(height: 8),
-        const AppTextField(hint: '아이디를 입력해주세요', fontSize: 12),
-        
-        const SizedBox(height: 20),
-        
-        Text('비밀번호', style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black)),
+        AppTextField(hint: '아이디를 입력해주세요', textStyle: AppTextStyles.ptdRegular(12), hintStyle: AppTextStyles.ptdRegular(12)),
+        const SizedBox(height: 24),
+        Text('비밀번호',
+            style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black)),
         const SizedBox(height: 8),
-        const AppTextField(hint: '비밀번호를 입력해주세요', fontSize: 12, obscureText: true),
-        
+        AppTextField(
+            hint: '비밀번호를 입력해주세요', textStyle: AppTextStyles.ptdRegular(12), hintStyle: AppTextStyles.ptdRegular(12), obscureText: true),
         const SizedBox(height: 12),
         AppButton(
           text: '시작하기',
           onPressed: () => context.go('/home'),
           borderRadius: 4,
-          height: 40,
           textStyle: AppTextStyles.ptdBold(12),
         ),
       ],
@@ -102,18 +103,17 @@ class _FooterSection extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text('아직 회원이 아닌가요?', 
-          style: AppTextStyles.ptdRegular(12).copyWith(color: AppColors.lightGrey)),
-
+        Text('아직 회원이 아닌가요?',
+            style: AppTextStyles.ptdRegular(12)
+                .copyWith(color: AppColors.lightGrey)),
         const SizedBox(width: 8),
-        
         GestureDetector(
           onTap: () => context.push('/signup'),
           child: Text('회원가입',
-            style: AppTextStyles.ptdRegular(12).copyWith(
-              color: AppColors.black,
-              decoration: TextDecoration.underline,
-            )),
+              style: AppTextStyles.ptdRegular(12).copyWith(
+                color: AppColors.black,
+                decoration: TextDecoration.underline,
+              )),
         ),
       ],
     );

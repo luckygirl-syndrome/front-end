@@ -9,8 +9,8 @@ class AppButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? textColor;
   final double? width;
-  final double? height;
   final double? borderRadius;
+  final EdgeInsetsGeometry? padding;
   
   final TextStyle? textStyle; // 👈 개별 속성 대신 스타일 통째로!
 
@@ -21,9 +21,9 @@ class AppButton extends StatelessWidget {
     this.backgroundColor,
     this.textColor,
     this.width,
-    this.height,
     this.borderRadius,
     this.textStyle,
+    this.padding,
   });
 
   @override
@@ -35,13 +35,14 @@ class AppButton extends StatelessWidget {
 
     return SizedBox(
       width: width ?? double.infinity,
-      height: height ?? 56, // 아까 노션에 정리한대로 56으로 맞췄습니다!
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor ?? AppColors.primaryMain,
           // 2. 중요! 보라색 방지용 (글자/아이콘 색상 강제 지정)
           foregroundColor: finalTextStyle.color, 
           elevation: 0,
+          // 4의 배수 시스템 적용: 기본 상하 16)
+          padding: padding ?? const EdgeInsets.symmetric(vertical: 16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(borderRadius ?? 8),
           ),
