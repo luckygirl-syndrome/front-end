@@ -15,9 +15,11 @@ class AppTextField extends StatefulWidget {
   // 1. 패딩을 외부에서 결정할 수 있도록 속성 추가
   final EdgeInsetsGeometry? contentPadding;
   final Widget? suffixIcon;
+  // ⭐ 아이콘 크기를 조절할 수 있는 변수 추가 (기본값 20)
+  final double iconSize;
 
   // ⭐ 가려졌을 때와 보일 때의 아이콘을 직접 받을 수 있게 추가
-  final Widget? obscureIcon; 
+  final Widget? obscureIcon;
   final Widget? visibleIcon;
 
   // 개별 속성 대신 텍스트 스타일 통째로 관리
@@ -29,16 +31,17 @@ class AppTextField extends StatefulWidget {
     required this.hint,
     this.obscureText = false,
     this.controller,
+    this.iconSize = 20,
     this.borderRadius,
     this.borderColor,
     this.focusedBorderColor,
     this.textStyle,
     this.hintStyle,
     this.contentPadding,
-    this.onSubmitted, 
+    this.onSubmitted,
     this.suffixIcon,
     this.obscureIcon,
-    this.visibleIcon, 
+    this.visibleIcon,
   });
 
   @override
@@ -107,15 +110,16 @@ class _AppTextFieldState extends State<AppTextField> {
         },
         child: Container(
           padding: const EdgeInsets.only(right: 24),
-          color: Colors.transparent, 
+          color: Colors.transparent,
           child: SizedBox(
             // ⭐ SizedBox로 크기를 확실하게 고정합니다.
-            width: _isObscured ? 14 : 14,
-            height: _isObscured ? 8 : 14,
+            width: _isObscured ? widget.iconSize : widget.iconSize * 0.7,
             child: Image.asset(
-              _isObscured ? 'assets/images/eye_1.png' : 'assets/images/eye_2.png',
+              _isObscured
+                  ? 'assets/images/eye_1.png'
+                  : 'assets/images/eye_2.png',
               // ⭐ 이미지가 지정된 크기에 꽉 차도록 설정
-              fit: BoxFit.contain, 
+              fit: BoxFit.contain,
               color: AppColors.lightGrey,
             ),
           ),
@@ -155,6 +159,10 @@ class _AppTextFieldState extends State<AppTextField> {
         textAlignVertical: TextAlignVertical.center, // 텍스트 수직 중앙 정렬
         style: finalTextStyle,
         decoration: InputDecoration(
+          suffixIconConstraints: const BoxConstraints(
+            minHeight: 0,
+            minWidth: 0,
+          ),
           hintText: widget.hint,
           hintStyle: finalHintStyle,
 

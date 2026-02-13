@@ -16,7 +16,7 @@ class SignupState {
   SignupState copyWith({int? currentPage, String? lastUpdated}) {
     return SignupState(
       currentPage: currentPage ?? this.currentPage,
-      controllers: this.controllers,
+      controllers: controllers,
       lastUpdated: lastUpdated ?? this.lastUpdated,
     );
   }
