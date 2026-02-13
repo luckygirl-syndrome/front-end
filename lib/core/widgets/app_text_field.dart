@@ -9,6 +9,8 @@ class AppTextField extends StatefulWidget {
   final double? borderRadius;
   final Color? borderColor;
   final Color? focusedBorderColor;
+  // 1. 패딩을 외부에서 결정할 수 있도록 속성 추가
+  final EdgeInsetsGeometry? contentPadding;
 
   // 개별 속성 대신 텍스트 스타일 통째로 관리
   final TextStyle? textStyle;
@@ -24,6 +26,7 @@ class AppTextField extends StatefulWidget {
     this.focusedBorderColor,
     this.textStyle,
     this.hintStyle,
+    this.contentPadding, 
   });
 
   @override
@@ -95,12 +98,13 @@ class _AppTextFieldState extends State<AppTextField> {
           hintText: widget.hint,
           hintStyle: finalHintStyle,
 
-          // 2. ⭐ 핵심: isDense를 true로 줘야 기본 여백이 제거되어 
+          // 핵심: isDense를 true로 줘야 기본 여백이 제거되어 
           // 우리가 설정한 contentPadding이 정확하게 먹힙니다.
           isDense: true,
 
           // 피그마 수치대로 넣되, 실제 렌더링을 보며 상하(vertical) 값을 조금씩 조정하세요.
-          contentPadding:
+          // 외부에서 주면 쓰고, 안 주면 기본값(14)을 쓰도록 설정
+          contentPadding: widget.contentPadding ?? 
               const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
 
           enabledBorder: OutlineInputBorder(
