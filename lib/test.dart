@@ -1,33 +1,47 @@
 import 'package:flutter/material.dart';
-// 👈 ChatItem의 실제 경로를 명백히 확인하세요.
-import 'package:ttobaba/features/auth/widgets/chat_item.dart'; 
+import 'package:ttobaba/core/widgets/app_topbar.dart';
+import 'package:ttobaba/core/theme/app_colors.dart'; // 👈 AppColors 임포트 필수
 
 void main() {
-  runApp(const ChatItemTestApp());
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: TopbarCenterTestScreen(),
+  ));
 }
 
-class ChatItemTestApp extends StatelessWidget {
-  const ChatItemTestApp({super.key});
+class TopbarCenterTestScreen extends StatelessWidget {
+  const TopbarCenterTestScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        // 배경색을 흰색으로 두어 아이템 경계를 명백히 확인
-        backgroundColor: const Color(0xFFF5F5F5), 
-        appBar: AppBar(
-          title: const Text('ChatItem 단독 테스트'),
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black,
-          elevation: 0,
-        ),
-        body: const Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            // 👈 테스트할 위젯 배치
-            child: ChatItem(), 
-          ),
+    return Scaffold(
+      // 배경색: DarkScale의 black 적용 [cite: 2026-02-13]
+      backgroundColor: AppColors.black, 
+      body: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text(
+              'AppTopbar 중앙 배치 테스트',
+              style: TextStyle(
+                color: AppColors.white, // DarkScale의 white 적용 [cite: 2026-02-13]
+                fontSize: 16,
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            // 👈 실제 탑바 위젯
+            const AppTopbar(), 
+            
+            const SizedBox(height: 10),
+            const Text(
+              '좌우 32px, 상하 12px 패딩 확인',
+              style: TextStyle(
+                color: AppColors.grey, // DarkScale의 grey 적용 [cite: 2026-02-13]
+                fontSize: 12,
+              ),
+            ),
+          ],
         ),
       ),
     );
