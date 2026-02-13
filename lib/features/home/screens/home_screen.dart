@@ -3,7 +3,8 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/widgets/app_topbar.dart';
 import 'package:ttobaba/core/widgets/app_navbar.dart';
 import 'package:ttobaba/features/home/widgets/home_tabbar.dart';
-import 'package:ttobaba/features/home/widgets/home_main_section.dart';
+import 'package:ttobaba/features/home/widgets/home_Ttobaba_section.dart';
+import 'package:ttobaba/features/home/widgets/home_decision_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _currentNavIndex = 1; // 홈 탭 기본 선택
-  int _currentTopTabIndex = 0;
+  int _currentTopTabIndex = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +53,13 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildTabContent() {
     switch (_currentTopTabIndex) {
       case 0:
-        return const HomeMainSection(); // "또바와 진대" [cite: 2026-02-13]
+        return const HomeTtobabaSection();
       case 1:
-        return const Center(child: Text("결정했나요? 화면 (준비 중)")); 
+        return const HomeDecisionSection(); 
       case 2:
         return const Center(child: Text("안 산 영수증 화면 (준비 중)"));
       default:
-        return const HomeMainSection();
+        return const HomeTtobabaSection();
     }
   }
 }

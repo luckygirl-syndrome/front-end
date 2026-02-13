@@ -3,8 +3,8 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 
-class HomeMainSection extends StatelessWidget {
-  const HomeMainSection({super.key});
+class HomeTtobabaSection extends StatelessWidget {
+  const HomeTtobabaSection({super.key});
 
   @override
   Widget build(BuildContext context) {
