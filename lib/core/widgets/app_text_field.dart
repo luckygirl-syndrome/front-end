@@ -72,6 +72,9 @@ class _AppTextFieldState extends State<AppTextField> {
 
   void _updateState() {
     if (_internalController.text.isNotEmpty != _hasText) {
+      // ⭐ 위젯이 화면에서 제거된 상태라면 setState를 실행하지 않도록 방어!
+      if (!mounted) return;
+
       setState(() {
         _hasText = _internalController.text.isNotEmpty;
       });
