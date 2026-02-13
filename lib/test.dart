@@ -1,22 +1,33 @@
 import 'package:flutter/material.dart';
-import 'core/widgets/link_input_popup.dart';
+// 👈 ChatItem의 실제 경로를 명백히 확인하세요.
+import 'package:ttobaba/features/auth/widgets/chat_item.dart'; 
 
-void main() => runApp(const MaterialApp(home: TestScreen()));
+void main() {
+  runApp(const ChatItemTestApp());
+}
 
-class TestScreen extends StatelessWidget {
-  const TestScreen({super.key});
+class ChatItemTestApp extends StatelessWidget {
+  const ChatItemTestApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[300], // 팝업 대비를 위해 어두운 배경
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () => showDialog(
-            context: context,
-            builder: (context) => const LinkInputPopup(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        // 배경색을 흰색으로 두어 아이템 경계를 명백히 확인
+        backgroundColor: const Color(0xFFF5F5F5), 
+        appBar: AppBar(
+          title: const Text('ChatItem 단독 테스트'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          elevation: 0,
+        ),
+        body: const Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            // 👈 테스트할 위젯 배치
+            child: ChatItem(), 
           ),
-          child: const Text('팝업 띄우기'),
         ),
       ),
     );
