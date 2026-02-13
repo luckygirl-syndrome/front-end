@@ -1,44 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:ttobaba/core/widgets/app_topbar.dart';
-import 'package:ttobaba/core/theme/app_colors.dart'; // 👈 AppColors 임포트 필수
+import 'package:ttobaba/core/theme/app_colors.dart';
+import 'package:ttobaba/core/widgets/app_topbar.dart'; 
+// 👈 파일명과 일치하게 tab으로 임포트 [cite: 2026-02-13]
+import 'package:ttobaba/features/home/widgets/home_tabbar.dart'; 
+import 'package:ttobaba/features/chat/widgets/chat_item.dart';
 
 void main() {
   runApp(const MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: TopbarCenterTestScreen(),
+    home: HomeTestBench(),
   ));
 }
 
-class TopbarCenterTestScreen extends StatelessWidget {
-  const TopbarCenterTestScreen({super.key});
+class HomeTestBench extends StatelessWidget {
+  const HomeTestBench({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // 배경색: DarkScale의 black 적용 [cite: 2026-02-13]
-      backgroundColor: AppColors.black, 
-      body: Center(
+      backgroundColor: AppColors.white,
+      appBar: const AppTopbar(), 
+      body: SafeArea(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'AppTopbar 중앙 배치 테스트',
-              style: TextStyle(
-                color: AppColors.white, // DarkScale의 white 적용 [cite: 2026-02-13]
-                fontSize: 16,
-              ),
-            ),
-            const SizedBox(height: 20),
+            // 👈 클래스 이름을 HomeTabBar로 호출해야 에러가 안 납니다 [cite: 2026-02-13]
+            HomeTabBar(), 
             
-            // 👈 실제 탑바 위젯
-            const AppTopbar(), 
+            const Divider(height: 1, thickness: 1, color: AppColors.paleGrey),
             
-            const SizedBox(height: 10),
-            const Text(
-              '좌우 32px, 상하 12px 패딩 확인',
-              style: TextStyle(
-                color: AppColors.grey, // DarkScale의 grey 적용 [cite: 2026-02-13]
-                fontSize: 12,
+            Expanded(
+              child: ListView.separated(
+                padding: const EdgeInsets.all(20),
+                itemCount: 3,
+                separatorBuilder: (context, index) => const SizedBox(height: 16),
+                itemBuilder: (context, index) {
+                  return const ChatItem(status: ItemStatus.considering);
+                },
               ),
             ),
           ],
