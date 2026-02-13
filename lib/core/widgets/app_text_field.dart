@@ -14,6 +14,11 @@ class AppTextField extends StatefulWidget {
   final Color? focusedBorderColor;
   // 1. 패딩을 외부에서 결정할 수 있도록 속성 추가
   final EdgeInsetsGeometry? contentPadding;
+  final Widget? suffixIcon;
+
+  // ⭐ 가려졌을 때와 보일 때의 아이콘을 직접 받을 수 있게 추가
+  final Widget? obscureIcon; 
+  final Widget? visibleIcon;
 
   // 개별 속성 대신 텍스트 스타일 통째로 관리
   final TextStyle? textStyle;
@@ -31,6 +36,9 @@ class AppTextField extends StatefulWidget {
     this.hintStyle,
     this.contentPadding,
     this.onSubmitted, 
+    this.suffixIcon,
+    this.obscureIcon,
+    this.visibleIcon, 
   });
 
   @override
@@ -40,6 +48,8 @@ class AppTextField extends StatefulWidget {
 class _AppTextFieldState extends State<AppTextField> {
   late TextEditingController _internalController;
   bool _hasText = false;
+  // ⭐ 해결책 1: late를 제거하고 기본값으로 false를 줍니다.
+  bool _isObscured = false;
 
   @override
   void initState() {
@@ -52,6 +62,9 @@ class _AppTextFieldState extends State<AppTextField> {
 
     // 초기값 있을 경우 대응
     _hasText = _internalController.text.isNotEmpty;
+
+    // 초기값 설정
+    _isObscured = widget.obscureText;
   }
 
   void _updateState() {
@@ -63,12 +76,53 @@ class _AppTextFieldState extends State<AppTextField> {
   }
 
   @override
+  void didUpdateWidget(covariant AppTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // 페이지가 전환될 때 obscureText 값이 바뀌면 내부 상태도 동기화
+    if (oldWidget.obscureText != widget.obscureText) {
+      setState(() {
+        _isObscured = widget.obscureText;
+      });
+    }
+  }
+
+  @override
   void dispose() {
     // 내부에서 만든 컨트롤러인 경우에만 dispose
     if (widget.controller == null) {
       _internalController.dispose();
     }
     super.dispose();
+  }
+
+  Widget? _buildSuffixIcon() {
+    if (widget.suffixIcon != null) return widget.suffixIcon;
+
+    if (widget.obscureText) {
+      return GestureDetector(
+        onTap: () {
+          setState(() {
+            _isObscured = !_isObscured;
+          });
+        },
+        child: Container(
+          padding: const EdgeInsets.only(right: 24),
+          color: Colors.transparent, 
+          child: SizedBox(
+            // ⭐ SizedBox로 크기를 확실하게 고정합니다.
+            width: _isObscured ? 14 : 14,
+            height: _isObscured ? 8 : 14,
+            child: Image.asset(
+              _isObscured ? 'assets/images/eye_1.png' : 'assets/images/eye_2.png',
+              // ⭐ 이미지가 지정된 크기에 꽉 차도록 설정
+              fit: BoxFit.contain, 
+              color: AppColors.lightGrey,
+            ),
+          ),
+        ),
+      );
+    }
+    return null;
   }
 
   @override
@@ -96,7 +150,8 @@ class _AppTextFieldState extends State<AppTextField> {
       child: TextField(
         controller: _internalController,
         onSubmitted: widget.onSubmitted,
-        obscureText: widget.obscureText,
+        // ⭐ 내부 상태값(_isObscured)을 사용함
+        obscureText: _isObscured,
         textAlignVertical: TextAlignVertical.center, // 텍스트 수직 중앙 정렬
         style: finalTextStyle,
         decoration: InputDecoration(
@@ -111,6 +166,9 @@ class _AppTextFieldState extends State<AppTextField> {
           // 외부에서 주면 쓰고, 안 주면 기본값(14)을 쓰도록 설정
           contentPadding: widget.contentPadding ??
               const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+
+          // ⭐ 결정된 아이콘 적용
+          suffixIcon: _buildSuffixIcon(),
 
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(widget.borderRadius ?? 4),
