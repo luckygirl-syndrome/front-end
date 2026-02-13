@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/widgets/app_topbar.dart';
 import 'package:ttobaba/core/widgets/app_navbar.dart';
-import 'package:ttobaba/features/home/widgets/home_tabbar.dart';
-import 'package:ttobaba/features/home/widgets/home_Ttobaba_section.dart';
-import 'package:ttobaba/features/home/widgets/home_decision_section.dart';
+import 'package:ttobaba/features/home/widgets/common/home_tabbar.dart';
+import 'package:ttobaba/features/home/widgets/ttobaba/home_Ttobaba_section.dart';
+import 'package:ttobaba/features/home/widgets/decision/home_decision_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

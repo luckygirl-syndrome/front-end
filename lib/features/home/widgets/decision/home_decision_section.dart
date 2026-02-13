@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
-import 'package:ttobaba/features/home/widgets/yet_decided_item.dart';
+import 'package:ttobaba/features/home/widgets/decision/yet_decided_item.dart';
+import 'package:ttobaba/features/home/screens/home_decision_list_screen.dart';
 
 class HomeDecisionSection extends StatelessWidget {
   const HomeDecisionSection({super.key});
@@ -16,7 +17,7 @@ class HomeDecisionSection extends StatelessWidget {
           
           const SizedBox(height: 4),
           
-          _buildListSection(),
+          _buildListSection(context),
         ],
       ),
     );
@@ -41,8 +42,8 @@ class HomeDecisionSection extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withOpacity(0.15),
-            blurRadius: 12,
+            color: Color(0x261c1c1c), 
+            blurRadius: 12
           ),
         ],
       ),
@@ -140,7 +141,7 @@ class HomeDecisionSection extends StatelessWidget {
     );
   }
 
-  Widget _buildListSection() {
+  Widget _buildListSection(BuildContext context) {
     return Container(
       // 👈 1. width는 infinity, height는 미지정(Hug)하여 유연성 확보 [cite: 2026-01-02, 2026-02-13]
       width: double.infinity,
@@ -151,7 +152,7 @@ class HomeDecisionSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // 상단 타이틀 행 ("전체 리스트" + ">")
-          _buildListHeader(),
+          _buildListHeader(context),
           
           // 👈 4. verticalArrangement = Arrangement.spacedBy(28.dp) 반영
           const SizedBox(height: 28),
@@ -203,21 +204,34 @@ class HomeDecisionSection extends StatelessWidget {
     );
   }
 
-  Widget _buildListHeader() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(
-          "전체 리스트",
-          style: AppTextStyles.ptdBold(20).copyWith(color: AppColors.black),
-        ),
-        // 시안(image_a62b1c.jpg)에 있는 오른쪽 화살표 아이콘 [cite: 2026-02-13]
-        const Icon(
-          Icons.arrow_forward_ios,
-          size: 18,
-          color: AppColors.black,
-        ),
-      ],
+  Widget _buildListHeader(BuildContext context) {
+    return GestureDetector(
+      // 👈 클릭 시 새로운 화면으로 이동 (Navigator 사용) [cite: 2026-01-02]
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+          // 👈 임포트가 성공하면 에러가 해결됩니다. 여전히 에러 시 const 제거 조치 [cite: 2026-01-02]
+            builder: (context) => const DecisionListScreen(),
+          ),
+        );
+      },
+      // 클릭 영역을 행 전체로 확장하여 사용자 경험(UX) 무결성 확보 [cite: 2026-02-13]
+      behavior: HitTestBehavior.opaque, 
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            "전체 리스트",
+            style: AppTextStyles.ptdBold(20).copyWith(color: AppColors.black),
+          ),
+          const Icon(
+            Icons.arrow_forward_ios,
+            size: 18,
+            color: AppColors.black,
+          ),
+        ],
+      ),
     );
   }
 }
