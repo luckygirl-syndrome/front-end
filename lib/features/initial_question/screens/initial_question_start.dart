@@ -63,7 +63,7 @@ class InitialQuestionStartScreen extends ConsumerWidget {
                   // 하단 버튼 영역
                   SbtiActionButtons(
                     onDislike: () => context.go('/sbti_no_like'),
-                    onLike: () => context.go('/sbti_question'),
+                    onLike: () => context.go('/initial_question'),
                     dislikeText: '이젠 힘들어요',
                   ),
                   const SizedBox(height: 20),

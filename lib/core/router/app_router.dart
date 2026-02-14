@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ttobaba/features/initial_question/screens/initial_question_start.dart';
 import 'package:ttobaba/features/sbti/screens/sbti_question_screen.dart';
 import 'package:ttobaba/features/sbti/screens/sbti_start_screen.dart';
+import '../../features/initial_question/screens/initial_question_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/signup/screens/signup_screen.dart';
 import '../../features/sbti/screens/sbti_start_screen.dart';
@@ -9,7 +10,7 @@ import '../../features/sbti/screens/sbti_no_like_screen.dart';
 // import '../../features/home/screens/home_screen.dart'; // 홈 화면 생기면 주석 해제
 
 final appRouter = GoRouter(
-  initialLocation: '/initial_question_start', // 1. 앱 켰을 때 첫 화면
+  initialLocation: '/initial_question', // 1. 앱 켰을 때 첫 화면
   routes: [
     // 로그인 화면
     GoRoute(
@@ -35,6 +36,10 @@ final appRouter = GoRouter(
     GoRoute( 
       path: '/initial_question_start',
       builder: (context, state) => const InitialQuestionStartScreen(),
+    ),
+    GoRoute( 
+      path: '/initial_question',
+      builder: (context, state) => const InitialQuestionScreen(),
     )
     // 홈 화면 (나중에 추가)
     /*

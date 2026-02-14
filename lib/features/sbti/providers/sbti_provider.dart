@@ -32,6 +32,8 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
       state = state.copyWith(currentIndex: state.currentIndex - 1);
     }
   }
+
+  void nextPage() {}
 }
 
 final sbtiProvider = StateNotifierProvider<SbtiNotifier, SbtiState>((ref) => SbtiNotifier());

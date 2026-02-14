@@ -105,9 +105,8 @@ class SbtiQuestionScreen extends ConsumerWidget {
       backgroundColor: Colors.white,
       appBar: SignupAppBar(
         currentPage: state.currentIndex,
-        onBackPressed: () => state.currentIndex == 0 
-            ? context.pop() 
-            : notifier.previousPage(),
+        onBackPressed: () =>
+            state.currentIndex == 0 ? context.pop() : notifier.previousPage(),
       ),
       body: Stack(
         children: [
@@ -117,45 +116,42 @@ class SbtiQuestionScreen extends ConsumerWidget {
               child: Column(
                 children: [
                   // --- [1] 상단 고정: 질문 영역 ---
-                  const SizedBox(height: 12),
                   Text(
-                    'Q${state.currentIndex + 1}.',
-                    style: AppTextStyles.ptdBold(24),
-                  ),
-                  const SizedBox(height: 24),
-                  Text(
-                    currentQ['q']!,
+                    'Q${state.currentIndex + 1}\n\n${currentQ['q'] as String}',
                     textAlign: TextAlign.center,
-                    style: AppTextStyles.ptdBold(22).copyWith(height: 1.4),
+                    style: AppTextStyles.ptdBold(24),
                   ),
 
                   // --- [2] 가변 영역: 질문과 인디케이터 사이 정중앙 ---
                   Expanded(
                     child: Column(
                       children: [
-                        const Spacer(), 
+                        const Spacer(),
                         Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SbtiQuestionButton(
                               text: currentQ['a']!,
-                              onTap: () => notifier.selectOption(currentQ['at']!),
+                              onTap: () =>
+                                  notifier.selectOption(currentQ['at']!),
                             ),
                             const SizedBox(height: 16),
                             SbtiQuestionButton(
                               text: currentQ['b']!,
-                              onTap: () => notifier.selectOption(currentQ['bt']!),
+                              onTap: () =>
+                                  notifier.selectOption(currentQ['bt']!),
                             ),
                             if (currentQ.containsKey('c')) ...[
                               const SizedBox(height: 16),
                               SbtiQuestionButton(
                                 text: currentQ['c']!,
-                                onTap: () => notifier.selectOption(currentQ['ct']!),
+                                onTap: () =>
+                                    notifier.selectOption(currentQ['ct']!),
                               ),
                             ],
                           ],
                         ),
-                        const Spacer(), 
+                        const Spacer(),
                       ],
                     ),
                   ),
