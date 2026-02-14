@@ -50,7 +50,7 @@ class InitialQuestionScreen extends ConsumerWidget {
             children: [
               const SizedBox(height: 20),
 
-              // 질문 
+              // 질문
               Text(
                 'Q${state.currentIndex + 1}\n\n${currentQ['q'] as String}',
                 textAlign: TextAlign.center,
@@ -79,11 +79,13 @@ class InitialQuestionScreen extends ConsumerWidget {
                   if (state.currentIndex == 0) {
                     notifier.nextPage();
                   } else {
-                    context.go('/initial_question_end');
+                    // 1. 상태를 '완료(isFinished = true)'로 변경
+                    notifier.nextPage();
+                    context.go('/initial_question_start');
                   }
                 },
                 // '여긴 없어요' 클릭 시에도 추구미 입력으로 넘어감.
-                onAlternative: () => notifier.nextPage(), 
+                onAlternative: () => notifier.nextPage(),
               ),
 
               const SizedBox(height: 33),

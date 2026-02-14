@@ -37,3 +37,4 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
 }
 
 final sbtiProvider = StateNotifierProvider<SbtiNotifier, SbtiState>((ref) => SbtiNotifier());
+
