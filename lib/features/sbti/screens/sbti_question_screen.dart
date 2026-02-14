@@ -12,6 +12,15 @@ class SbtiQuestionScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+
+    ref.listen<SbtiState>(sbtiProvider, (previous, next) {
+      // 모든 질문(9개)을 다 응답했을 때
+      if (next.currentIndex >= 9) {
+        // 여기서 원하는 다음 화면으로 이동 (예: 추가 질문 스크린)
+        context.go('/initial_question_start');
+      }
+    });
+
     final state = ref.watch(sbtiProvider);
     final notifier = ref.read(sbtiProvider.notifier);
 

@@ -67,7 +67,7 @@ class InitialQuestionStartScreen extends ConsumerWidget {
                   else
                     // 시작 화면: 버튼 2개
                     SbtiActionButtons(
-                      onDislike: () => context.go('/sbti_no_like'),
+                      onDislike: () => context.go('/initial_question_no_like'),
                       onLike: () => context.go('/initial_question'),
                       dislikeText: '이젠 힘들어요',
                       likeText: '좋아요',
