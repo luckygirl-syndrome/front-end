@@ -19,7 +19,7 @@ class InitialQuestionNoLikeScreen extends StatelessWidget {
         {'label': '할게요', 'route': '/initial_question'},
         {'label': '때리지마세요', 'route': '/initial_question'},
         {'label': '너무 좋아요', 'route': '/initial_question'},
-        {'label': '좆아요', 'route': '/initial_question'},
+        {'label': '좋아요', 'route': '/initial_question'},
       ],
     );
   }
