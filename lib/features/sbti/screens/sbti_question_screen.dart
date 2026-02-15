@@ -13,10 +13,9 @@ class SbtiQuestionScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
+    // 1. 질문 완료 시 화면 이동 로직
     ref.listen<SbtiState>(sbtiProvider, (previous, next) {
-      // 모든 질문(9개)을 다 응답했을 때
       if (next.currentIndex >= 9) {
-        // 여기서 원하는 다음 화면으로 이동 (예: 추가 질문 스크린)
         context.go('/initial_question_start');
       }
     });
@@ -103,10 +102,6 @@ class SbtiQuestionScreen extends ConsumerWidget {
         'bt': 'T'
       },
     ];
-
-    if (state.currentIndex >= questions.length) {
-      return const Scaffold(body: Center(child: Text("결과 계산 중...")));
-    }
 
     final currentQ = questions[state.currentIndex];
 

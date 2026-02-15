@@ -8,12 +8,14 @@ class SbtiNoLikeBase extends StatelessWidget {
   final String title;
   final String imagePath;
   final List<Map<String, String>> buttons; // 개별 경로를 위해 Map 리스트 사용
+  final double? imageHeight;
 
   const SbtiNoLikeBase({
     super.key,
     required this.title,
     required this.imagePath,
     required this.buttons,
+    this.imageHeight,
   });
 
   @override
@@ -34,7 +36,7 @@ class SbtiNoLikeBase extends StatelessWidget {
 
               const Spacer(),
 
-              Image.asset(imagePath, height: 200),
+              Image.asset(imagePath, height: imageHeight ?? 200),
 
               const Spacer(),
               // 버튼들을 그리드로 배치
