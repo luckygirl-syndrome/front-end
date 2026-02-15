@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../signup/widgets/signup_app_bar.dart';
+import '../../../core/widgets/app_back_bar.dart';
 import '../providers/sbti_provider.dart';
 import '../widgets/sbti_question_button.dart';
-import '../widgets/sbti_background.dart';
 
 class SbtiQuestionScreen extends ConsumerWidget {
   const SbtiQuestionScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-
     // 1. 질문 완료 시 화면 이동 로직
     ref.listen<SbtiState>(sbtiProvider, (previous, next) {
       if (next.currentIndex >= 9) {
@@ -103,11 +101,16 @@ class SbtiQuestionScreen extends ConsumerWidget {
       },
     ];
 
+    // [수정] 인덱스 안전장치: 질문 완료 시점이면 더 이상 아래 로직을 타지 않음
+    if (state.currentIndex >= questions.length) {
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    
     final currentQ = questions[state.currentIndex];
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SignupAppBar(
+      appBar: AppBackBar(
         currentPage: state.currentIndex,
         onBackPressed: () =>
             state.currentIndex == 0 ? context.pop() : notifier.previousPage(),

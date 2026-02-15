@@ -3,7 +3,7 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 
-import '../../sbti/widgets/sbti_action_buttons.dart';
+import '../../../core/widgets/two_buttons.dart';
 
 /// Q2. 추구미 입력창 위젯
 class ChugumiInput extends StatelessWidget {

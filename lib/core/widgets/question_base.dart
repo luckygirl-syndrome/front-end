@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ttobaba/features/signup/widgets/signup_indicator.dart';
+import 'package:ttobaba/core/widgets/app_indicator.dart';
 
-import '../../features/signup/widgets/signup_app_bar.dart';
+import 'app_back_bar.dart';
 import '../theme/app_text_styles.dart';
 
 class QuestionBase extends StatelessWidget {
@@ -27,7 +27,7 @@ class QuestionBase extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: SignupAppBar(
+      appBar: AppBackBar(
         currentPage: currentIndex,
         onBackPressed: onBackPressed ?? () {
           if (context.canPop()) {
@@ -62,7 +62,7 @@ class QuestionBase extends StatelessWidget {
               ],
 
               // [4] 인디케이터
-              SignupIndicator(currentPage :currentIndex, totalPage: totalSteps),
+              AppIndicator(currentPage :currentIndex, totalPage: totalSteps),
               const SizedBox(height: 20),
             ],
           ),

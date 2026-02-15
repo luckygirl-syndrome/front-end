@@ -3,7 +3,7 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 
-import '../../sbti/widgets/sbti_action_buttons.dart';
+import '../../../core/widgets/two_buttons.dart';
 
 /// 하단 액션 버튼 그룹 위젯
 class BottomButtons extends StatelessWidget {
@@ -22,7 +22,7 @@ class BottomButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     if (type == 'choice') {
       // Q1: 버튼 2개 (여긴 없어요 / 좋아요)
-      return SbtiActionButtons(
+      return TwoButtons(
         onDislike: onAlternative ?? onNext,
         onLike: onNext,
         dislikeText: '여긴 없어요',

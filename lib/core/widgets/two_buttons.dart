@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
-import '../../../core/widgets/app_button.dart';
+import 'app_button.dart';
 
-class SbtiActionButtons extends StatelessWidget {
+class TwoButtons extends StatelessWidget {
   final VoidCallback onDislike;
   final VoidCallback onLike;
   final String dislikeText; // 왼쪽 버튼 텍스트 추가
   final String likeText;    // 오른쪽 버튼 텍스트 추가
 
-  const SbtiActionButtons({
+  const TwoButtons({
     super.key,
     required this.onDislike,
     required this.onLike,

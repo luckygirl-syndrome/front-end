@@ -3,7 +3,7 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 
-import '../../sbti/widgets/sbti_action_buttons.dart';
+import '../../../core/widgets/two_buttons.dart';
 
 /// 시작 화면 전용 면 분할 배경 위젯
 

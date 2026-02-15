@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/theme/app_colors.dart';
+import '../theme/app_colors.dart';
 
-class SignupAppBar extends StatelessWidget implements PreferredSizeWidget {
+class AppBackBar extends StatelessWidget implements PreferredSizeWidget {
   final int currentPage;
   final VoidCallback onBackPressed;
 
-  const SignupAppBar({
+  const AppBackBar({
     super.key,
     required this.currentPage,
     required this.onBackPressed,

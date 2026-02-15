@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:ttobaba/features/signup/widgets/signup_app_bar.dart';
+import 'package:ttobaba/core/widgets/app_back_bar.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
-import '../../sbti/widgets/sbti_action_buttons.dart';
+import '../../../core/widgets/two_buttons.dart';
 import '../provider/initial_question_provider.dart';
 import '../widgets/background_initial_question.dart'; // 이전에 만든 섀도우 버튼
 
@@ -66,7 +66,7 @@ class InitialQuestionStartScreen extends ConsumerWidget {
                     )
                   else
                     // 시작 화면: 버튼 2개
-                    SbtiActionButtons(
+                    TwoButtons(
                       onDislike: () => context.go('/initial_question_no_like'),
                       onLike: () => context.go('/initial_question'),
                       dislikeText: '이젠 힘들어요',
