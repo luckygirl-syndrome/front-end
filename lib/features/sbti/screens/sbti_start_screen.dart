@@ -30,21 +30,13 @@ class SbtiStartScreen extends ConsumerWidget {
                   ),
 
                   const SizedBox(height: 144),
-                  // 캐릭터 이미지 (파일명 sbti_cat.png로 확인!)
-                  Image.asset(
-                    'assets/images/sbti_cat.png',
-                    height: 202,
-                    // ⭐ 이미지가 없을 때 에러 방지용 (선택사항)
-                  ),
+
+                  Image.asset('assets/images/sbti_cat.png', height: 202,),
                   const Spacer(),
 
                   TwoButtons(
-                    onDislike: () {
-                      context.go('/sbti_no_like');
-                    },
-                    onLike: () {
-                      context.go('/sbti_question');
-                    },
+                    onDislike: () {context.go('/sbti_no_like');},
+                    onLike: () {context.go('/sbti_question');},
                   ),
                   const SizedBox(height: 20),
                 ],

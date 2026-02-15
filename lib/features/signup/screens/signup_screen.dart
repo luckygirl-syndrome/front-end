@@ -10,33 +10,6 @@ import '../providers/signup_provider.dart';
 import '../widgets/signup_body.dart';
 import '../widgets/signup_footer.dart';
 
-final List<Map<String, dynamic>> signupPageData = [
-  {
-    'title': '어떻게 부르면 될까요?',
-    'subTitle': null,
-    'hint': '이름을 입력해 주세요',
-    'guides': []
-  },
-  {
-    'title': '멋진 이메일을 입력해 주세요',
-    'subTitle': null,
-    'hint': '이메일을 입력해 주세요',
-    'guides': ['@를 포함한 올바른 이메일 형식을 입력해 주세요']
-  },
-  {
-    'title': '은밀한 비밀번호를\n입력해 주세요',
-    'subTitle': '또바바는 보안을 자랑합니다',
-    'hint': '비밀번호를 입력해 주세요',
-    'guides': ['영어/숫자 포함 8~16자로 입력해주세요. (특수문자 가능)']
-  },
-  {
-    'title': '은밀한 비밀번호를\n한 번 더 입력해 주세요',
-    'subTitle': '또바바는 보안을 자랑합니다',
-    'hint': '비밀번호를 한 번 더 입력해 주세요',
-    'guides': ['동일한 비밀번호를 입력해 주세요']
-  },
-];
-
 class SignupScreen extends ConsumerWidget {
   // 이제 StatefulWidget일 필요도 없음!
   const SignupScreen({super.key});
@@ -72,7 +45,7 @@ class SignupScreen extends ConsumerWidget {
               SignupFooter(
                 currentPage: state.currentPage,
                 isPageValid: notifier.isCurrentPageValid(),
-                onNextPressed: () => notifier.next(),
+                onNextPressed: () => notifier.next(() => context.push('/sbti_start')),
               ),
             ],
           ),
@@ -81,3 +54,30 @@ class SignupScreen extends ConsumerWidget {
     );
   }
 }
+
+final List<Map<String, dynamic>> signupPageData = [
+  {
+    'title': '어떻게 부르면 될까요?',
+    'subTitle': null,
+    'hint': '이름을 입력해 주세요',
+    'guides': []
+  },
+  {
+    'title': '멋진 이메일을 입력해 주세요',
+    'subTitle': null,
+    'hint': '이메일을 입력해 주세요',
+    'guides': ['@를 포함한 올바른 이메일 형식을 입력해 주세요']
+  },
+  {
+    'title': '은밀한 비밀번호를\n입력해 주세요',
+    'subTitle': '또바바는 보안을 자랑합니다',
+    'hint': '비밀번호를 입력해 주세요',
+    'guides': ['영어/숫자 포함 8~16자로 입력해주세요. (특수문자 가능)']
+  },
+  {
+    'title': '은밀한 비밀번호를\n한 번 더 입력해 주세요',
+    'subTitle': '또바바는 보안을 자랑합니다',
+    'hint': '비밀번호를 한 번 더 입력해 주세요',
+    'guides': ['동일한 비밀번호를 입력해 주세요']
+  },
+];

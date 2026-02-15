@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_text_field.dart';
@@ -64,7 +65,7 @@ class _SignupPageContentState extends ConsumerState<SignupPageContent> {
           obscureText: widget.index >= 2,
           contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
           onChanged: updateFunc,
-          onSubmitted: (_) => notifier.next(),
+          onSubmitted: (_) => notifier.next(() => context.go('/sbti_start')),
         ),
         const SizedBox(height: 16),
         ...List<String>.from(widget.data['guides'] ?? []).asMap().entries.map((e) =>

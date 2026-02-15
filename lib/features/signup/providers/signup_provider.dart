@@ -124,19 +124,23 @@ class SignupNotifier extends StateNotifier<SignupState> {
   }
 
   // 3. 페이지 이동 (이제 여기서 모든 걸 판단)
-  void next() {
+  void next(VoidCallback onComplete) {
     if (isCurrentPageValid()) {
       if (state.currentPage < 3) {
         final nextStep = state.currentPage + 1;
         state = state.copyWith(currentPage: nextStep); // 상태 변경
-        
-        pageController.animateToPage( // 화면 이동
+
+        pageController.animateToPage(
+          // 화면 이동
           nextStep,
           duration: const Duration(milliseconds: 300),
           curve: Curves.easeInOut,
         );
       } else {
         // 회원가입 완료 로직
+        completeSignup().then((_) {
+          onComplete();
+        });
       }
     }
   }
