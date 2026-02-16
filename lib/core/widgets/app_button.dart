@@ -5,7 +5,7 @@ import '../../../core/theme/app_text_styles.dart';
 // lib/core/widgets/app_button.dart
 class AppButton extends StatelessWidget {
   final String text;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Color? backgroundColor;
   final Color? textColor;
   final double? width;
@@ -15,7 +15,8 @@ class AppButton extends StatelessWidget {
   final TextStyle? textStyle;
   final Color? shadowColor; 
   final List<BoxShadow>? boxShadow;
-
+  final double? borderWidth;
+  
   const AppButton({
     super.key,
     required this.text,
@@ -28,7 +29,8 @@ class AppButton extends StatelessWidget {
     this.padding,
     this.borderColor,
     this.shadowColor,
-    this.boxShadow
+    this.boxShadow,
+    this.borderWidth,
   });
 
   @override
@@ -57,7 +59,7 @@ class AppButton extends StatelessWidget {
             padding: padding ?? const EdgeInsets.symmetric(vertical: 14),
             side: BorderSide(
               color: borderColor ?? finalBgColor, 
-              width: 1,
+              width: borderWidth ?? 1, // 두께는 기본 1로 고정
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 8),

@@ -1,6 +1,13 @@
 import 'package:go_router/go_router.dart';
-import '../../features/auth/screens/login_screen.dart';
-import '../../features/auth/screens/signup_screen.dart';
+import '../../features/initial_question/screens/initial_question_no_like_screen.dart';
+import '../../features/initial_question/screens/initial_question_screen.dart';
+import '../../features/initial_question/screens/initial_question_start_screen.dart';
+import '../../features/login/screens/login_screen.dart';
+import '../../features/sbti/screens/sbti_no_like_screen.dart';
+import '../../features/sbti/screens/sbti_question_screen.dart';
+import '../../features/signup/screens/signup_screen.dart';
+import '../../features/sbti/screens/sbti_start_screen.dart';
+
 // import '../../features/home/screens/home_screen.dart'; // 홈 화면 생기면 주석 해제
 
 final appRouter = GoRouter(
@@ -14,6 +21,30 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/signup', 
       builder: (context, state) => const SignupScreen(),
+    ),
+    GoRoute(
+      path: '/sbti_start',
+      builder: (context, state) => const SbtiStartScreen(),
+    ),
+    GoRoute(
+      path: '/sbti_no_like',
+      builder: (context, state) => SbtiNoLikeScreen(),
+    ),
+    GoRoute(
+      path: '/sbti_question',
+      builder: (context, state) => const SbtiQuestionScreen(),
+    ),
+    GoRoute( 
+      path: '/initial_question_start',
+      builder: (context, state) => const InitialQuestionStartScreen(),
+    ),
+    GoRoute( 
+      path: '/initial_question',
+      builder: (context, state) => const InitialQuestionScreen(),
+    ),
+    GoRoute(
+      path: '/initial_question_no_like',
+      builder: (context, state) => InitialQuestionNoLikeScreen(),
     ),
     // 홈 화면 (나중에 추가)
     /*
