@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
+import 'package:ttobaba/core/widgets/link_input_popup.dart';
 
 class HomeTtobabaSection extends StatelessWidget {
   const HomeTtobabaSection({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Container(
+  Widget build(BuildContext context){
+    return SizedBox(
       width: double.infinity,
       height: double.infinity,
       // 배경 원이 잘리지 않도록 Clip.none 설정이 필요할 수 있습니다. [cite: 2026-01-02]
@@ -32,7 +33,7 @@ class HomeTtobabaSection extends StatelessWidget {
                     const SizedBox(height: 32),
                     _buildCharacterImage(),
                     const SizedBox(height: 32),
-                    _buildActionButton(),
+                    _buildActionButton(context),
                   ],
                 ),
                 // 하단 그룹
@@ -81,18 +82,22 @@ class HomeTtobabaSection extends StatelessWidget {
   }
 
   // 3. 버튼: core의 AppButton 활용 [cite: 2026-02-13]
-  Widget _buildActionButton() {
+  Widget _buildActionButton(BuildContext context) {
     return AppButton(
       padding: const EdgeInsets.all(32),
       text: "또바야, 나 이 옷 사고 싶어",
       // 👈 onTap 대신 onPressed를 사용해야 합니다.
       onPressed: () {
-        // 버튼 클릭 로직
+        showDialog(
+          context: context,
+          barrierDismissible: true, // 배경 클릭 시 닫기 허용 [cite: 2026-01-02]
+          builder: (context) => const LinkInputPopup(),
+        );
       },
       backgroundColor: AppColors.primaryMain, // 시안의 노란색 적용 권장 [cite: 2026-02-13]
       borderRadius: 12, // 시안의 둥근 모서리 반영 [cite: 2026-02-13]
       shadowColor: AppColors.primaryMain,
-      boxShadow: [
+      boxShadow: const [
         BoxShadow(
           color: AppColors.primaryMain,
           blurRadius: 16, // 👈 퍼지는 픽셀 (준호 님이 원하신 것) [cite: 2026-01-02]
@@ -108,7 +113,7 @@ class HomeTtobabaSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white, // background(color = Color(0xFFFCFCFC))
         borderRadius: BorderRadius.circular(8),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: AppColors.secondaryMain, // spotColor = Color(0xFF6B9AE7) [cite: 2026-02-13]
             blurRadius: 16, // elevation = 16.dp

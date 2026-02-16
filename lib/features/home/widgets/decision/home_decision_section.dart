@@ -40,7 +40,7 @@ class HomeDecisionSection extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
+        boxShadow: const [
           BoxShadow(
             color: Color(0x261c1c1c), 
             blurRadius: 12

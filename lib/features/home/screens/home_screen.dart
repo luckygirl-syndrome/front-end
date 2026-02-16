@@ -3,8 +3,9 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/widgets/app_topbar.dart';
 import 'package:ttobaba/core/widgets/app_navbar.dart';
 import 'package:ttobaba/features/home/widgets/common/home_tabbar.dart';
-import 'package:ttobaba/features/home/widgets/ttobaba/home_Ttobaba_section.dart';
+import 'package:ttobaba/features/home/widgets/ttobaba/home_ttobaba_section.dart';
 import 'package:ttobaba/features/home/widgets/decision/home_decision_section.dart';
+import 'package:ttobaba/features/home/widgets/nobuy_receipt/simple_nobuy_receipt_section.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,8 +15,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentNavIndex = 1; // 홈 탭 기본 선택
-  int _currentTopTabIndex = 1;
+  int _currentNavIndex = 1;
+  int _currentTopTabIndex = 2;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 1:
         return const HomeDecisionSection(); 
       case 2:
-        return const Center(child: Text("안 산 영수증 화면 (준비 중)"));
+        return const SimpleNobuyReceiptSection();
       default:
         return const HomeTtobabaSection();
     }
