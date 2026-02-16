@@ -11,23 +11,36 @@ enum ItemStatus {
 
 class ChatItem extends StatelessWidget {
   final ItemStatus status; // 상태 변수 추가
+  final String price;    // 가격 데이터
+  final String date;     // 날짜 데이터
+  final String title;    // 상품명 데이터
+  final String imageUrl; // 이미지 경로 데이터
+  final VoidCallback? onTap;
 
   const ChatItem({
     super.key,
     this.status = ItemStatus.considering, // 기본값: 고민 중
+    required this.price,
+    required this.date,
+    required this.title,
+    required this.imageUrl,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 68,
-      child: Row(
-        children: [
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: double.infinity,
+        height: 68,
+        child: Row(
+          children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
-              'assets/images/product_sample.png',
+              imageUrl,
               width: 64, height: 64, fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) => Container(
                 width: 64, height: 64, color: AppColors.lightGrey,
@@ -51,7 +64,7 @@ class ChatItem extends StatelessWidget {
                   children: [
                     // 왼쪽: 가격
                     Text(
-                      '13,410원',
+                      price,
                       style: AppTextStyles.ptdBold(20).copyWith(
                         color: AppColors.black
                       ),
@@ -61,19 +74,18 @@ class ChatItem extends StatelessWidget {
                     Row(
                       children: [
                         _buildTag(status),
-                        
                         const SizedBox(width: 20), // 👈 요청하신 20 패딩
                         
                         // 날짜 + 화살표
                         Row(
                           children: [
-                            const SizedBox(width: 4),
-                            Row(
-                              children: [
-                                Text('어제', style: AppTextStyles.ptdRegular(12).copyWith(color: AppColors.grey)),
-                                const Icon(Icons.chevron_right, color: AppColors.grey, size: 16),
-                              ],
+                            Text(
+                              date, // 👈 전달받은 날짜 표시
+                              style: AppTextStyles.ptdRegular(12).copyWith(
+                                color: AppColors.grey,
+                              ),
                             ),
+                            const Icon(Icons.chevron_right, color: AppColors.grey, size: 16),
                           ],
                         ),
                       ],
@@ -83,7 +95,7 @@ class ChatItem extends StatelessWidget {
 
                 // [하단 텍스트] 2줄 제한, 가로 꽉 채움
                 Text(
-                  '[단독] [🔴라이브특가/+뉴컬러/50만장돌파🏆/made] 시오 니트 시오 니트 시오 니트 시오 니트',
+                  title,
                   style: AppTextStyles.ptdRegular(12).copyWith(
                     color: AppColors.black
                   ),
@@ -94,6 +106,7 @@ class ChatItem extends StatelessWidget {
             ),
           ),
         ],
+        ),
       ),
     );
   }
