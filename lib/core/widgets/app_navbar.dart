@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
@@ -23,7 +24,6 @@ class AppNavbar extends StatelessWidget {
           BoxShadow(
             color: Color(0x261C1C1C), // 투명도 약 15%의 그림자
             blurRadius: 12,
-            offset: Offset(0, -2), // 상단으로 그림자 발생
           ),
         ],
       ),
@@ -74,7 +74,7 @@ class _NavbarItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset(
+          SvgPicture.asset(
             iconPath,
             width: 32,
             height: 32,
