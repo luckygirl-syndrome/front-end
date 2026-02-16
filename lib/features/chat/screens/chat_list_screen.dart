@@ -3,6 +3,7 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_navbar.dart';
 import 'package:ttobaba/features/chat/widgets/chat_item.dart';
+import 'package:ttobaba/features/chat/screens/detail_chat_screen.dart';
 
 class ChatListScreen extends StatelessWidget {
   const ChatListScreen({super.key});
@@ -16,7 +17,7 @@ class ChatListScreen extends StatelessWidget {
         children: [
           _buildFixedTitleHeader(), // 고정 타이틀 영역
           Expanded(
-            child: _buildScrollableBody(), // 스크롤 가능 영역
+            child: _buildScrollableBody(context), // 스크롤 가능 영역
           ),
         ],
       ),
@@ -49,7 +50,7 @@ class ChatListScreen extends StatelessWidget {
   }
 
   // 스크롤 가능한 본문 영역
-  Widget _buildScrollableBody() {
+  Widget _buildScrollableBody(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -65,7 +66,7 @@ class ChatListScreen extends StatelessWidget {
               
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: _buildRecentChatCard(),
+                child: _buildRecentChatCard(context),
               ),
             ],
           ),
@@ -80,7 +81,7 @@ class ChatListScreen extends StatelessWidget {
               children: [
                 _buildFilterRow(),
                 const SizedBox(height: 24),
-                _buildChatList(),
+                _buildChatList(context),
               ],
             ),
           ),
@@ -89,7 +90,7 @@ class ChatListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildRecentChatCard() {
+  Widget _buildRecentChatCard(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
       child: Container(
@@ -114,12 +115,18 @@ class ChatListScreen extends StatelessWidget {
             const SizedBox(height: 12),
             
             // 3. 기존 ChatItem 위젯 사용 (고민 중 상태 반영)
-            const ChatItem(
+            ChatItem(
               status: ItemStatus.considering, // '고민 중' 뱃지 표시
               price: "13,410원",
               date: "어제",
               title: "[단독] [🔴라이브특가/+뉴컬러/50만장돌파🏆/made] 시오 니트",
               imageUrl: "assets/images/product_sample.png",
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DetailChatScreen()),
+                );
+              },
             ),
           ],
         ),
@@ -151,19 +158,25 @@ class ChatListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildChatList() {
+  Widget _buildChatList(BuildContext context) {
     return ListView.separated(
       padding: EdgeInsets.zero, // 👈 필수: 이 코드가 없으면 위에 기본 여백이 생깁니다.
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemCount: 5,
       separatorBuilder: (context, index) => const Divider(height: 32, thickness: 0.5),
-      itemBuilder: (context, index) => const ChatItem(
+      itemBuilder: (context, index) => ChatItem(
         status: ItemStatus.considering,
         price: "13,410원",
         date: "어제",
         title: "[단독] [🔴라이브특가/+뉴컬러/50만장돌파🏆/made] 시오 니트",
         imageUrl: "assets/images/product_sample.png",
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const DetailChatScreen()),
+          );
+        },
       ),
     );
   }

@@ -15,6 +15,7 @@ class ChatItem extends StatelessWidget {
   final String date;     // 날짜 데이터
   final String title;    // 상품명 데이터
   final String imageUrl; // 이미지 경로 데이터
+  final VoidCallback? onTap;
 
   const ChatItem({
     super.key,
@@ -23,15 +24,19 @@ class ChatItem extends StatelessWidget {
     required this.date,
     required this.title,
     required this.imageUrl,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      height: 68,
-      child: Row(
-        children: [
+    return GestureDetector(
+      onTap: onTap,
+      behavior: HitTestBehavior.opaque,
+      child: SizedBox(
+        width: double.infinity,
+        height: 68,
+        child: Row(
+          children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
@@ -101,6 +106,7 @@ class ChatItem extends StatelessWidget {
             ),
           ),
         ],
+        ),
       ),
     );
   }
