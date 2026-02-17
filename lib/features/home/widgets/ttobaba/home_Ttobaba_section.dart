@@ -3,32 +3,57 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 import 'package:ttobaba/core/widgets/link_input_popup.dart';
+import 'package:ttobaba/features/home/widgets/ttobaba/unreviewed_item_widget.dart';
 
 class HomeTtobabaSection extends StatelessWidget {
-  const HomeTtobabaSection({super.key});
+  final bool showReviewWidget; 
+
+  const HomeTtobabaSection({
+    super.key, 
+    this.showReviewWidget = false, // 기본값 false
+  });
 
   @override
   Widget build(BuildContext context){
-    return SizedBox(
-      width: double.infinity,
-      height: double.infinity,
-      // 배경 원이 잘리지 않도록 Clip.none 설정이 필요할 수 있습니다. [cite: 2026-01-02]
+    // 👈 1. SingleChildScrollView를 최상위로 올려 배경 원까지 포함해 스크롤되게 합니다. [cite: 2026-02-17]
+    return SingleChildScrollView(
+      // 👈 2. 배경 원이 화면 가로 너비보다 넓으므로 잘리지 않게 clipBehavior를 설정합니다. [cite: 2026-01-02]
+      clipBehavior: Clip.hardEdge, 
       child: Stack(
+        // 👈 3. Stack의 크기는 내부의 non-positioned 자식(Padding/Column)에 의해 결정됩니다. [cite: 2026-02-17]
         clipBehavior: Clip.none, 
         children: [
-          // 1. 가장 아래 레이어: 노란색 원 배경 [cite: 2026-02-13]
+          // 👈 4. 배경을 Stack의 첫 번째 자식으로 두어 콘텐츠 아래에 깔리고 함께 이동하게 합니다. [cite: 2026-02-17]
           _buildYellowBackground(context),
 
-          // 2. 위 레이어: 기존 콘텐츠 (패딩 적용) [cite: 2026-02-13]
-          Padding(
-            padding: const EdgeInsets.all(32),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // 상단 그룹
-                Column(
+          // 실제 콘텐츠 레이어
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              if (showReviewWidget) ...[
+                // 👈 1. 위젯 부분에만 좌우 패딩 32px 적용 [cite: 2026-02-17]
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(32, 32, 32, 0),
+                  child: const UnreviewedItemWidget(),
+                ),
+                const SizedBox(height: 32), 
+
+                // 👈 2. 가로선은 패딩 없이 배치하여 화면 끝까지 닿게 합니다.
+                Container(
+                  height: 2,
+                  width: double.infinity,
+                  color: AppColors.paleGrey,
+                ),
+                
+                const SizedBox(height: 32),
+              ],
+
+              // 👈 3. 나머지 상단 콘텐츠들도 각각 32px 패딩 적용 [cite: 2026-02-17]
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Column(
                   children: [
+                    const SizedBox(height: 32),
                     _buildTitle(),
                     const SizedBox(height: 32),
                     _buildCharacterImage(),
@@ -36,16 +61,22 @@ class HomeTtobabaSection extends StatelessWidget {
                     _buildActionButton(context),
                   ],
                 ),
-                // 하단 그룹
-                Column(
+              ),
+              
+              const SizedBox(height: 60), 
+
+              // 👈 4. 하단 그룹도 각각 32px 패딩 적용 및 하단 여백 40px 추가 [cite: 2026-02-17]
+              Padding(
+                padding: const EdgeInsets.fromLTRB(32, 0, 32, 40),
+                child: Column(
                   children: [
                     _buildSavingCard(),
                     const SizedBox(height: 12),
                     _buildChatNumCard(),
                   ],
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
         ],
       ),

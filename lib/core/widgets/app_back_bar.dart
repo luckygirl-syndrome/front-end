@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
@@ -8,6 +7,7 @@ class AppBackBar extends StatelessWidget implements PreferredSizeWidget {
   final int? currentPage;
   final VoidCallback onBackPressed;
   final PreferredSizeWidget? bottom; // 💡 1. bottom 필드 추가
+  final double height;
 
   const AppBackBar({
     super.key,
@@ -15,7 +15,8 @@ class AppBackBar extends StatelessWidget implements PreferredSizeWidget {
     this.title, // 💡 선택사항으로 두면 텍스트 없는 페이지에서도 쓸 수 있어요.
     required this.onBackPressed,
     this.bottom, // 💡 2. 생성자에 추가
-  });
+    this.height = 52
+   });
 
   @override
   Widget build(BuildContext context) {
@@ -23,31 +24,26 @@ class AppBackBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
-      title: title != null 
-        ? Text(title!, style: AppTextStyles.ptdBold(20)) 
-        : null,
+      title: title.isNotEmpty 
+          ? Text(title!, style: AppTextStyles.ptdBold(20)) 
+          : null,
+      leadingWidth: 32 + 20 + 16,
       leading: Container(
-        // 2. 왼쪽 여백을 32로 고정합니다.
         margin: const EdgeInsets.only(left: 32), 
         alignment: Alignment.centerLeft,
         child: InkWell(
-          // IconButton 대신 InkWell을 쓰면 기본 패딩 없이 위치를 잡기 더 편합니다.
           onTap: onBackPressed,
           child: const Icon(
             Icons.arrow_back_ios_new, 
             size: 20, 
             color: AppColors.black
           ),
-        ),
+        ),      
       ),
-      // 💡 3. AppBar의 bottom 속성에 연결
       bottom: bottom,
     );
   }
-
   @override
-  // 💡 4. bottom의 높이만큼 앱바 전체 높이가 자동으로 계산되도록 수정
   Size get preferredSize => Size.fromHeight(
     kToolbarHeight + (bottom?.preferredSize.height ?? 0),
   );
-}

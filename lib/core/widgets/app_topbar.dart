@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 
 class AppTopbar extends StatelessWidget implements PreferredSizeWidget {
@@ -18,11 +19,12 @@ class AppTopbar extends StatelessWidget implements PreferredSizeWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // 왼쪽: 로고 이미지
-          Image.asset(
-            'assets/images/logo.png',
-            height: 24, // 48px 높이 내에서 상하 패딩(12*2=24)을 제외한 가용 높이
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => const Icon(Icons.pets), // 이미지 없을 시 대체
+          SvgPicture.asset(
+            'assets/images/logo.svg', // 파일 확장자 변경 (.svg)
+            height: 24,               // 높이 유지
+            fit: BoxFit.contain,      // fit 유지
+            // 주의: SvgPicture.asset은 Image.asset과 동일한 방식의 errorBuilder를 지원하지 않습니다.
+            // SVG 파일이 자산(assets)에 확실히 포함되어 있는지 확인해주세요.
           ),
 
           // 오른쪽: 알림 아이콘
