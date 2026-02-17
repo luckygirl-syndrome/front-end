@@ -7,7 +7,7 @@ import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_navbar.dart';
-import '../provider/my_page_state';
+import '../provider/my_page_state.dart';
 import '../widgets/closet_stat_card.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/sbti_result_card.dart';

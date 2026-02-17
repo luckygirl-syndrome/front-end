@@ -1,11 +1,12 @@
 // --- Screen 파일 하단에 위치 ---
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
-import '../provider/my_page_state';
+import '../provider/my_page_state.dart';
 
 class ProfileHeader extends StatelessWidget {
   final MyPageState state;
@@ -58,7 +59,7 @@ class ProfileHeader extends StatelessWidget {
           // 2. 캐릭터가 튀어나온 만큼 여백을 주고 텍스트 시작
           const SizedBox(height: avatarRadius + 18),
           Text(
-            state.title,
+            state.nickname,
             style: AppTextStyles.ptdExtraBold(24).copyWith(height: 1.0),
           ),
           const SizedBox(height: 4),
@@ -70,7 +71,7 @@ class ProfileHeader extends StatelessWidget {
             width: 70,
             textStyle: AppTextStyles.ptdBold(12),
             padding: const EdgeInsets.symmetric(vertical: 4),
-            onPressed: () {},
+            onPressed: () => {context.push('/profile_edit')},
           ),
         ],
       ),
