@@ -9,14 +9,13 @@ class AppBackBar extends StatelessWidget implements PreferredSizeWidget {
   final PreferredSizeWidget? bottom; // 💡 1. bottom 필드 추가
   final double height;
 
-  const AppBackBar({
-    super.key,
-    this.currentPage,
-    this.title, // 💡 선택사항으로 두면 텍스트 없는 페이지에서도 쓸 수 있어요.
-    required this.onBackPressed,
-    this.bottom, // 💡 2. 생성자에 추가
-    this.height = 52
-   });
+  const AppBackBar(
+      {super.key,
+      this.currentPage,
+      this.title, // 💡 선택사항으로 두면 텍스트 없는 페이지에서도 쓸 수 있어요.
+      required this.onBackPressed,
+      this.bottom, // 💡 2. 생성자에 추가
+      this.height = 52});
 
   @override
   Widget build(BuildContext context) {
@@ -24,27 +23,25 @@ class AppBackBar extends StatelessWidget implements PreferredSizeWidget {
       backgroundColor: Colors.white,
       elevation: 0,
       centerTitle: true,
-      title: title!.isNotEmpty 
-          ? Text(title!, style: AppTextStyles.ptdBold(20)) 
+      title: (title != null && title!.isNotEmpty)
+          ? Text(title!, style: AppTextStyles.ptdBold(20))
           : null,
       leadingWidth: 32 + 20 + 16,
       leading: Container(
-        margin: const EdgeInsets.only(left: 32), 
+        margin: const EdgeInsets.only(left: 32),
         alignment: Alignment.centerLeft,
         child: InkWell(
           onTap: onBackPressed,
-          child: const Icon(
-            Icons.arrow_back_ios_new, 
-            size: 20, 
-            color: AppColors.black
-          ),
-        ),      
+          child: const Icon(Icons.arrow_back_ios_new,
+              size: 20, color: AppColors.black),
+        ),
       ),
       bottom: bottom,
     );
   }
+
   @override
   Size get preferredSize => Size.fromHeight(
-    kToolbarHeight + (bottom?.preferredSize.height ?? 0),
-  );
+        kToolbarHeight + (bottom?.preferredSize.height ?? 0),
+      );
 }
