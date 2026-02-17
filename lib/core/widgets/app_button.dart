@@ -13,10 +13,10 @@ class AppButton extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final Color? borderColor;
   final TextStyle? textStyle;
-  final Color? shadowColor; 
+  final Color? shadowColor;
   final List<BoxShadow>? boxShadow;
   final double? borderWidth;
-  
+
   const AppButton({
     super.key,
     required this.text,
@@ -36,7 +36,10 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color finalBgColor = backgroundColor ?? AppColors.primaryMain;
-    final TextStyle finalTextStyle = (textStyle ?? AppTextStyles.ptdBold(20)).copyWith(
+    // 1. 테두리색 결정: 외부에서 넘겨주지 않으면 투명하게 처리
+    final Color finalBorderColor = borderColor ?? Colors.transparent;
+    final TextStyle finalTextStyle =
+        (textStyle ?? AppTextStyles.ptdBold(20)).copyWith(
       color: textStyle?.color ?? textColor ?? AppColors.white,
     );
 
@@ -44,7 +47,7 @@ class AppButton extends StatelessWidget {
       // 👈 1. Container의 decoration에서 boxShadow를 명백히 처리합니다. [cite: 2026-02-13]
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius ?? 8),
-        boxShadow: boxShadow, 
+        boxShadow: boxShadow,
       ),
       child: SizedBox(
         width: width ?? double.infinity,
@@ -53,13 +56,15 @@ class AppButton extends StatelessWidget {
             backgroundColor: finalBgColor,
             foregroundColor: finalTextStyle.color,
             // 👈 2. 중요: Container에서 그림자를 그리므로 버튼 자체 elevation은 0이어야 합니다. [cite: 2026-01-02]
-            elevation: 0, 
-            shadowColor: Colors.transparent, // 혹시 모를 잔상을 위해 투명화 [cite: 2026-02-13]
-            
+            elevation: 0,
+            shadowColor:
+                Colors.transparent, // 혹시 모를 잔상을 위해 투명화 [cite: 2026-02-13]
+
             padding: padding ?? const EdgeInsets.symmetric(vertical: 14),
+            // 👈 2. borderColor가 없으면 transparent가 들어가서 테두리가 보이지 않습니다.
             side: BorderSide(
-              color: borderColor ?? finalBgColor, 
-              width: borderWidth ?? 1, // 두께는 기본 1로 고정
+              color: finalBorderColor,
+              width: borderColor == null ? 0 : (borderWidth ?? 1),
             ),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(borderRadius ?? 8),

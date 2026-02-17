@@ -7,7 +7,6 @@ import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/two_buttons.dart';
 import '../provider/initial_question_provider.dart';
-import '../widgets/background_initial_question.dart'; // 이전에 만든 섀도우 버튼
 
 class InitialQuestionStartScreen extends ConsumerWidget {
   const InitialQuestionStartScreen({super.key});
