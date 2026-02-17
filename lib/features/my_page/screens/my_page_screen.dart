@@ -45,8 +45,11 @@ class MyPageScreen extends ConsumerWidget {
       bottomNavigationBar: AppNavbar(
         currentIndex: 2,
         onTap: (index) {
-          if (index == 0) context.go('/chat');
-          if (index == 1) context.go('/home');
+          if (index == 0) {
+            context.push('/chat_list');
+          } else if (index == 1) {
+            context.push('/home');
+          }
         },
       ),
     );
@@ -62,7 +65,8 @@ class MyPageScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildMainContent(BuildContext context, MyPageState state,  WidgetRef ref) {
+  Widget _buildMainContent(
+      BuildContext context, MyPageState state, WidgetRef ref) {
     return Container(
       width: double.infinity,
       color: Colors.white,

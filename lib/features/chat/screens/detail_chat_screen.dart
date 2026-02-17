@@ -3,11 +3,13 @@ import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 
-class DetailChatScreen extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class DetailChatScreen extends ConsumerWidget {
   const DetailChatScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: SafeArea(
@@ -16,7 +18,7 @@ class DetailChatScreen extends StatelessWidget {
             _buildTopBar(context),
             _buildProductHeader(), // 고정 영역 (흰색 배경)
             _buildActionButtons(), // 고정 영역 (흰색 배경)
-            
+
             // 👈 채팅 영역: 배경은 고정되고 메시지만 스크롤됨 [cite: 2026-02-16]
             Expanded(
               child: Stack(
@@ -33,7 +35,7 @@ class DetailChatScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
+
                   // 2. 스크롤되는 채팅 내용
                   ListView(
                     padding: EdgeInsets.zero, // 기본 패딩 제거 [cite: 2026-02-11]
@@ -50,14 +52,15 @@ class DetailChatScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildTopBar(BuildContext context) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.fromLTRB(32, 12, 32, 0),
       color: AppColors.white,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween, // 👈 Arrangement.SpaceBetween 구현 [cite: 2026-02-16]
+        mainAxisAlignment: MainAxisAlignment
+            .spaceBetween, // 👈 Arrangement.SpaceBetween 구현 [cite: 2026-02-16]
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // 1. 왼쪽: 뒤로가기 버튼
@@ -77,7 +80,8 @@ class DetailChatScreen extends StatelessWidget {
           // 3. 오른쪽: 아이콘 그룹 (장바구니 + 더보기)
           Row(
             children: [
-              const Icon(Icons.shopping_bag_outlined, color: AppColors.black, size: 24),
+              const Icon(Icons.shopping_bag_outlined,
+                  color: AppColors.black, size: 24),
               const SizedBox(width: 16), // 아이콘 사이 간격
               const Icon(Icons.more_horiz, color: AppColors.black, size: 24),
             ],
@@ -123,7 +127,8 @@ class DetailChatScreen extends StatelessWidget {
                     children: [
                       Text(
                         "에이블리",
-                        style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black),
+                        style: AppTextStyles.ptdBold(12)
+                            .copyWith(color: AppColors.black),
                       ),
                       Text(
                         "❤️기모선택❤️찰랑 하이웨스트 와이드 롱팬츠",
@@ -141,14 +146,16 @@ class DetailChatScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
                           color: AppColors.primaryMain,
                           borderRadius: BorderRadius.circular(4),
                         ),
                         child: Text(
                           "구매 포기",
-                          style: AppTextStyles.ptdMedium(12).copyWith(color: AppColors.white),
+                          style: AppTextStyles.ptdMedium(12)
+                              .copyWith(color: AppColors.white),
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -188,10 +195,10 @@ class DetailChatScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 12),
             ),
           ),
-          
+
           // 2. 버튼 사이 간격 20px
           const SizedBox(width: 20),
-          
+
           // 3. 저 사실... 샀어요 버튼
           Expanded(
             child: AppButton(
@@ -217,11 +224,13 @@ class DetailChatScreen extends StatelessWidget {
       child: Column(
         children: [
           // 2. 하위 함수에 context 전달
-          _buildChatBubble(context, "Look it's a new me...", isMine: false, time: "오후 8:51"),
+          _buildChatBubble(context, "Look it's a new me...",
+              isMine: false, time: "오후 8:51"),
           const SizedBox(height: 8), // 간격 16px
           _buildChatBubble(context, "어쩌라고", isMine: true, time: "오후 8:51"),
           const SizedBox(height: 8), // 간격 16px
-          _buildChatBubble(context, "Look it's a new me...", isMine: false, time: "오후 8:51"),
+          _buildChatBubble(context, "Look it's a new me...",
+              isMine: false, time: "오후 8:51"),
           const SizedBox(height: 8), // 간격 16px
           _buildChatBubble(context, "어쩌라고", isMine: true, time: "오후 8:51"),
         ],
@@ -229,12 +238,14 @@ class DetailChatScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildChatBubble(BuildContext context, String message, {required bool isMine, required String time}) {
+  Widget _buildChatBubble(BuildContext context, String message,
+      {required bool isMine, required String time}) {
     return Align(
       // 1. 내 메시지는 오른쪽, 상대 메시지는 왼쪽 정렬
       alignment: isMine ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
-        crossAxisAlignment: isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Container(
             // 최대 너비를 화면의 70% 정도로 제한하여 가독성 확보
@@ -287,7 +298,9 @@ class DetailChatScreen extends StatelessWidget {
               child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 height: 48,
-                decoration: BoxDecoration(color: AppColors.paleGrey, borderRadius: BorderRadius.circular(12)),
+                decoration: BoxDecoration(
+                    color: AppColors.paleGrey,
+                    borderRadius: BorderRadius.circular(12)),
                 child: TextField(
                   // 입력되는 텍스트 스타일 (필요시 추가)
                   style: AppTextStyles.ptdMedium(16),
@@ -304,9 +317,12 @@ class DetailChatScreen extends StatelessWidget {
             ),
             const SizedBox(width: 20),
             Container(
-              width: 36, height: 36,
-              decoration: const BoxDecoration(color: AppColors.primaryMain, shape: BoxShape.circle),
-              child: const Icon(Icons.send_rounded, color: Colors.white, size: 20),
+              width: 36,
+              height: 36,
+              decoration: const BoxDecoration(
+                  color: AppColors.primaryMain, shape: BoxShape.circle),
+              child:
+                  const Icon(Icons.send_rounded, color: Colors.white, size: 20),
             ),
           ],
         ),

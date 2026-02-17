@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import '../theme/app_colors.dart';
 import '../theme/app_text_styles.dart';
 
@@ -33,13 +33,25 @@ class AppNavbar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             // Row가 부모의 가로 너비를 다 쓰도록 보장
-            mainAxisSize: MainAxisSize.max, 
+            mainAxisSize: MainAxisSize.max,
             children: [
-              _NavbarItem(name: 'chat', label: '채팅', isSelected: currentIndex == 0, onTap: () => onTap(0)),
+              _NavbarItem(
+                  name: 'chat',
+                  label: '채팅',
+                  isSelected: currentIndex == 0,
+                  onTap: () => onTap(0)),
               SizedBox(width: screenWidth * 0.01),
-              _NavbarItem(name: 'home', label: '홈', isSelected: currentIndex == 1, onTap: () => onTap(1)),
+              _NavbarItem(
+                  name: 'home',
+                  label: '홈',
+                  isSelected: currentIndex == 1,
+                  onTap: () => onTap(1)),
               SizedBox(width: screenWidth * 0.01),
-              _NavbarItem(name: 'my', label: '마이', isSelected: currentIndex == 2, onTap: () => onTap(2)),
+              _NavbarItem(
+                  name: 'my',
+                  label: '마이',
+                  isSelected: currentIndex == 2,
+                  onTap: () => onTap(2)),
             ],
           ),
         ),
@@ -64,9 +76,8 @@ class _NavbarItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 1. 상태에 따라 아이콘 경로 자동 생성 (chat -> chat_fill)
-    final String iconPath = isSelected 
-        ? 'assets/icons/${name}_fill.svg' 
-        : 'assets/icons/$name.svg';
+    final String iconPath =
+        isSelected ? 'assets/icons/${name}_fill.png' : 'assets/icons/$name.png';
 
     return GestureDetector(
       onTap: onTap,
@@ -74,7 +85,7 @@ class _NavbarItem extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgPicture.asset(
+          Image.asset(
             iconPath,
             width: 32,
             height: 32,
@@ -83,9 +94,8 @@ class _NavbarItem extends StatelessWidget {
           const SizedBox(height: 12),
           Text(
             label,
-            style: AppTextStyles.ptdRegular(12).copyWith(
-              color: AppColors.black
-            ),
+            style:
+                AppTextStyles.ptdRegular(12).copyWith(color: AppColors.black),
           ),
         ],
       ),

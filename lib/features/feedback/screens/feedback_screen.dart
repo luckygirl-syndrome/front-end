@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ttobaba/features/feedback/providers/feedback_provider.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_back_bar.dart';
@@ -7,21 +9,19 @@ import 'package:ttobaba/core/widgets/two_buttons.dart';
 import 'package:ttobaba/core/widgets/app_longtext_field.dart';
 import 'package:ttobaba/features/feedback/widgets/vertical_button_list.dart';
 
-class FeedbackScreen extends StatefulWidget {
+class FeedbackScreen extends ConsumerStatefulWidget {
   const FeedbackScreen({super.key});
 
   @override
-  State<FeedbackScreen> createState() => _FeedbackScreenState();
+  ConsumerState<FeedbackScreen> createState() => _FeedbackScreenState();
 }
 
-class _FeedbackScreenState extends State<FeedbackScreen> {
-  int _currentIndex = 0; // 현재 질문 인덱스
-  bool _isReturned = false; // 반품 여부 (분기 결정)
-
+class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
   // 뒤로가기 로직 처리
   void _handleBack() {
-    if (_currentIndex > 0) {
-      setState(() => _currentIndex--);
+    final currentState = ref.read(feedbackProvider);
+    if (currentState.currentIndex > 0) {
+      ref.read(feedbackProvider.notifier).previousStep();
     } else {
       Navigator.pop(context);
     }
@@ -29,6 +29,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final feedbackState = ref.watch(feedbackProvider);
+    final _currentIndex = feedbackState.currentIndex;
+    final _isReturned = feedbackState.isReturned;
+
     // 반품 여부에 따른 전체 페이지 수 결정
     int totalPages = _isReturned ? 2 : 3;
 
@@ -42,14 +46,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            const Divider(height: 0.5, thickness: 0.5, color: AppColors.lightGrey),
+            const Divider(
+                height: 0.5, thickness: 0.5, color: AppColors.lightGrey),
             _buildProductSummary(),
-            const Divider(height: 0.5, thickness: 0.5, color: AppColors.lightGrey),
-
+            const Divider(
+                height: 0.5, thickness: 0.5, color: AppColors.lightGrey),
             Expanded(
               child: _buildMainQuestionArea(),
             ),
-
             AppIndicator(
               currentPage: _currentIndex,
               totalPage: totalPages,
@@ -69,7 +73,8 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset('assets/images/product_sample.png', width: 100, height: 100, fit: BoxFit.cover),
+            child: Image.asset('assets/images/product_sample.png',
+                width: 100, height: 100, fit: BoxFit.cover),
           ),
           const SizedBox(width: 24),
           Expanded(
@@ -82,18 +87,27 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("에이블리", style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.black)),
-                      Text("❤️기모선택❤️찰랑 하이웨스트 와이드 롱팬츠", 
-                        style: AppTextStyles.ptdRegular(12).copyWith(color: AppColors.black), 
-                        textAlign: TextAlign.right, maxLines: 2, overflow: TextOverflow.ellipsis),
+                      Text("에이블리",
+                          style: AppTextStyles.ptdBold(12)
+                              .copyWith(color: AppColors.black)),
+                      Text("❤️기모선택❤️찰랑 하이웨스트 와이드 롱팬츠",
+                          style: AppTextStyles.ptdRegular(12)
+                              .copyWith(color: AppColors.black),
+                          textAlign: TextAlign.right,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis),
                     ],
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text("구매한 지 18일 지남", style: AppTextStyles.ptdRegular(10).copyWith(color: AppColors.grey)),
+                      Text("구매한 지 18일 지남",
+                          style: AppTextStyles.ptdRegular(10)
+                              .copyWith(color: AppColors.grey)),
                       // const SizedBox(height: 4),
-                      Text("22,200원", style: AppTextStyles.ptdBold(24).copyWith(color: AppColors.black)),
+                      Text("22,200원",
+                          style: AppTextStyles.ptdBold(24)
+                              .copyWith(color: AppColors.black)),
                     ],
                   ),
                 ],
@@ -106,17 +120,22 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   Widget _buildMainQuestionArea() {
+    final state = ref.watch(feedbackProvider);
+    final _currentIndex = state.currentIndex;
+    final _isReturned = state.isReturned;
+
     // 👈 핑거 이모지: 현재 단계가 이유 입력 단계인지 확인합니다. [cite: 2026-02-17]
-    bool isReasonStep = (_isReturned && _currentIndex == 1) || (!_isReturned && _currentIndex == 2);
+    bool isReasonStep = (_isReturned && _currentIndex == 1) ||
+        (!_isReturned && _currentIndex == 2);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(32, 60, 32, 16),
       child: Column(
         children: [
           _buildQuestionText(),
-          
+
           // 👈 핑거 이모지: 입력 단계와 버튼 단계의 레이아웃을 분리합니다. [cite: 2026-02-17]
-          if (isReasonStep) 
+          if (isReasonStep)
             // [입력 단계] 입력창이 Expanded 역할을 수행하여 공간을 채웁니다.
             Expanded(child: _buildStepContent())
           else ...[
@@ -130,6 +149,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   Widget _buildQuestionText() {
+    final state = ref.watch(feedbackProvider);
+    final _currentIndex = state.currentIndex;
+    final _isReturned = state.isReturned;
+
     String qNum = "Q${_currentIndex + 1}.";
     String title = "";
 
@@ -163,6 +186,10 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
   }
 
   Widget _buildStepContent() {
+    final state = ref.watch(feedbackProvider);
+    final _currentIndex = state.currentIndex;
+    final _isReturned = state.isReturned;
+
     if (_currentIndex == 0) {
       return _buildQ1Buttons();
     }
@@ -171,14 +198,14 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     if (_isReturned) {
       // 2단계: 바로 이유 입력창 노출
       return _buildReasonArea();
-    } 
-    
+    }
+
     // 반품 안 한 경우 (isReturned = false)
     else {
       // 2단계: 만족도 선택 버튼 리스트
       if (_currentIndex == 1) {
         return _buildSatisfactionArea();
-      } 
+      }
       // 3단계: 이유 입력창 노출
       else {
         return _buildReasonArea();
@@ -191,16 +218,12 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       leftText: "아뇨",
       rightText: "네",
       onLeftPressed: () {
-        setState(() {
-          _isReturned = false;
-          _currentIndex = 1;
-        });
+        ref.read(feedbackProvider.notifier).setReturned(false);
+        ref.read(feedbackProvider.notifier).nextStep();
       },
       onRightPressed: () {
-        setState(() {
-          _isReturned = true;
-          _currentIndex = 1;
-        });
+        ref.read(feedbackProvider.notifier).setReturned(true);
+        ref.read(feedbackProvider.notifier).nextStep();
       },
     );
   }
@@ -224,13 +247,27 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
       ],
     );
   }
-  
+
   Widget _buildSatisfactionArea() {
+    final notifier = ref.read(feedbackProvider.notifier);
+
     final List<FeedbackButtonData> satisfactionItems = [
-      FeedbackButtonData(text: "너무너무 별로예요..", color: const Color(0xFFA1C1FF), onTap: () => setState(() => _currentIndex = 2)),
-      FeedbackButtonData(text: "조금 별로예요", color: const Color(0xFFC6D9FF), onTap: () => setState(() => _currentIndex = 2)),
-      FeedbackButtonData(text: "이 정도면 괜찮죠", color: const Color(0xFFFEE7A1), onTap: () => setState(() => _currentIndex = 2)),
-      FeedbackButtonData(text: "최고예요!", color: AppColors.primaryMain, onTap: () => setState(() => _currentIndex = 2)),
+      FeedbackButtonData(
+          text: "너무너무 별로예요..",
+          color: const Color(0xFFA1C1FF),
+          onTap: () => notifier.nextStep()),
+      FeedbackButtonData(
+          text: "조금 별로예요",
+          color: const Color(0xFFC6D9FF),
+          onTap: () => notifier.nextStep()),
+      FeedbackButtonData(
+          text: "이 정도면 괜찮죠",
+          color: const Color(0xFFFEE7A1),
+          onTap: () => notifier.nextStep()),
+      FeedbackButtonData(
+          text: "최고예요!",
+          color: AppColors.primaryMain,
+          onTap: () => notifier.nextStep()),
     ];
 
     // Spacer가 위에서 밀어주므로 여기서는 버튼 리스트만 리턴합니다. [cite: 2026-02-17]
@@ -241,7 +278,3 @@ class _FeedbackScreenState extends State<FeedbackScreen> {
     );
   }
 }
-
-
-
-  
