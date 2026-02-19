@@ -13,7 +13,14 @@ class SbtiResultCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // 💡 실제 Provider 상태를 구독합니다.
     final sbtiState = ref.watch(sbtiProvider);
-    final scores = sbtiState.scores;
+
+    // answers 리스트를 기반으로 scores 맵 계산
+    final scores = {'D': 0, 'N': 0, 'S': 0, 'A': 0, 'M': 0, 'T': 0};
+    for (var answer in sbtiState.answers) {
+      if (scores.containsKey(answer)) {
+        scores[answer] = (scores[answer] ?? 0) + 1;
+      }
+    }
 
     // 🎨 각 유형별 비율 계산 (각 유형당 질문 3개 기준)
     // 0.5가 중간값이며, 한쪽 유형이 많을수록 1.0 또는 0.0에 가까워집니다.

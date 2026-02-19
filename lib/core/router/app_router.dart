@@ -15,10 +15,18 @@ import 'package:ttobaba/features/chat/screens/chat_list_screen.dart';
 import 'package:ttobaba/features/chat/screens/detail_chat_screen.dart';
 import 'package:ttobaba/features/feedback/screens/feedback_screen.dart';
 
-GoRouter createAppRouter({String initialLocation = '/home'}) {
+import 'package:ttobaba/features/splash/screens/splash_screen.dart'; // import 추가
+
+GoRouter createAppRouter({String initialLocation = '/splash'}) {
+  // 1. 초기 경로 변경
   return GoRouter(
     initialLocation: initialLocation,
     routes: [
+      // 스플래시 화면
+      GoRoute(
+        path: '/splash',
+        builder: (context, state) => const SplashScreen(),
+      ),
       // 로그인 화면
       GoRoute(
         path: '/login',
@@ -34,7 +42,7 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
       ),
       GoRoute(
         path: '/sbti_no_like',
-        builder: (context, state) => SbtiNoLikeScreen(),
+        builder: (context, state) => const SbtiNoLikeScreen(),
       ),
       GoRoute(
         path: '/sbti_question',
@@ -50,7 +58,7 @@ GoRouter createAppRouter({String initialLocation = '/home'}) {
       ),
       GoRoute(
         path: '/initial_question_no_like',
-        builder: (context, state) => InitialQuestionNoLikeScreen(),
+        builder: (context, state) => const InitialQuestionNoLikeScreen(),
       ),
       GoRoute(
         path: '/my_page',

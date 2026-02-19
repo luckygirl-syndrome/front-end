@@ -211,7 +211,7 @@ class ChatListScreen extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 24, bottom: 24),
       child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             // 노란색 그림자 설정
             boxShadow: [

@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
-import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
-
-import '../../../core/widgets/two_buttons.dart';
 
 /// Q1. 쇼핑몰 복수 선택 리스트 위젯
 class ShopChoiceList extends StatelessWidget {
@@ -28,7 +25,8 @@ class ShopChoiceList extends StatelessWidget {
           child: AppButton(
             text: option,
             textColor: isSelected ? Colors.white : AppColors.primaryMain,
-            backgroundColor: isSelected ? AppColors.primaryMain : Colors.transparent,
+            backgroundColor:
+                isSelected ? AppColors.primaryMain : Colors.transparent,
             borderColor: AppColors.primaryMain,
             borderRadius: 12,
             borderWidth: 1,

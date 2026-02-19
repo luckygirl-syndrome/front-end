@@ -6,17 +6,19 @@ import 'package:go_router/go_router.dart';
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_button.dart';
-import '../models/profile_model.dart';
-import '../provider/my_page_state.dart';
+import '../models/user_model.dart';
 
-class ProfileHeader extends StatelessWidget {
-  final ProfileModel profile; // 서버에서 가져온 이름, 이미지 인덱스
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ttobaba/core/network/dio_provider.dart';
+
+class ProfileHeader extends ConsumerWidget {
+  final UserProfile profile; // 서버에서 가져온 이름, 이미지 인덱스
   final String? description; // 서버에서 가져온 페르소나 설명글
 
   const ProfileHeader({required this.profile, this.description, super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     const double avatarRadius = 50.0; // 캐릭터 크기
 
     return Container(
@@ -66,15 +68,47 @@ class ProfileHeader extends StatelessWidget {
             style: AppTextStyles.ptdExtraBold(24).copyWith(height: 1.0),
           ),
           const SizedBox(height: 4),
-          Text(profile.name, style: AppTextStyles.ptdRegular(16)),
+          Text(profile.nickname, style: AppTextStyles.ptdRegular(16)),
+
           const SizedBox(height: 18),
 
-          AppButton(
-            text: '프로필 설정',
-            width: 70,
-            textStyle: AppTextStyles.ptdBold(12),
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            onPressed: () => {context.push('/profile_edit')},
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center, // 가운데 정렬
+            children: [
+              AppButton(
+                text: '프로필 설정',
+                fitContent: true, // 💡 내용물에 맞게 너비 조절
+                textStyle: AppTextStyles.ptdBold(12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                borderRadius: 4.0,
+                onPressed: () => {context.push('/profile_edit')},
+              ),
+
+              const SizedBox(width: 8),
+
+              // 로그아웃 버튼 (AppButton 사용)
+              AppButton(
+                text: '로그아웃',
+                fitContent: true,
+                backgroundColor: Colors.white,
+                textColor: AppColors.black,
+                borderColor: AppColors.black,
+                borderWidth: 1,
+                textStyle: AppTextStyles.ptdBold(12),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                borderRadius: 4.0,
+                onPressed: () async {
+                  // 토큰 삭제
+                  final storage = ref.read(secureStorageProvider);
+                  await storage.delete(key: 'access_token');
+
+                  // 로그인 화면으로 이동
+                  if (context.mounted) context.go('/splash');
+                },
+              ),
+            ],
           ),
         ],
       ),

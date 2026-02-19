@@ -78,12 +78,12 @@ class DetailChatScreen extends ConsumerWidget {
           const Spacer(),
 
           // 3. 오른쪽: 아이콘 그룹 (장바구니 + 더보기)
-          Row(
+          const Row(
             children: [
-              const Icon(Icons.shopping_bag_outlined,
+              Icon(Icons.shopping_bag_outlined,
                   color: AppColors.black, size: 24),
-              const SizedBox(width: 16), // 아이콘 사이 간격
-              const Icon(Icons.more_horiz, color: AppColors.black, size: 24),
+              SizedBox(width: 16), // 아이콘 사이 간격
+              Icon(Icons.more_horiz, color: AppColors.black, size: 24),
             ],
           ),
         ],

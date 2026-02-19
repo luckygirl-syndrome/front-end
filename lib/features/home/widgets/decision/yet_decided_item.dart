@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
@@ -8,7 +7,7 @@ class YetDecidedItem extends StatelessWidget {
   final String title;
   final String price;
   final String dateTag;
-  
+
   const YetDecidedItem({
     super.key,
     required this.imageUrl,
@@ -26,9 +25,9 @@ class YetDecidedItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
+        boxShadow: [
           BoxShadow(
-            color: Color(0x26000000),
+            color: AppColors.black.withValues(alpha: 0.15),
             blurRadius: 12, // elevation 12.dp에 대응하는 전산학적 수치
           ),
         ],
@@ -49,15 +48,16 @@ class YetDecidedItem extends StatelessWidget {
               fit: BoxFit.cover,
             ),
           ),
-          
+
           const SizedBox(width: 20), // spacedBy(20.dp)
-          
+
           // 오른쪽: 텍스트 영역
-          
+
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min, // 👈 세로 방향 Hug 구현 [cite: 2026-01-02]
+              mainAxisSize:
+                  MainAxisSize.min, // 👈 세로 방향 Hug 구현 [cite: 2026-01-02]
               children: [
                 // 👈 4. 주입받은 title 사용 [cite: 2026-02-13]
                 Text(
@@ -77,12 +77,14 @@ class YetDecidedItem extends StatelessWidget {
                     // 👈 5. 주입받은 price 사용 [cite: 2026-02-13]
                     Text(
                       price,
-                      style: AppTextStyles.ptdBold(18).copyWith(color: AppColors.black),
+                      style: AppTextStyles.ptdBold(18)
+                          .copyWith(color: AppColors.black),
                     ),
                     // 👈 6. 주입받은 dateTag 사용 [cite: 2026-02-13]
                     Text(
                       dateTag,
-                      style: AppTextStyles.ptdRegular(12).copyWith(color: AppColors.lightGrey),
+                      style: AppTextStyles.ptdRegular(12)
+                          .copyWith(color: AppColors.lightGrey),
                     ),
                   ],
                 ),

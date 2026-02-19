@@ -5,14 +5,15 @@ import 'package:go_router/go_router.dart';
 
 import '../../../core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
-import '../../../core/widgets/app_button.dart';
 import '../../../core/widgets/app_navbar.dart';
 import '../provider/my_page_state.dart';
-import '../provider/profile_provider.dart';
+// import '../provider/profile_provider.dart'; // Deprecated
 import '../widgets/closet_stat_card.dart';
 import '../widgets/profile_header.dart';
 import '../widgets/sbti_result_card.dart';
-import 'package:ttobaba/features/sbti/providers/sbti_provider.dart'; // 👈 경로에 맞춰 추가
+import 'package:ttobaba/features/sbti/providers/persona_provider.dart';
+import 'package:ttobaba/features/my_page/providers/user_provider.dart';
+import 'package:ttobaba/features/sbti/providers/sbti_provider.dart';
 
 class MyPageScreen extends ConsumerWidget {
   const MyPageScreen({super.key});
@@ -20,35 +21,38 @@ class MyPageScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // 💡 iOS의 getProfileInfo() 결과를 실시간 감시
-    final profileAsync = ref.watch(profileDataProvider);
-    final personaAsync = ref.watch(personaDataProvider);
+    final userAsync = ref.watch(userProvider);
+    final personaAsync = ref.watch(personaStateProvider);
     final state = ref.watch(myPageProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: profileAsync.when(
+      body: userAsync.when(
         // ✅ 데이터 로드 성공
-        data: (profile) => Stack(
-          children: [
-            // 배경 노란색 레이어
-            _buildBackgroundYellow(context),
+        data: (profile) {
+          if (profile == null) return const Center(child: Text("프로필 정보 없음"));
+          return Stack(
+            children: [
+              // 배경 노란색 레이어
+              _buildBackgroundYellow(context),
 
-            SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: Column(
-                children: [
-                  // 1. 헤더 영역 (프로필)
-                  ProfileHeader(
-                    profile: profile,
-                    description: personaAsync.value?.description,
-                  ),
-                  // 2. 하단 콘텐츠 영역
-                  _buildMainContent(context, state, ref),
-                ],
+              SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
+                child: Column(
+                  children: [
+                    // 1. 헤더 영역 (프로필)
+                    ProfileHeader(
+                      profile: profile,
+                      description: personaAsync.value?.description,
+                    ),
+                    // 2. 하단 콘텐츠 영역
+                    _buildMainContent(context, state, ref),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          );
+        },
         // ✅ 로딩 중
         loading: () => const Center(child: CircularProgressIndicator()),
         // ✅ 에러 발생
@@ -66,7 +70,6 @@ class MyPageScreen extends ConsumerWidget {
       ),
     );
   }
-
 
   // --- Private 빌더 메서드들 ---
 
