@@ -121,8 +121,8 @@ class _AppTextFieldState extends State<AppTextField> {
             width: _isObscured ? widget.iconSize : widget.iconSize * 0.7,
             child: Image.asset(
               _isObscured
-                  ? 'assets/images/eye_1.png'
-                  : 'assets/images/eye_2.png',
+                  ? 'assets/images/ui/eye_1.png'
+                  : 'assets/images/ui/eye_2.png',
               // ⭐ 이미지가 지정된 크기에 꽉 차도록 설정
               fit: BoxFit.contain,
               color: AppColors.lightGrey,

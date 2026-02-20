@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ttobaba/core/widgets/link_input_popup.dart';
+import 'package:ttobaba/features/products/providers/product_provider.dart';
 import 'package:ttobaba/features/chat/providers/chat_provider.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
@@ -24,7 +26,7 @@ class ChatListScreen extends ConsumerWidget {
           ),
         ],
       ),
-      floatingActionButton: _buildFAB(),
+      floatingActionButton: _buildFAB(context, ref),
       bottomNavigationBar: AppNavbar(
         currentIndex: 0,
         onTap: (index) {
@@ -128,7 +130,7 @@ class ChatListScreen extends ConsumerWidget {
               price: "13,410원",
               date: "어제",
               title: "[단독] [🔴라이브특가/+뉴컬러/50만장돌파🏆/made] 시오 니트",
-              imageUrl: "assets/images/product_sample.png",
+              imageUrl: "assets/images/products/product_sample.png",
               onTap: () {
                 Navigator.push(
                   context,
@@ -207,7 +209,7 @@ class ChatListScreen extends ConsumerWidget {
     );
   }
 
-  Widget _buildFAB() {
+  Widget _buildFAB(BuildContext context, WidgetRef ref) {
     return Padding(
       padding: const EdgeInsets.only(right: 24, bottom: 24),
       child: Container(
@@ -226,7 +228,25 @@ class ChatListScreen extends ConsumerWidget {
             width: 64,
             height: 64,
             child: FloatingActionButton(
-              onPressed: () {},
+              onPressed: () async {
+                final url = await showDialog<String>(
+                  context: context,
+                  barrierDismissible: true, // 배경 클릭 시 닫기 허용 [cite: 2026-01-02]
+                  builder: (context) => const LinkInputPopup(),
+                );
+
+                // URL이 입력된 경우에만 상품 분석 API 호출
+                if (url != null && url.isNotEmpty) {
+                  final result = await ref
+                      .read(productParseProvider.notifier)
+                      .parseProduct(url);
+
+                  if (result != null && context.mounted) {
+                    // TODO: 분석 결과를 detail_chat 화면으로 전달
+                    context.push('/detail_chat');
+                  }
+                }
+              },
               backgroundColor: AppColors.primaryMain,
               shape: const CircleBorder(),
               elevation: 0, // 👈 요청하신 대로 elevation 제거 (기본 그림자 삭제)

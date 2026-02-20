@@ -82,7 +82,7 @@ class HomeDecisionSection extends StatelessWidget {
               ClipRRect(
                 borderRadius: BorderRadius.circular(4),
                 child: Image.asset(
-                  'assets/images/product_sample.png',
+                  'assets/images/products/product_sample.png',
                   width: 32,
                   height: 32,
                   fit: BoxFit.cover,

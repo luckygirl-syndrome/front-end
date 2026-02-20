@@ -31,10 +31,11 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     final user = ref.read(userProvider).value;
     if (user != null) {
       _nicknameController.text = user.nickname;
-      // TODO: user.profileImg (String)를 index로 변환하는 로직이 필요하다면 추가
-      // 현재는 기본값 0 또는 저장된 값이 있다면 그것을 매핑해야 함.
-      // 만약 profileImg가 'assets/images/home_love_cat.png' 형태라면,
-      // ProfileImageGrid의 리스트에서 인덱스를 찾아야 함.
+      // profileImg → index 변환
+      if (user.profileImg != null) {
+        final idx = ProfileImageGrid.profileImages.indexOf(user.profileImg!);
+        if (idx >= 0) _selectedImageIndex = idx;
+      }
     }
   }
 
@@ -48,21 +49,8 @@ class _ProfileEditScreenState extends ConsumerState<ProfileEditScreen> {
     final nickname = _nicknameController.text.trim();
     if (nickname.isEmpty) return;
 
-    // TODO: 실제 이미지 경로 매핑
-    // ProfileImageGrid에 있는 리스트와 동일한 리스트를 참조해야 정확함.
-    // 임시로 하드코딩된 리스트를 사용한다고 가정.
-    final List<String> profileImages = [
-      'assets/images/home_love_cat.png',
-      // ... (Grid와 동일해야 함)
-    ];
-    String? selectedImg;
-    if (_selectedImageIndex >= 0 && _selectedImageIndex < 12) {
-      // 12는 예시
-      // selectedImg = profileImages[_selectedImageIndex];
-      // 서버가 'path'를 원하는지 'index'를 원하는지, 'url'을 원하는지 확인 필요.
-      // 일단 String으로 보냄.
-      selectedImg = "assets/images/home_love_cat.png"; // 임시
-    }
+    // 선택된 이미지 경로
+    final selectedImg = ProfileImageGrid.profileImages[_selectedImageIndex];
 
     try {
       await ref.read(userProvider.notifier).updateProfile(

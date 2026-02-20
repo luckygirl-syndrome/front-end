@@ -64,7 +64,7 @@ class DetailNoBuyReceiptCard extends StatelessWidget {
 
   Widget _buildLogo() {
     return SvgPicture.asset(
-      'assets/images/logo.svg', // 2. 확장자 변경 [cite: 2025-11-27]
+      'assets/images/logos/logo.svg', // 2. 확장자 변경 [cite: 2025-11-27]
       height: 40,
       fit: BoxFit.contain,
     );
@@ -150,7 +150,7 @@ class DetailNoBuyReceiptCard extends StatelessWidget {
         ClipRRect(
           borderRadius: BorderRadius.circular(8),
           child: Image.asset(
-            'assets/images/product_sample.png',
+            'assets/images/products/product_sample.png',
             width: 80,
             height: 80,
             fit: BoxFit.cover,
@@ -209,7 +209,7 @@ class DetailNoBuyReceiptCard extends StatelessWidget {
     return Column(
       children: [
         SvgPicture.asset(
-          'assets/images/barcode.svg',
+          'assets/images/logos/barcode.svg',
           height: 28,
           fit: BoxFit.contain,
         ),
@@ -225,7 +225,7 @@ class DetailNoBuyReceiptCard extends StatelessWidget {
             ),
             const SizedBox(width: 12),
             SvgPicture.asset(
-              'assets/images/grey_logo.svg',
+              'assets/images/logos/grey_logo.svg',
               height: 24,
               fit: BoxFit.contain,
             ),

@@ -42,7 +42,7 @@ class ChatNotifier extends StateNotifier<ChatState> {
               'title': '[단독] [🔴라이브특가/+뉴컬러/50만장돌파🏆/made] 시오 니트 $index',
               'price': '13,410원',
               'date': '어제',
-              'imageUrl': 'assets/images/product_sample.png',
+              'imageUrl': 'assets/images/products/product_sample.png',
               'status': 'considering', // 고민 중
             });
 

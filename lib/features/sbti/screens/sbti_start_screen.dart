@@ -32,7 +32,7 @@ class SbtiStartScreen extends ConsumerWidget {
                   const SizedBox(height: 144),
 
                   Image.asset(
-                    'assets/images/sbti_cat.png',
+                    'assets/images/cats/sbti_cat.png',
                     height: 202,
                   ),
                   const Spacer(),

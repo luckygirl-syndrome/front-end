@@ -5,6 +5,22 @@ class ProfileImageGrid extends StatelessWidget {
   final int selectedImageIndex;
   final Function(int) onImageSelected;
 
+  /// 12개 프로필 아바타 이미지 경로 (공유용 static)
+  static const List<String> profileImages = [
+    'assets/images/avatars/image 197.png',
+    'assets/images/avatars/image 197-1.png',
+    'assets/images/avatars/image 198.png',
+    'assets/images/avatars/image 198-1.png',
+    'assets/images/avatars/image 199.png',
+    'assets/images/avatars/image 199-1.png',
+    'assets/images/avatars/image 200.png',
+    'assets/images/avatars/image 200-1.png',
+    'assets/images/avatars/image 201.png',
+    'assets/images/avatars/image 201-1.png',
+    'assets/images/avatars/image 202.png',
+    'assets/images/avatars/image 4.png',
+  ];
+
   const ProfileImageGrid({
     required this.selectedImageIndex,
     required this.onImageSelected,
@@ -13,23 +29,6 @@ class ProfileImageGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // 1. 사용할 이미지 경로들을 리스트로 직접 정의합니다.
-    // (보유하신 이미지 파일명으로 변경해 주세요!)
-    final List<String> profileImages = [
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-      'assets/images/home_love_cat.png',
-    ];
-
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -76,11 +75,16 @@ class ProfileImageGrid extends StatelessWidget {
               ),
             ),
             // 3. Icon 대신 실제 Image.asset을 넣습니다.
-            child: Image.asset(
-              imagePath,
-              fit: BoxFit.contain,
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.person),
+            child: Padding(
+              padding: EdgeInsets.all(
+                MediaQuery.of(context).size.width * 12 / 390, // 화면 비율 패딩
+              ),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) =>
+                    const Icon(Icons.person),
+              ),
             ),
           ),
         );

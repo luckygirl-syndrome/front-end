@@ -104,7 +104,7 @@ class DetailChatScreen extends ConsumerWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: Image.asset(
-              'assets/images/product_sample.png',
+              'assets/images/products/product_sample.png',
               width: 80,
               height: 80,
               fit: BoxFit.cover,

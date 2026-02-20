@@ -40,7 +40,7 @@ class TasteUpdateCompleteScreen extends StatelessWidget {
           // 2. 캐릭터 이미지 (중앙)
           Center(
             child: Image.asset(
-              'assets/images/initial_question_cat_end.png',
+              'assets/images/cats/initial_question_cat_end.png',
               height: 96,
             ),
           ),

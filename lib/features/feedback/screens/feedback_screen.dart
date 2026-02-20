@@ -74,7 +74,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset('assets/images/product_sample.png',
+            child: Image.asset('assets/images/products/product_sample.png',
                 width: 100, height: 100, fit: BoxFit.cover),
           ),
           const SizedBox(width: 24),

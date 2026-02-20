@@ -109,7 +109,7 @@ class HomeTtobabaSection extends ConsumerWidget {
         maxHeight: 120,
       ),
       child: Image.asset(
-        'assets/images/profile_image_sample.png',
+        'assets/images/ui/profile_image_sample.png',
         fit: BoxFit.contain,
       ),
     );

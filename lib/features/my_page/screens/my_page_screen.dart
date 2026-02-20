@@ -46,7 +46,7 @@ class MyPageScreen extends ConsumerWidget {
                     // 1. 헤더 영역 (프로필)
                     ProfileHeader(
                       profile: profile,
-                      description: personaAsync.value?.description,
+                      personaType: personaAsync.value?.personaType,
                     ),
                     // 2. 하단 콘텐츠 영역
                     _buildMainContent(context, state, ref),

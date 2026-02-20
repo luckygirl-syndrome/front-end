@@ -85,8 +85,8 @@ class _CharacterImage extends StatelessWidget {
     return Center(
       child: Image.asset(
         isFinished
-            ? 'assets/images/initial_question_cat_end.png'
-            : 'assets/images/initial_question_cat.png',
+            ? 'assets/images/cats/initial_question_cat_end.png'
+            : 'assets/images/cats/initial_question_cat.png',
         height: 96,
       ),
     );
