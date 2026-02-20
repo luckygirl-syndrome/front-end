@@ -111,17 +111,17 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
     }
   }
 
-  AxisDetail _createAxis(String type1, String type2, int count1, int count2) {
+  AxisScore _createAxis(String type1, String type2, int count1, int count2) {
     final total = count1 + count2;
     final result = count1 >= count2 ? type1 : type2;
-    final confidence =
-        total > 0 ? (count1 >= count2 ? count1 : count2) / total : 0.0;
+    // Score 계산: 승자의 비율 (0~100)
+    // 예: 3 vs 2 -> total 5. 승자(3) -> 60% -> score 60
+    final score =
+        total > 0 ? ((count1 >= count2 ? count1 : count2) * 100 ~/ total) : 0;
 
-    return AxisDetail(
+    return AxisScore(
       result: result,
-      count1: count1,
-      count2: count2,
-      confidence: confidence,
+      score: score,
     );
   }
 }

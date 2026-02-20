@@ -4,6 +4,7 @@ import 'package:ttobaba/features/my_page/screens/profile_edit_screen.dart';
 import '../../features/initial_question/screens/initial_question_no_like_screen.dart';
 import '../../features/initial_question/screens/initial_question_screen.dart';
 import '../../features/initial_question/screens/initial_question_start_screen.dart';
+import '../../features/initial_question/screens/taste_update_complete_screen.dart';
 import '../../features/login/screens/login_screen.dart';
 import '../../features/sbti/screens/sbti_no_like_screen.dart';
 import '../../features/sbti/screens/sbti_question_screen.dart';
@@ -54,7 +55,10 @@ GoRouter createAppRouter({String initialLocation = '/splash'}) {
       ),
       GoRoute(
         path: '/initial_question',
-        builder: (context, state) => const InitialQuestionScreen(),
+        builder: (context, state) {
+          final from = state.uri.queryParameters['from'];
+          return InitialQuestionScreen(from: from);
+        },
       ),
       GoRoute(
         path: '/initial_question_no_like',
@@ -87,6 +91,11 @@ GoRouter createAppRouter({String initialLocation = '/splash'}) {
       GoRoute(
         path: '/feedback', // /review 로 해도 됨
         builder: (context, state) => const FeedbackScreen(),
+      ),
+      // 취향 업데이트 완료
+      GoRoute(
+        path: '/taste_update_complete',
+        builder: (context, state) => const TasteUpdateCompleteScreen(),
       ),
     ],
   );

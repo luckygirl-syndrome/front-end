@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 import 'package:ttobaba/core/widgets/link_input_popup.dart';
 import 'package:ttobaba/features/home/widgets/ttobaba/unreviewed_item_widget.dart';
+import 'package:ttobaba/features/products/providers/product_provider.dart';
 
-class HomeTtobabaSection extends StatelessWidget {
+class HomeTtobabaSection extends ConsumerWidget {
   final bool showReviewWidget;
 
   const HomeTtobabaSection({
@@ -14,7 +17,7 @@ class HomeTtobabaSection extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     // 👈 1. SingleChildScrollView를 최상위로 올려 배경 원까지 포함해 스크롤되게 합니다. [cite: 2026-02-17]
     return SingleChildScrollView(
       // 👈 2. 배경 원이 화면 가로 너비보다 넓으므로 잘리지 않게 clipBehavior를 설정합니다. [cite: 2026-01-02]
@@ -58,7 +61,7 @@ class HomeTtobabaSection extends StatelessWidget {
                     const SizedBox(height: 32),
                     _buildCharacterImage(),
                     const SizedBox(height: 32),
-                    _buildActionButton(context),
+                    _buildActionButton(context, ref),
                   ],
                 ),
               ),
@@ -113,17 +116,28 @@ class HomeTtobabaSection extends StatelessWidget {
   }
 
   // 3. 버튼: core의 AppButton 활용 [cite: 2026-02-13]
-  Widget _buildActionButton(BuildContext context) {
+  Widget _buildActionButton(BuildContext context, WidgetRef ref) {
     return AppButton(
       padding: const EdgeInsets.all(32),
       text: "또바야, 나 이 옷 사고 싶어",
       // 👈 onTap 대신 onPressed를 사용해야 합니다.
-      onPressed: () {
-        showDialog(
+      onPressed: () async {
+        final url = await showDialog<String>(
           context: context,
           barrierDismissible: true, // 배경 클릭 시 닫기 허용 [cite: 2026-01-02]
           builder: (context) => const LinkInputPopup(),
         );
+
+        // URL이 입력된 경우에만 상품 분석 API 호출
+        if (url != null && url.isNotEmpty) {
+          final result =
+              await ref.read(productParseProvider.notifier).parseProduct(url);
+
+          if (result != null && context.mounted) {
+            // TODO: 분석 결과를 detail_chat 화면으로 전달
+            context.push('/detail_chat');
+          }
+        }
       },
       backgroundColor:
           AppColors.primaryMain, // 시안의 노란색 적용 권장 [cite: 2026-02-13]

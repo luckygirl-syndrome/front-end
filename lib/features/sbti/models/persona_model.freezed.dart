@@ -193,11 +193,11 @@ mixin _$Persona {
   @JsonKey(name: 'persona_type')
   String get personaType => throw _privateConstructorUsedError;
   @JsonKey(name: 'd_vs_n')
-  AxisDetail get dVsN => throw _privateConstructorUsedError;
+  AxisScore get dVsN => throw _privateConstructorUsedError;
   @JsonKey(name: 's_vs_a')
-  AxisDetail get sVsA => throw _privateConstructorUsedError;
+  AxisScore get sVsA => throw _privateConstructorUsedError;
   @JsonKey(name: 'm_vs_t')
-  AxisDetail get mVsT => throw _privateConstructorUsedError;
+  AxisScore get mVsT => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
 
   /// Serializes this Persona to a JSON map.
@@ -216,14 +216,14 @@ abstract class $PersonaCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'persona_type') String personaType,
-      @JsonKey(name: 'd_vs_n') AxisDetail dVsN,
-      @JsonKey(name: 's_vs_a') AxisDetail sVsA,
-      @JsonKey(name: 'm_vs_t') AxisDetail mVsT,
+      @JsonKey(name: 'd_vs_n') AxisScore dVsN,
+      @JsonKey(name: 's_vs_a') AxisScore sVsA,
+      @JsonKey(name: 'm_vs_t') AxisScore mVsT,
       String description});
 
-  $AxisDetailCopyWith<$Res> get dVsN;
-  $AxisDetailCopyWith<$Res> get sVsA;
-  $AxisDetailCopyWith<$Res> get mVsT;
+  $AxisScoreCopyWith<$Res> get dVsN;
+  $AxisScoreCopyWith<$Res> get sVsA;
+  $AxisScoreCopyWith<$Res> get mVsT;
 }
 
 /// @nodoc
@@ -255,15 +255,15 @@ class _$PersonaCopyWithImpl<$Res, $Val extends Persona>
       dVsN: null == dVsN
           ? _value.dVsN
           : dVsN // ignore: cast_nullable_to_non_nullable
-              as AxisDetail,
+              as AxisScore,
       sVsA: null == sVsA
           ? _value.sVsA
           : sVsA // ignore: cast_nullable_to_non_nullable
-              as AxisDetail,
+              as AxisScore,
       mVsT: null == mVsT
           ? _value.mVsT
           : mVsT // ignore: cast_nullable_to_non_nullable
-              as AxisDetail,
+              as AxisScore,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -275,8 +275,8 @@ class _$PersonaCopyWithImpl<$Res, $Val extends Persona>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AxisDetailCopyWith<$Res> get dVsN {
-    return $AxisDetailCopyWith<$Res>(_value.dVsN, (value) {
+  $AxisScoreCopyWith<$Res> get dVsN {
+    return $AxisScoreCopyWith<$Res>(_value.dVsN, (value) {
       return _then(_value.copyWith(dVsN: value) as $Val);
     });
   }
@@ -285,8 +285,8 @@ class _$PersonaCopyWithImpl<$Res, $Val extends Persona>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AxisDetailCopyWith<$Res> get sVsA {
-    return $AxisDetailCopyWith<$Res>(_value.sVsA, (value) {
+  $AxisScoreCopyWith<$Res> get sVsA {
+    return $AxisScoreCopyWith<$Res>(_value.sVsA, (value) {
       return _then(_value.copyWith(sVsA: value) as $Val);
     });
   }
@@ -295,8 +295,8 @@ class _$PersonaCopyWithImpl<$Res, $Val extends Persona>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $AxisDetailCopyWith<$Res> get mVsT {
-    return $AxisDetailCopyWith<$Res>(_value.mVsT, (value) {
+  $AxisScoreCopyWith<$Res> get mVsT {
+    return $AxisScoreCopyWith<$Res>(_value.mVsT, (value) {
       return _then(_value.copyWith(mVsT: value) as $Val);
     });
   }
@@ -311,17 +311,17 @@ abstract class _$$PersonaImplCopyWith<$Res> implements $PersonaCopyWith<$Res> {
   @useResult
   $Res call(
       {@JsonKey(name: 'persona_type') String personaType,
-      @JsonKey(name: 'd_vs_n') AxisDetail dVsN,
-      @JsonKey(name: 's_vs_a') AxisDetail sVsA,
-      @JsonKey(name: 'm_vs_t') AxisDetail mVsT,
+      @JsonKey(name: 'd_vs_n') AxisScore dVsN,
+      @JsonKey(name: 's_vs_a') AxisScore sVsA,
+      @JsonKey(name: 'm_vs_t') AxisScore mVsT,
       String description});
 
   @override
-  $AxisDetailCopyWith<$Res> get dVsN;
+  $AxisScoreCopyWith<$Res> get dVsN;
   @override
-  $AxisDetailCopyWith<$Res> get sVsA;
+  $AxisScoreCopyWith<$Res> get sVsA;
   @override
-  $AxisDetailCopyWith<$Res> get mVsT;
+  $AxisScoreCopyWith<$Res> get mVsT;
 }
 
 /// @nodoc
@@ -351,15 +351,15 @@ class __$$PersonaImplCopyWithImpl<$Res>
       dVsN: null == dVsN
           ? _value.dVsN
           : dVsN // ignore: cast_nullable_to_non_nullable
-              as AxisDetail,
+              as AxisScore,
       sVsA: null == sVsA
           ? _value.sVsA
           : sVsA // ignore: cast_nullable_to_non_nullable
-              as AxisDetail,
+              as AxisScore,
       mVsT: null == mVsT
           ? _value.mVsT
           : mVsT // ignore: cast_nullable_to_non_nullable
-              as AxisDetail,
+              as AxisScore,
       description: null == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -386,13 +386,13 @@ class _$PersonaImpl implements _Persona {
   final String personaType;
   @override
   @JsonKey(name: 'd_vs_n')
-  final AxisDetail dVsN;
+  final AxisScore dVsN;
   @override
   @JsonKey(name: 's_vs_a')
-  final AxisDetail sVsA;
+  final AxisScore sVsA;
   @override
   @JsonKey(name: 'm_vs_t')
-  final AxisDetail mVsT;
+  final AxisScore mVsT;
   @override
   final String description;
 
@@ -439,9 +439,9 @@ class _$PersonaImpl implements _Persona {
 abstract class _Persona implements Persona {
   const factory _Persona(
       {@JsonKey(name: 'persona_type') required final String personaType,
-      @JsonKey(name: 'd_vs_n') required final AxisDetail dVsN,
-      @JsonKey(name: 's_vs_a') required final AxisDetail sVsA,
-      @JsonKey(name: 'm_vs_t') required final AxisDetail mVsT,
+      @JsonKey(name: 'd_vs_n') required final AxisScore dVsN,
+      @JsonKey(name: 's_vs_a') required final AxisScore sVsA,
+      @JsonKey(name: 'm_vs_t') required final AxisScore mVsT,
       required final String description}) = _$PersonaImpl;
 
   factory _Persona.fromJson(Map<String, dynamic> json) = _$PersonaImpl.fromJson;
@@ -451,13 +451,13 @@ abstract class _Persona implements Persona {
   String get personaType;
   @override
   @JsonKey(name: 'd_vs_n')
-  AxisDetail get dVsN;
+  AxisScore get dVsN;
   @override
   @JsonKey(name: 's_vs_a')
-  AxisDetail get sVsA;
+  AxisScore get sVsA;
   @override
   @JsonKey(name: 'm_vs_t')
-  AxisDetail get mVsT;
+  AxisScore get mVsT;
   @override
   String get description;
 
@@ -469,223 +469,168 @@ abstract class _Persona implements Persona {
       throw _privateConstructorUsedError;
 }
 
-AxisDetail _$AxisDetailFromJson(Map<String, dynamic> json) {
-  return _AxisDetail.fromJson(json);
+AxisScore _$AxisScoreFromJson(Map<String, dynamic> json) {
+  return _AxisScore.fromJson(json);
 }
 
 /// @nodoc
-mixin _$AxisDetail {
+mixin _$AxisScore {
   String get result => throw _privateConstructorUsedError;
-  @JsonKey(name: 'count_1')
-  int get count1 => throw _privateConstructorUsedError;
-  @JsonKey(name: 'count_2')
-  int get count2 => throw _privateConstructorUsedError;
-  double get confidence => throw _privateConstructorUsedError;
+  int get score => throw _privateConstructorUsedError;
 
-  /// Serializes this AxisDetail to a JSON map.
+  /// Serializes this AxisScore to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of AxisDetail
+  /// Create a copy of AxisScore
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $AxisDetailCopyWith<AxisDetail> get copyWith =>
+  $AxisScoreCopyWith<AxisScore> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AxisDetailCopyWith<$Res> {
-  factory $AxisDetailCopyWith(
-          AxisDetail value, $Res Function(AxisDetail) then) =
-      _$AxisDetailCopyWithImpl<$Res, AxisDetail>;
+abstract class $AxisScoreCopyWith<$Res> {
+  factory $AxisScoreCopyWith(AxisScore value, $Res Function(AxisScore) then) =
+      _$AxisScoreCopyWithImpl<$Res, AxisScore>;
   @useResult
-  $Res call(
-      {String result,
-      @JsonKey(name: 'count_1') int count1,
-      @JsonKey(name: 'count_2') int count2,
-      double confidence});
+  $Res call({String result, int score});
 }
 
 /// @nodoc
-class _$AxisDetailCopyWithImpl<$Res, $Val extends AxisDetail>
-    implements $AxisDetailCopyWith<$Res> {
-  _$AxisDetailCopyWithImpl(this._value, this._then);
+class _$AxisScoreCopyWithImpl<$Res, $Val extends AxisScore>
+    implements $AxisScoreCopyWith<$Res> {
+  _$AxisScoreCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of AxisDetail
+  /// Create a copy of AxisScore
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? result = null,
-    Object? count1 = null,
-    Object? count2 = null,
-    Object? confidence = null,
+    Object? score = null,
   }) {
     return _then(_value.copyWith(
       result: null == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as String,
-      count1: null == count1
-          ? _value.count1
-          : count1 // ignore: cast_nullable_to_non_nullable
+      score: null == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
               as int,
-      count2: null == count2
-          ? _value.count2
-          : count2 // ignore: cast_nullable_to_non_nullable
-              as int,
-      confidence: null == confidence
-          ? _value.confidence
-          : confidence // ignore: cast_nullable_to_non_nullable
-              as double,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$AxisDetailImplCopyWith<$Res>
-    implements $AxisDetailCopyWith<$Res> {
-  factory _$$AxisDetailImplCopyWith(
-          _$AxisDetailImpl value, $Res Function(_$AxisDetailImpl) then) =
-      __$$AxisDetailImplCopyWithImpl<$Res>;
+abstract class _$$AxisScoreImplCopyWith<$Res>
+    implements $AxisScoreCopyWith<$Res> {
+  factory _$$AxisScoreImplCopyWith(
+          _$AxisScoreImpl value, $Res Function(_$AxisScoreImpl) then) =
+      __$$AxisScoreImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String result,
-      @JsonKey(name: 'count_1') int count1,
-      @JsonKey(name: 'count_2') int count2,
-      double confidence});
+  $Res call({String result, int score});
 }
 
 /// @nodoc
-class __$$AxisDetailImplCopyWithImpl<$Res>
-    extends _$AxisDetailCopyWithImpl<$Res, _$AxisDetailImpl>
-    implements _$$AxisDetailImplCopyWith<$Res> {
-  __$$AxisDetailImplCopyWithImpl(
-      _$AxisDetailImpl _value, $Res Function(_$AxisDetailImpl) _then)
+class __$$AxisScoreImplCopyWithImpl<$Res>
+    extends _$AxisScoreCopyWithImpl<$Res, _$AxisScoreImpl>
+    implements _$$AxisScoreImplCopyWith<$Res> {
+  __$$AxisScoreImplCopyWithImpl(
+      _$AxisScoreImpl _value, $Res Function(_$AxisScoreImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of AxisDetail
+  /// Create a copy of AxisScore
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? result = null,
-    Object? count1 = null,
-    Object? count2 = null,
-    Object? confidence = null,
+    Object? score = null,
   }) {
-    return _then(_$AxisDetailImpl(
+    return _then(_$AxisScoreImpl(
       result: null == result
           ? _value.result
           : result // ignore: cast_nullable_to_non_nullable
               as String,
-      count1: null == count1
-          ? _value.count1
-          : count1 // ignore: cast_nullable_to_non_nullable
+      score: null == score
+          ? _value.score
+          : score // ignore: cast_nullable_to_non_nullable
               as int,
-      count2: null == count2
-          ? _value.count2
-          : count2 // ignore: cast_nullable_to_non_nullable
-              as int,
-      confidence: null == confidence
-          ? _value.confidence
-          : confidence // ignore: cast_nullable_to_non_nullable
-              as double,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$AxisDetailImpl implements _AxisDetail {
-  const _$AxisDetailImpl(
-      {required this.result,
-      @JsonKey(name: 'count_1') required this.count1,
-      @JsonKey(name: 'count_2') required this.count2,
-      required this.confidence});
+class _$AxisScoreImpl implements _AxisScore {
+  const _$AxisScoreImpl({required this.result, required this.score});
 
-  factory _$AxisDetailImpl.fromJson(Map<String, dynamic> json) =>
-      _$$AxisDetailImplFromJson(json);
+  factory _$AxisScoreImpl.fromJson(Map<String, dynamic> json) =>
+      _$$AxisScoreImplFromJson(json);
 
   @override
   final String result;
   @override
-  @JsonKey(name: 'count_1')
-  final int count1;
-  @override
-  @JsonKey(name: 'count_2')
-  final int count2;
-  @override
-  final double confidence;
+  final int score;
 
   @override
   String toString() {
-    return 'AxisDetail(result: $result, count1: $count1, count2: $count2, confidence: $confidence)';
+    return 'AxisScore(result: $result, score: $score)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AxisDetailImpl &&
+            other is _$AxisScoreImpl &&
             (identical(other.result, result) || other.result == result) &&
-            (identical(other.count1, count1) || other.count1 == count1) &&
-            (identical(other.count2, count2) || other.count2 == count2) &&
-            (identical(other.confidence, confidence) ||
-                other.confidence == confidence));
+            (identical(other.score, score) || other.score == score));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, result, count1, count2, confidence);
+  int get hashCode => Object.hash(runtimeType, result, score);
 
-  /// Create a copy of AxisDetail
+  /// Create a copy of AxisScore
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$AxisDetailImplCopyWith<_$AxisDetailImpl> get copyWith =>
-      __$$AxisDetailImplCopyWithImpl<_$AxisDetailImpl>(this, _$identity);
+  _$$AxisScoreImplCopyWith<_$AxisScoreImpl> get copyWith =>
+      __$$AxisScoreImplCopyWithImpl<_$AxisScoreImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$AxisDetailImplToJson(
+    return _$$AxisScoreImplToJson(
       this,
     );
   }
 }
 
-abstract class _AxisDetail implements AxisDetail {
-  const factory _AxisDetail(
+abstract class _AxisScore implements AxisScore {
+  const factory _AxisScore(
       {required final String result,
-      @JsonKey(name: 'count_1') required final int count1,
-      @JsonKey(name: 'count_2') required final int count2,
-      required final double confidence}) = _$AxisDetailImpl;
+      required final int score}) = _$AxisScoreImpl;
 
-  factory _AxisDetail.fromJson(Map<String, dynamic> json) =
-      _$AxisDetailImpl.fromJson;
+  factory _AxisScore.fromJson(Map<String, dynamic> json) =
+      _$AxisScoreImpl.fromJson;
 
   @override
   String get result;
   @override
-  @JsonKey(name: 'count_1')
-  int get count1;
-  @override
-  @JsonKey(name: 'count_2')
-  int get count2;
-  @override
-  double get confidence;
+  int get score;
 
-  /// Create a copy of AxisDetail
+  /// Create a copy of AxisScore
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$AxisDetailImplCopyWith<_$AxisDetailImpl> get copyWith =>
+  _$$AxisScoreImplCopyWith<_$AxisScoreImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

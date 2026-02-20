@@ -14,12 +14,13 @@ class PersonaResponse with _$PersonaResponse {
 }
 
 @freezed
+@freezed
 class Persona with _$Persona {
   const factory Persona({
     @JsonKey(name: 'persona_type') required String personaType,
-    @JsonKey(name: 'd_vs_n') required AxisDetail dVsN,
-    @JsonKey(name: 's_vs_a') required AxisDetail sVsA,
-    @JsonKey(name: 'm_vs_t') required AxisDetail mVsT,
+    @JsonKey(name: 'd_vs_n') required AxisScore dVsN,
+    @JsonKey(name: 's_vs_a') required AxisScore sVsA,
+    @JsonKey(name: 'm_vs_t') required AxisScore mVsT,
     required String description,
   }) = _Persona;
 
@@ -28,14 +29,12 @@ class Persona with _$Persona {
 }
 
 @freezed
-class AxisDetail with _$AxisDetail {
-  const factory AxisDetail({
+class AxisScore with _$AxisScore {
+  const factory AxisScore({
     required String result,
-    @JsonKey(name: 'count_1') required int count1,
-    @JsonKey(name: 'count_2') required int count2,
-    required double confidence,
-  }) = _AxisDetail;
+    required int score,
+  }) = _AxisScore;
 
-  factory AxisDetail.fromJson(Map<String, dynamic> json) =>
-      _$AxisDetailFromJson(json);
+  factory AxisScore.fromJson(Map<String, dynamic> json) =>
+      _$AxisScoreFromJson(json);
 }

@@ -10,7 +10,8 @@ import '../widgets/chugumi_input.dart';
 import '../widgets/shop_choice_list.dart';
 
 class InitialQuestionScreen extends ConsumerWidget {
-  const InitialQuestionScreen({super.key});
+  final String? from;
+  const InitialQuestionScreen({super.key, this.from});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -47,7 +48,13 @@ class InitialQuestionScreen extends ConsumerWidget {
                 state: state,
                 notifier: notifier,
                 onNext: () => notifier.handleNext(
-                  onAllFinished: () => context.push('/initial_question_start'),
+                  onAllFinished: () {
+                    if (from == 'my') {
+                      context.push('/taste_update_complete');
+                    } else {
+                      context.push('/initial_question_start');
+                    }
+                  },
                 ),
               ),
 
@@ -59,7 +66,13 @@ class InitialQuestionScreen extends ConsumerWidget {
               BottomButtons(
                 type: state.currentType,
                 onNext: () => notifier.handleNext(
-                  onAllFinished: () => context.push('/initial_question_start'),
+                  onAllFinished: () {
+                    if (from == 'my') {
+                      context.push('/taste_update_complete');
+                    } else {
+                      context.push('/initial_question_start');
+                    }
+                  },
                 ),
                 // '여긴 없어요' 클릭 시에도 추구미 입력으로 넘어감.
                 onAlternative: () => notifier.nextPage(),

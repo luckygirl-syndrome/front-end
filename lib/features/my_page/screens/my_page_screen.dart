@@ -14,6 +14,9 @@ import '../widgets/sbti_result_card.dart';
 import 'package:ttobaba/features/sbti/providers/persona_provider.dart';
 import 'package:ttobaba/features/my_page/providers/user_provider.dart';
 import 'package:ttobaba/features/sbti/providers/sbti_provider.dart';
+import 'package:ttobaba/features/my_page/providers/shop_provider.dart';
+import 'package:ttobaba/features/my_page/providers/chugume_provider.dart';
+import 'package:ttobaba/features/initial_question/provider/initial_question_provider.dart';
 
 class MyPageScreen extends ConsumerWidget {
   const MyPageScreen({super.key});
@@ -164,6 +167,10 @@ class MyPageScreen extends ConsumerWidget {
 
   // [MODIFY] 나의 취향 섹션
   Widget _buildMyTasteSection(BuildContext context, WidgetRef ref) {
+    // 실시간 데이터 구독
+    final shopsAsync = ref.watch(favoriteShopsProvider);
+    final chugumeAsync = ref.watch(chugumeProvider);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -177,7 +184,9 @@ class MyPageScreen extends ConsumerWidget {
               Text('나의 취향', style: AppTextStyles.ptdBold(20)),
               GestureDetector(
                 onTap: () {
-                  context.push('/initial_question_start');
+                  // 👉 상태 리셋 후 바로 Q1으로 이동
+                  ref.read(initialQuestionProvider.notifier).reset();
+                  context.push('/initial_question?from=my');
                 },
                 child: Row(
                   children: [
@@ -201,18 +210,27 @@ class MyPageScreen extends ConsumerWidget {
         ),
         const SizedBox(height: 20), // 헤더와 카드 사이 간격
 
-        // 2. 쇼핑몰 카드
+        // 2. 쇼핑몰 카드 (실제 데이터 연동)
         _buildTasteCard(
           title: '내가 자주 이용하는 쇼핑몰',
-          tags: ['무신사', '에이블리', '지그재그'],
+          tags: shopsAsync.when(
+            data: (shops) =>
+                shops.isEmpty ? ['미설정'] : shops.map((s) => s.label).toList(),
+            loading: () => ['로딩 중...'],
+            error: (_, __) => ['불러오기 실패'],
+          ),
         ),
 
         const SizedBox(height: 12), // 카드 사이 간격
 
-        // 3. 추구미 카드
+        // 3. 추구미 카드 (실제 데이터 연동)
         _buildTasteCard(
           title: '나의 추구미',
-          tags: ['모리걸'],
+          tags: chugumeAsync.when(
+            data: (type) => type != null ? [type.label] : ['미설정'],
+            loading: () => ['로딩 중...'],
+            error: (_, __) => ['불러오기 실패'],
+          ),
         ),
       ],
     );
