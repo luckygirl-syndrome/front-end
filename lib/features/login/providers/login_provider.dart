@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ttobaba/core/network/dio_provider.dart';
 import 'package:ttobaba/features/login/models/auth_model.dart';
@@ -48,7 +50,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       state = state.copyWith(isLoading: false);
       return true; // 로그인 성공
     } catch (e) {
-      print("Login Error: $e");
+      debugPrint("Login Error: $e");
       state = state.copyWith(isLoading: false);
       return false; // 로그인 실패
     }

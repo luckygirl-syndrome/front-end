@@ -103,7 +103,7 @@ class _FeedbackScreenState extends ConsumerState<FeedbackScreen> {
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text("구매한 지 18일 지남",
-                          style: AppTextStyles.ptdRegular(10)
+                          style: AppTextStyles.ptdRegular(12)
                               .copyWith(color: AppColors.grey)),
                       // const SizedBox(height: 4),
                       Text("22,200원",

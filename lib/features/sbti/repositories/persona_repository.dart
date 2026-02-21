@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +28,7 @@ class PersonaRepository {
   Future<void> updatePersona(Persona persona) async {
     try {
       final body = persona.toJson();
-      print("🚀 [REQ BODY] ${jsonEncode(body)}");
+      debugPrint("🚀 [REQ BODY] ${jsonEncode(body)}");
 
       await _dio.post(
         '/api/setting/profile/persona',

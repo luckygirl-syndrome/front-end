@@ -24,7 +24,7 @@ class ShopChoiceList extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 20),
           child: AppButton(
             text: option,
-            textColor: isSelected ? Colors.white : AppColors.primaryMain,
+            textColor: isSelected ? AppColors.white : AppColors.primaryMain,
             backgroundColor:
                 isSelected ? AppColors.primaryMain : Colors.transparent,
             borderColor: AppColors.primaryMain,

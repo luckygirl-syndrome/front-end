@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ttobaba/features/products/repositories/product_repository.dart';
 
@@ -50,7 +52,7 @@ class ProductParseNotifier extends StateNotifier<ProductParseState> {
       );
       return result;
     } catch (e) {
-      print("❌ [Product Parse] Error: $e");
+      debugPrint("❌ [Product Parse] Error: $e");
       state = ProductParseState(
         isLoading: false,
         error: e.toString(),

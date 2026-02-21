@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:ttobaba/core/theme/app_colors.dart';
 
 class SbtiBackground extends StatelessWidget {
   const SbtiBackground({super.key});
@@ -12,7 +13,7 @@ class SbtiBackground extends StatelessWidget {
         fit: BoxFit.fitWidth,
         // 이미지가 로딩될 때까지 하얀 배경 유지
         errorBuilder: (context, error, stackTrace) =>
-            Container(color: Colors.white),
+            Container(color: AppColors.white),
         alignment: Alignment.bottomCenter,
       ),
     );

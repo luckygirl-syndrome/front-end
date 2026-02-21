@@ -7,6 +7,7 @@ import 'package:ttobaba/core/widgets/app_button.dart';
 import 'package:ttobaba/core/widgets/link_input_popup.dart';
 import 'package:ttobaba/features/home/widgets/ttobaba/unreviewed_item_widget.dart';
 import 'package:ttobaba/features/products/providers/product_provider.dart';
+import 'package:ttobaba/features/my_page/providers/user_provider.dart';
 
 class HomeTtobabaSection extends ConsumerWidget {
   final bool showReviewWidget;
@@ -18,6 +19,9 @@ class HomeTtobabaSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 유저 프로필에서 닉네임 가져오기
+    final userAsync = ref.watch(userProvider);
+    final nickname = userAsync.valueOrNull?.nickname ?? '회원';
     // 👈 1. SingleChildScrollView를 최상위로 올려 배경 원까지 포함해 스크롤되게 합니다. [cite: 2026-02-17]
     return SingleChildScrollView(
       // 👈 2. 배경 원이 화면 가로 너비보다 넓으므로 잘리지 않게 clipBehavior를 설정합니다. [cite: 2026-01-02]
@@ -57,7 +61,7 @@ class HomeTtobabaSection extends ConsumerWidget {
                 child: Column(
                   children: [
                     const SizedBox(height: 32),
-                    _buildTitle(),
+                    _buildTitle(nickname),
                     const SizedBox(height: 32),
                     _buildCharacterImage(),
                     const SizedBox(height: 32),
@@ -87,11 +91,11 @@ class HomeTtobabaSection extends ConsumerWidget {
   }
 
   // 1. 타이틀: extrabold/24, 검은색 [cite: 2026-02-13]
-  Widget _buildTitle() {
+  Widget _buildTitle(String nickname) {
     return SizedBox(
       width: double.infinity,
       child: Text(
-        "경현 님, 오늘은\n어떤 옷으로 고민 중인가요?",
+        "$nickname 님, 오늘은\n어떤 옷으로 고민 중인가요?",
         textAlign: TextAlign.left, // 시안에 따라 왼쪽 정렬 [cite: 2026-02-13]
         style: AppTextStyles.ptdExtraBold(24).copyWith(
           color: AppColors.black,

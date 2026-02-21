@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ttobaba/core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../../../core/widgets/app_backbar.dart';
 import '../../../core/widgets/app_indicator.dart';
@@ -20,7 +21,7 @@ class InitialQuestionScreen extends ConsumerWidget {
     final notifier = ref.read(initialQuestionProvider.notifier);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBackBar(
         currentPage: state.currentIndex,
         onBackPressed: () => notifier.handleBack(

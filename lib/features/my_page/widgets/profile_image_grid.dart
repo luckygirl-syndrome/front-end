@@ -53,7 +53,7 @@ class ProfileImageGrid extends StatelessWidget {
               // 💡 그림자 설정 추가
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black
+                  color: AppColors.black
                       .withValues(alpha: 0.15), // 아주 연한 검은색 (0.05 정도가 적당)
                   spreadRadius: 1, // 그림자가 퍼지는 범위
                   blurRadius: 8, // 그림자의 부드러운 정도

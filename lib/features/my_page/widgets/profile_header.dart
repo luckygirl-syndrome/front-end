@@ -56,7 +56,7 @@ class ProfileHeader extends ConsumerWidget {
 
     return Container(
       width: double.infinity,
-      color: Colors.white, // 배경 전체 색상
+      color: AppColors.white, // 배경 전체 색상
       child: Column(
         children: [
           // 1. 배경 이미지와 캐릭터가 겹치는 영역
@@ -78,7 +78,7 @@ class ProfileHeader extends ConsumerWidget {
                   height: avatarRadius * 2,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
+                    color: AppColors.white,
                     // 👈 1. 테두리 설정 (사진에 딱 붙음)
                     border: Border.all(
                       color: AppColors.primaryMain,
@@ -129,7 +129,7 @@ class ProfileHeader extends ConsumerWidget {
               AppButton(
                 text: '로그아웃',
                 fitContent: true,
-                backgroundColor: Colors.white,
+                backgroundColor: AppColors.white,
                 textColor: AppColors.black,
                 borderColor: AppColors.black,
                 borderWidth: 1,

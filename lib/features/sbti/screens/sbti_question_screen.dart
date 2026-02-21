@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ttobaba/core/theme/app_colors.dart';
 import '../../../core/widgets/app_backbar.dart';
 import '../../../core/widgets/app_indicator.dart';
 import '../providers/sbti_provider.dart';
@@ -21,7 +22,7 @@ class SbtiQuestionScreen extends ConsumerWidget {
           await notifier.submitPersona();
         } catch (e) {
           // 서버 오류여도 사용자를 막지 않음 (서버측 500 에러 확인됨)
-          print("Persona Submission Failed: $e");
+          debugPrint("Persona Submission Failed: $e");
           if (context.mounted) {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('결과 저장에 실패했지만, 계속 진행합니다.')),
@@ -55,7 +56,7 @@ class SbtiQuestionScreen extends ConsumerWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBackBar(
         currentPage: state.currentIndex,
         onBackPressed: () =>

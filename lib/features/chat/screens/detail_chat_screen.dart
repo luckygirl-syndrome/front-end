@@ -4,9 +4,15 @@ import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ttobaba/features/chat/widgets/chat_item.dart';
 
 class DetailChatScreen extends ConsumerWidget {
-  const DetailChatScreen({super.key});
+  final ItemStatus status;
+
+  const DetailChatScreen({
+    super.key,
+    this.status = ItemStatus.considering,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -93,9 +99,30 @@ class DetailChatScreen extends ConsumerWidget {
 
   // 1. 상단 상품 정보 레이아웃
   Widget _buildProductHeader() {
+    String badgeText;
+    Color badgeBackgroundColor;
+    Color badgeTextColor = AppColors.white;
+    Border? badgeBorder;
+
+    switch (status) {
+      case ItemStatus.considering:
+        badgeText = '고민 중';
+        badgeBackgroundColor = AppColors.primaryMain;
+        break;
+      case ItemStatus.gaveUp:
+        badgeText = '구매 포기';
+        badgeBackgroundColor = AppColors.black;
+        break;
+      case ItemStatus.purchased:
+        badgeText = '구매 완료';
+        badgeTextColor = AppColors.primaryMain;
+        badgeBackgroundColor = AppColors.white;
+        badgeBorder = Border.all(color: AppColors.primaryMain);
+        break;
+    }
+
     return Container(
-      // 디자인 가이드 수치: 좌32, 상32, 우32, 하20
-      padding: const EdgeInsets.fromLTRB(32, 32, 32, 20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
       color: AppColors.white,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -149,13 +176,14 @@ class DetailChatScreen extends ConsumerWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 8, vertical: 4),
                         decoration: BoxDecoration(
-                          color: AppColors.primaryMain,
+                          color: badgeBackgroundColor,
                           borderRadius: BorderRadius.circular(4),
+                          border: badgeBorder,
                         ),
                         child: Text(
-                          "구매 포기",
+                          badgeText,
                           style: AppTextStyles.ptdMedium(12)
-                              .copyWith(color: AppColors.white),
+                              .copyWith(color: badgeTextColor),
                         ),
                       ),
                       const SizedBox(width: 20),
@@ -176,41 +204,86 @@ class DetailChatScreen extends ConsumerWidget {
 
   // 2. 중앙 액션 버튼
   Widget _buildActionButtons() {
+    Widget leftButton;
+    Widget rightButton;
+
+    switch (status) {
+      case ItemStatus.purchased:
+        // 구매 완료 상태: 오른쪽 버튼 "저 사실... 반품했어요"
+        leftButton = AppButton(
+          text: "내 평가 확인하기",
+          onPressed: () {},
+          backgroundColor: AppColors.white,
+          textColor: AppColors.black,
+          borderColor: AppColors.black,
+          borderWidth: 1,
+          textStyle: AppTextStyles.ptdBold(12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        );
+        rightButton = AppButton(
+          text: "저 사실... 반품했어요",
+          onPressed: () {},
+          backgroundColor: AppColors.black,
+          textColor: AppColors.white,
+          borderColor: AppColors.black,
+          textStyle: AppTextStyles.ptdBold(12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        );
+        break;
+      case ItemStatus.considering:
+        // 고민 중 상태: 왼쪽 "안 살래요" (secondaryMain), 오른쪽 "살래요" (primaryMain)
+        leftButton = AppButton(
+          text: "안 살래요",
+          onPressed: () {},
+          backgroundColor: AppColors.secondaryMain,
+          textColor: AppColors.white,
+          borderColor: AppColors.secondaryMain,
+          textStyle: AppTextStyles.ptdBold(12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        );
+        rightButton = AppButton(
+          text: "살래요",
+          onPressed: () {},
+          backgroundColor: AppColors.primaryMain,
+          textColor: AppColors.white,
+          borderColor: AppColors.primaryMain,
+          textStyle: AppTextStyles.ptdBold(12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        );
+        break;
+      case ItemStatus.gaveUp:
+        // 구매 포기 상태: 오른쪽 버튼 "저 사실... 샀어요"
+        leftButton = AppButton(
+          text: "내 평가 확인하기",
+          onPressed: () {},
+          backgroundColor: AppColors.white,
+          textColor: AppColors.black,
+          borderColor: AppColors.black,
+          borderWidth: 1,
+          textStyle: AppTextStyles.ptdBold(12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        );
+        rightButton = AppButton(
+          text: "저 사실... 샀어요",
+          onPressed: () {},
+          backgroundColor: AppColors.black,
+          textColor: AppColors.white,
+          borderColor: AppColors.black,
+          textStyle: AppTextStyles.ptdBold(12),
+          padding: const EdgeInsets.symmetric(vertical: 12),
+        );
+        break;
+    }
+
     return Container(
       // 디자인 가이드: 좌우 32, 상하 20 반영
       padding: const EdgeInsets.fromLTRB(32, 8, 32, 12),
       color: AppColors.white,
       child: Row(
         children: [
-          // 1. 내 평가 확인하기 버튼
-          Expanded(
-            child: AppButton(
-              text: "내 평가 확인하기",
-              onPressed: () {},
-              backgroundColor: AppColors.white,
-              textColor: AppColors.black,
-              borderColor: AppColors.black,
-              borderWidth: 1,
-              textStyle: AppTextStyles.ptdBold(12),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-          ),
-
-          // 2. 버튼 사이 간격 20px
+          Expanded(child: leftButton),
           const SizedBox(width: 20),
-
-          // 3. 저 사실... 샀어요 버튼
-          Expanded(
-            child: AppButton(
-              text: "저 사실... 샀어요",
-              onPressed: () {},
-              backgroundColor: AppColors.black,
-              textColor: AppColors.white,
-              borderColor: AppColors.black,
-              textStyle: AppTextStyles.ptdBold(12),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-          ),
+          Expanded(child: rightButton),
         ],
       ),
     );
@@ -265,7 +338,7 @@ class DetailChatScreen extends ConsumerWidget {
               ),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
+                  color: AppColors.black.withValues(alpha: 0.1),
                   blurRadius: 12,
                 ),
               ],
@@ -279,7 +352,7 @@ class DetailChatScreen extends ConsumerWidget {
           // 3. 시간 표시
           Text(
             time,
-            style: AppTextStyles.ptdMedium(8).copyWith(color: AppColors.black),
+            style: AppTextStyles.ptdMedium(12).copyWith(color: AppColors.black),
           ),
         ],
       ),
@@ -321,8 +394,8 @@ class DetailChatScreen extends ConsumerWidget {
               height: 36,
               decoration: const BoxDecoration(
                   color: AppColors.primaryMain, shape: BoxShape.circle),
-              child:
-                  const Icon(Icons.send_rounded, color: Colors.white, size: 20),
+              child: const Icon(Icons.send_rounded,
+                  color: AppColors.white, size: 20),
             ),
           ],
         ),

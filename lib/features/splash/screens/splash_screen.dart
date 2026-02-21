@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ttobaba/core/network/dio_provider.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
+import 'package:ttobaba/core/theme/app_text_styles.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -32,27 +34,29 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     if (token != null && token.isNotEmpty) {
       context.go('/home');
     } else {
-      context.go('/login');
+      context.go('/onboarding');
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primaryMain, // 브랜드 컬러
+      backgroundColor: AppColors.white,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // 로고 이미지 (있는 경우)
-            Image.asset(
-              'assets/images/logo.png', // 로고 파일이 있다면 사용
-              width: 120,
-              errorBuilder: (context, error, stackTrace) =>
-                  const Icon(Icons.flash_on, size: 80, color: Colors.white),
+            Text(
+              '또 사기 전에 또바바',
+              style: AppTextStyles.ptdExtraBold(24).copyWith(
+                color: AppColors.black,
+              ),
             ),
-            const SizedBox(height: 20),
-            // const CircularProgressIndicator(color: Colors.white),
+            const SizedBox(height: 16),
+            SvgPicture.asset(
+              'assets/images/logos/logo.svg',
+              width: 220,
+            ),
           ],
         ),
       ),

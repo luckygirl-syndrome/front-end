@@ -14,7 +14,6 @@ class PersonaResponse with _$PersonaResponse {
 }
 
 @freezed
-@freezed
 class Persona with _$Persona {
   const factory Persona({
     @JsonKey(name: 'persona_type') required String personaType,

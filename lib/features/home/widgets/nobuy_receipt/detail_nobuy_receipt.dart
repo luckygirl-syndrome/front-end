@@ -221,7 +221,7 @@ class DetailNoBuyReceiptCard extends StatelessWidget {
           children: [
             Text(
               "또 사기 전에 또바바",
-              style: AppTextStyles.ptdBold(12).copyWith(color: Colors.grey),
+              style: AppTextStyles.ptdBold(12).copyWith(color: AppColors.grey),
             ),
             const SizedBox(width: 12),
             SvgPicture.asset(

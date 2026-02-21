@@ -29,7 +29,7 @@ class MyPageScreen extends ConsumerWidget {
     final state = ref.watch(myPageProvider);
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       body: userAsync.when(
         // ✅ 데이터 로드 성공
         data: (profile) {
@@ -88,7 +88,7 @@ class MyPageScreen extends ConsumerWidget {
       BuildContext context, MyPageState state, WidgetRef ref) {
     return Container(
       width: double.infinity,
-      color: Colors.white,
+      color: AppColors.white,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -242,11 +242,11 @@ class MyPageScreen extends ConsumerWidget {
       width: double.infinity, // 가로 꽉 채우기
       padding: const EdgeInsets.all(20), // 내부 여백 20px (시안 기준)
       decoration: BoxDecoration(
-        color: Colors.white, // 하얀색 배경
+        color: AppColors.white, // 하얀색 배경
         borderRadius: BorderRadius.circular(12), // 둥근 모서리
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
+            color: AppColors.black.withValues(alpha: 0.15),
             blurRadius: 12,
           ),
         ],
@@ -276,7 +276,7 @@ class MyPageScreen extends ConsumerWidget {
       ),
       child: Text(
         text,
-        style: AppTextStyles.ptdMedium(12).copyWith(color: Colors.white),
+        style: AppTextStyles.ptdMedium(12).copyWith(color: AppColors.white),
       ),
     );
   }

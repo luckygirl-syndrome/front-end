@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ttobaba/features/my_page/models/shop_model.dart';
 import 'package:ttobaba/features/my_page/repositories/user_repository.dart';
@@ -16,7 +18,7 @@ class FavoriteShops extends _$FavoriteShops {
       final repository = ref.read(userRepositoryProvider);
       return await repository.getFavoriteShops();
     } catch (e) {
-      print("Fetch Favorite Shops Error: $e");
+      debugPrint("Fetch Favorite Shops Error: $e");
       return [];
     }
   }

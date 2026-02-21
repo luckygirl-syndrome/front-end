@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ttobaba/features/my_page/models/user_model.dart';
 import 'package:ttobaba/features/my_page/repositories/user_repository.dart';
@@ -17,7 +19,7 @@ class User extends _$User {
       return await repository.getProfile();
     } catch (e) {
       // Handle error or return null
-      print("Fetch User Error: $e");
+      debugPrint("Fetch User Error: $e");
       return null;
     }
   }

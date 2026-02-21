@@ -12,7 +12,7 @@ class TasteUpdateCompleteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBackBar(
         onBackPressed: () => context.pop(),
       ),
@@ -26,10 +26,10 @@ class TasteUpdateCompleteScreen extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Colors.white,
-                    Colors.white,
+                    AppColors.white,
+                    AppColors.white,
                     AppColors.primaryMain,
-                    Colors.white
+                    AppColors.white
                   ],
                   stops: [0.0, 0.35, 0.351, 0.9],
                 ),

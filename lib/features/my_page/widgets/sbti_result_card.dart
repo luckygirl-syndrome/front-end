@@ -33,11 +33,11 @@ class SbtiResultCard extends ConsumerWidget {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 24),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.white,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.15),
+            color: AppColors.black.withValues(alpha: 0.15),
             blurRadius: 12,
             offset: const Offset(0, 2),
           )
@@ -89,7 +89,7 @@ class _SbtiBar extends StatelessWidget {
 
     // 🎨 점수 상관없이 이긴 쪽이 50% 꽉 차게 설정
     final bool isTopActive = value >= 0.5;
-    final double displayHeight = barHeight / 2; // 항상 딱 절반만 채움
+    const double displayHeight = barHeight / 2; // 항상 딱 절반만 채움
 
     const Color activeColor = AppColors.black;
     const Color inactiveColor = AppColors.lightGrey; // 연한 회색

@@ -18,7 +18,7 @@ class InitialQuestionStartScreen extends ConsumerWidget {
     final isFinished = state.isFinished;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       appBar: AppBackBar(
         onBackPressed: () {
           if (isFinished) {
@@ -63,10 +63,10 @@ class _BackgroundLayout extends StatelessWidget {
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             colors: [
-              Colors.white,
-              Colors.white,
+              AppColors.white,
+              AppColors.white,
               AppColors.primaryMain,
-              Colors.white
+              AppColors.white
             ],
             stops: [0.0, 0.35, 0.351, 0.9],
           ),

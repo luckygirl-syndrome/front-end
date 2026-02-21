@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ttobaba/features/my_page/models/chugume_model.dart';
 import 'package:ttobaba/features/my_page/repositories/user_repository.dart';
@@ -16,7 +18,7 @@ class Chugume extends _$Chugume {
       final repository = ref.read(userRepositoryProvider);
       return await repository.getChugume();
     } catch (e) {
-      print("Fetch Chugume Error: $e");
+      debugPrint("Fetch Chugume Error: $e");
       return null;
     }
   }

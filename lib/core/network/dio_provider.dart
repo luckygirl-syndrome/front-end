@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:ttobaba/core/router/app_router.dart';
 
 // Secure Storage Provider
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
@@ -28,18 +31,26 @@ final dioProvider = Provider<Dio>((ref) {
       if (token != null) {
         options.headers['Authorization'] = 'Bearer $token';
       }
-      print("🚀 [Token] ${token != null ? 'Present' : 'Missing'}");
-      print("🚀 [REQ] ${options.method} ${options.path}");
+      debugPrint("🚀 [Token] ${token != null ? 'Present' : 'Missing'}");
+      debugPrint("🚀 [REQ] ${options.method} ${options.path}");
       return handler.next(options);
     },
     onResponse: (response, handler) {
-      print("✅ [RES] ${response.statusCode} ${response.requestOptions.path}");
+      debugPrint(
+          "✅ [RES] ${response.statusCode} ${response.requestOptions.path}");
       return handler.next(response);
     },
-    onError: (DioException e, handler) {
-      print("❌ [ERR] ${e.response?.statusCode} ${e.requestOptions.path}");
-      print("❌ [ERR MSG] ${e.message}");
-      print("❌ [ERR DATA] ${e.response?.data}");
+    onError: (DioException e, handler) async {
+      debugPrint("❌ [ERR] ${e.response?.statusCode} ${e.requestOptions.path}");
+
+      if (e.response?.statusCode == 401) {
+        // 401 인가 실패 시 토큰 삭제 후 온보딩(또는 로그인)으로 강제 이동
+        await storage.delete(key: 'access_token');
+        appRouter.go('/onboarding');
+      }
+
+      debugPrint("❌ [ERR MSG] ${e.message}");
+      debugPrint("❌ [ERR DATA] ${e.response?.data}");
       return handler.next(e);
     },
   ));

@@ -26,7 +26,7 @@ class YetDecidedItem extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
+            color: AppColors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -48,8 +48,8 @@ class YetDecidedItem extends StatelessWidget {
                 width: 80,
                 height: 80,
                 color: AppColors.lightGrey,
-                child:
-                    const Icon(Icons.image_not_supported, color: Colors.grey),
+                child: const Icon(Icons.image_not_supported,
+                    color: AppColors.grey),
               ),
             ),
           ),

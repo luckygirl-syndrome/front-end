@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ttobaba/features/sbti/models/persona_model.dart';
 import 'package:ttobaba/features/sbti/providers/persona_provider.dart';
@@ -32,7 +34,7 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
   SbtiNotifier(this.ref) : super(SbtiState());
 
   void selectOption(String type) {
-    print(
+    debugPrint(
         "🚀 [SBTI] Selected Option: $type, Current Index: ${state.currentIndex}");
 
     List<String> newAnswers = List.from(state.answers);
@@ -49,7 +51,7 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
       currentIndex: state.currentIndex + 1,
     );
 
-    print(
+    debugPrint(
         "🚀 [SBTI] Current Answers: $newAnswers, Next Index: ${state.currentIndex}");
   }
 
@@ -63,7 +65,7 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
     state = state.copyWith(isLoading: true);
 
     try {
-      print("🚀 [SBTI] Submitting Persona... Answers: ${state.answers}");
+      debugPrint("🚀 [SBTI] Submitting Persona... Answers: ${state.answers}");
 
       // 답변 리스트를 기반으로 점수 계산
       final scores = {'D': 0, 'N': 0, 'S': 0, 'A': 0, 'M': 0, 'T': 0};
@@ -73,7 +75,7 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
         }
       }
 
-      print("🚀 [SBTI] Calculated Scores: $scores");
+      debugPrint("🚀 [SBTI] Calculated Scores: $scores");
 
       // Axis 1: D vs N
       final dCount = scores['D'] ?? 0;
@@ -100,11 +102,11 @@ class SbtiNotifier extends StateNotifier<SbtiState> {
         description: "당신은 $personaType 유형입니다.",
       );
 
-      print("🚀 [SBTI] Generated Persona: ${persona.toJson()}");
+      debugPrint("🚀 [SBTI] Generated Persona: ${persona.toJson()}");
 
       await ref.read(personaStateProvider.notifier).updatePersona(persona);
     } catch (e) {
-      print("Submit Persona Error: $e");
+      debugPrint("Submit Persona Error: $e");
       rethrow;
     } finally {
       state = state.copyWith(isLoading: false);

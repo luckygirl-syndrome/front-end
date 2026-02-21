@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ttobaba/features/sbti/models/persona_model.dart';
 import 'package:ttobaba/features/sbti/repositories/persona_repository.dart';
@@ -16,7 +18,7 @@ class PersonaState extends _$PersonaState {
       final repository = ref.read(personaRepositoryProvider);
       return await repository.getPersona();
     } catch (e) {
-      print("Fetch Persona Error: $e");
+      debugPrint("Fetch Persona Error: $e");
       return null;
     }
   }

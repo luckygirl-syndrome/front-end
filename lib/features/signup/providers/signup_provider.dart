@@ -140,7 +140,7 @@ class SignupNotifier extends StateNotifier<SignupState> {
 
       // 필요한 경우 UserProvider 초기화 등 추가 작업 가능
     } catch (e) {
-      print("Signup Error: $e");
+      debugPrint("Signup Error: $e");
       // 에러 처리를 위해 rethrow하거나 상태에 에러 메시지 저장
       rethrow;
     } finally {

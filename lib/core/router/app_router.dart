@@ -14,9 +14,11 @@ import '../../features/sbti/screens/sbti_start_screen.dart';
 import 'package:ttobaba/features/home/screens/home_screen.dart';
 import 'package:ttobaba/features/chat/screens/chat_list_screen.dart';
 import 'package:ttobaba/features/chat/screens/detail_chat_screen.dart';
+import 'package:ttobaba/features/chat/widgets/chat_item.dart';
 import 'package:ttobaba/features/feedback/screens/feedback_screen.dart';
 
 import 'package:ttobaba/features/splash/screens/splash_screen.dart'; // import 추가
+import 'package:ttobaba/features/onboarding/screens/onboarding_screen.dart';
 
 GoRouter createAppRouter({String initialLocation = '/splash'}) {
   // 1. 초기 경로 변경
@@ -27,6 +29,11 @@ GoRouter createAppRouter({String initialLocation = '/splash'}) {
       GoRoute(
         path: '/splash',
         builder: (context, state) => const SplashScreen(),
+      ),
+      // 온보딩 화면
+      GoRoute(
+        path: '/onboarding',
+        builder: (context, state) => const OnboardingScreen(),
       ),
       // 로그인 화면
       GoRoute(
@@ -85,7 +92,10 @@ GoRouter createAppRouter({String initialLocation = '/splash'}) {
       // 채팅 상세
       GoRoute(
         path: '/detail_chat',
-        builder: (context, state) => const DetailChatScreen(),
+        builder: (context, state) {
+          final status = state.extra as ItemStatus? ?? ItemStatus.considering;
+          return DetailChatScreen(status: status);
+        },
       ),
       // 피드백
       GoRoute(

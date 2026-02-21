@@ -147,7 +147,7 @@ class InitialQuestionNotifier extends StateNotifier<InitialQuestionState> {
         await ref.read(chugumeProvider.notifier).updateChugume(chugumeType);
       }
     } catch (e) {
-      print("❌ [InitialQuestion] Submit Error: $e");
+      debugPrint("❌ [InitialQuestion] Submit Error: $e");
       // UI에 에러를 알리거나 조용히 실패 처리
     }
   }
