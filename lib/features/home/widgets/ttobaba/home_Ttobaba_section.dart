@@ -1,17 +1,14 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ttobaba/features/my_page/providers/user_provider.dart';
+import 'package:ttobaba/features/home/providers/dashboard_provider.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
 import 'package:ttobaba/core/widgets/app_button.dart';
 import 'package:ttobaba/core/widgets/link_input_popup.dart';
 import 'package:ttobaba/features/home/widgets/ttobaba/unreviewed_item_widget.dart';
-import 'package:ttobaba/features/products/providers/product_provider.dart';
-import 'package:ttobaba/features/my_page/providers/user_provider.dart';
-import 'package:ttobaba/features/home/providers/dashboard_provider.dart';
-import 'package:ttobaba/features/chat/widgets/chat_item.dart';
-import 'package:ttobaba/features/chat/providers/chat_provider.dart';
 
 class HomeTtobabaSection extends ConsumerWidget {
   final bool showReviewWidget;
@@ -23,9 +20,15 @@ class HomeTtobabaSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // 유저 프로필에서 닉네임 가져오기
     final userAsync = ref.watch(userProvider);
-    final nickname = userAsync.valueOrNull?.nickname ?? '회원';
+    final dashboardAsync = ref.watch(dashboardProvider);
+
+    final nickname = userAsync.when(
+      data: (user) => user?.nickname ?? '또바바',
+      loading: () => '...',
+      error: (_, __) => '또바바',
+    );
+
     // 👈 1. SingleChildScrollView를 최상위로 올려 배경 원까지 포함해 스크롤되게 합니다. [cite: 2026-02-17]
     return SingleChildScrollView(
       // 👈 2. 배경 원이 화면 가로 너비보다 넓으므로 잘리지 않게 clipBehavior를 설정합니다. [cite: 2026-01-02]
@@ -69,7 +72,7 @@ class HomeTtobabaSection extends ConsumerWidget {
                     const SizedBox(height: 32),
                     _buildCharacterImage(),
                     const SizedBox(height: 32),
-                    _buildActionButton(context, ref),
+                    _buildActionButton(context),
                   ],
                 ),
               ),
@@ -79,30 +82,65 @@ class HomeTtobabaSection extends ConsumerWidget {
               // 👈 4. 하단 그룹도 각각 32px 패딩 적용 및 하단 여백 40px 추가 [cite: 2026-02-17]
               Padding(
                 padding: const EdgeInsets.fromLTRB(32, 0, 32, 40),
-                child: Consumer(builder: (context, ref, child) {
-                  final dashboardAsync = ref.watch(dashboardProvider);
-                  return dashboardAsync.when(
-                    data: (data) => Column(
-                      children: [
-                        _buildSavingCard(data['saved_amount'] ?? 0),
-                        const SizedBox(height: 12),
-                        _buildChatNumCard(
-                          data['recent_chat_count'] ?? 0,
-                          data['total_chat_count'] ?? 0,
+                child: dashboardAsync.when(
+                  data: (data) => Column(
+                    children: [
+                      _buildSavingCard(data?.savedAmount ?? 0),
+                      const SizedBox(height: 12),
+                      _buildChatNumCard(
+                        data?.recentChatCount ?? 0,
+                        data?.totalChatCount ?? 0,
+                      ),
+                    ],
+                  ),
+                  loading: () =>
+                      const Center(child: CircularProgressIndicator()),
+                  error: (e, st) => Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        decoration: BoxDecoration(
+                          color: Colors.red.withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
                         ),
-                      ],
-                    ),
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    error: (err, st) => Column(
-                      children: [
-                        _buildSavingCard(0),
-                        const SizedBox(height: 12),
-                        _buildChatNumCard(0, 0),
-                      ],
-                    ),
-                  );
-                }),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "⚠️ 데이터 로드 실패",
+                              style: AppTextStyles.ptdBold(14)
+                                  .copyWith(color: Colors.red),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "잠시 후 다시 시도해주세요.",
+                              style: AppTextStyles.ptdRegular(12)
+                                  .copyWith(color: AppColors.darkGrey),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      // 개발 모드에서만 상세 정보 표시
+                      if (kDebugMode)
+                        Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                          child: Text(
+                            "Debug Info:\n$e",
+                            style: AppTextStyles.ptdRegular(10)
+                                .copyWith(color: AppColors.black),
+                            maxLines: 5,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
               )
             ],
           ),
@@ -141,34 +179,17 @@ class HomeTtobabaSection extends ConsumerWidget {
   }
 
   // 3. 버튼: core의 AppButton 활용 [cite: 2026-02-13]
-  Widget _buildActionButton(BuildContext context, WidgetRef ref) {
+  Widget _buildActionButton(BuildContext context) {
     return AppButton(
       padding: const EdgeInsets.all(32),
       text: "또바야, 나 이 옷 사고 싶어",
       // 👈 onTap 대신 onPressed를 사용해야 합니다.
-      onPressed: () async {
-        final url = await showDialog<String>(
+      onPressed: () {
+        showDialog(
           context: context,
           barrierDismissible: true, // 배경 클릭 시 닫기 허용 [cite: 2026-01-02]
           builder: (context) => const LinkInputPopup(),
         );
-
-        // URL이 입력된 경우에만 상품 분석 API 호출
-        if (url != null && url.isNotEmpty) {
-          final result =
-              await ref.read(productParseProvider.notifier).parseProduct(url);
-
-          if (result != null && context.mounted) {
-            // 파싱 완료 후 백엔드에 채팅 생성(DB 적재) 알림
-            ref.read(chatProvider.notifier).startChat(url);
-
-            // 분석 결과를 detail_chat 화면으로 전달
-            context.push('/detail_chat', extra: {
-              'status': ItemStatus.considering,
-              'product_data': result,
-            });
-          }
-        }
       },
       backgroundColor:
           AppColors.primaryMain, // 시안의 노란색 적용 권장 [cite: 2026-02-13]
@@ -183,8 +204,10 @@ class HomeTtobabaSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildSavingCard(int amount) {
-    final formattedAmount = NumberFormat('#,###').format(amount);
+  Widget _buildSavingCard(int savings) {
+    final formatter = NumberFormat.decimalPattern();
+    final formattedValue = formatter.format(savings);
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(22),
@@ -211,7 +234,7 @@ class HomeTtobabaSection extends ConsumerWidget {
                 color: AppColors.secondaryMain), // medium 16 [cite: 2026-02-13]
           ),
           Text(
-            "$formattedAmount원",
+            "$formattedValue원",
             style: AppTextStyles.ptdBold(24).copyWith(
                 color: AppColors.secondaryMain), // bold 24 [cite: 2026-02-13]
           ),
@@ -220,17 +243,17 @@ class HomeTtobabaSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildChatNumCard(int recentCount, int totalCount) {
+  Widget _buildChatNumCard(int count3m, int countTotal) {
     return Row(
       // 두 카드 사이의 간격 12dp를 유지하면서 배치합니다. [cite: 2026-02-13]
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Expanded(
-          child: _buildStatItem("지난 3달 동안\n나눈 대화", "$recentCount건"),
+          child: _buildStatItem("지난 3달 동안\n나눈 대화", "$count3m건"),
         ),
         const SizedBox(width: 12),
         Expanded(
-          child: _buildStatItem("지금까지\n나눈 대화", "$totalCount건"),
+          child: _buildStatItem("지금까지\n나눈 대화", "$countTotal건"),
         ),
       ],
     );
@@ -245,7 +268,7 @@ class HomeTtobabaSection extends ConsumerWidget {
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: AppColors.black.withValues(alpha: 0.15),
+            color: AppColors.black.withOpacity(0.15),
             blurRadius: 12,
           ),
         ],

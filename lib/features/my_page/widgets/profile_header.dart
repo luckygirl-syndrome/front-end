@@ -11,6 +11,7 @@ import '../widgets/profile_image_grid.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ttobaba/core/network/dio_provider.dart';
+import 'package:ttobaba/core/auth/auth_provider.dart';
 
 class ProfileHeader extends ConsumerWidget {
   final UserProfile profile; // 서버에서 가져온 이름, 이미지 인덱스
@@ -142,8 +143,8 @@ class ProfileHeader extends ConsumerWidget {
                   final storage = ref.read(secureStorageProvider);
                   await storage.delete(key: 'access_token');
 
-                  // 로그인 화면으로 이동
-                  if (context.mounted) context.go('/splash');
+                  // 인증 상태 새로고침 (AppRouter가 감지하여 리다이렉트)
+                  ref.read(authStateProvider.notifier).refresh();
                 },
               ),
             ],

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:ttobaba/features/my_page/models/user_model.dart';
 import 'package:ttobaba/features/my_page/repositories/user_repository.dart';
+import 'package:ttobaba/core/network/dio_provider.dart';
 
 part 'user_provider.g.dart';
 
@@ -15,10 +16,13 @@ class User extends _$User {
 
   Future<UserProfile?> _fetchUser() async {
     try {
+      final storage = ref.read(secureStorageProvider);
+      final token = await storage.read(key: 'access_token');
+      if (token == null) return null;
+
       final repository = ref.read(userRepositoryProvider);
       return await repository.getProfile();
     } catch (e) {
-      // Handle error or return null
       debugPrint("Fetch User Error: $e");
       return null;
     }

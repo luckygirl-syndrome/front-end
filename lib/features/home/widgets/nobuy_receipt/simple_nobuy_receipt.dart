@@ -113,12 +113,31 @@ class SimpleNoBuyReceipt extends StatelessWidget {
   Widget _buildProductImage(String url, double width) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(12),
-      child: Image.asset(
-        url,
-        width: double.infinity,
-        height: width,
-        fit: BoxFit.cover,
-      ),
+      child: (url.startsWith('http'))
+          ? Image.network(
+              url,
+              width: double.infinity,
+              height: width,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => _buildPlaceholder(width),
+            )
+          : Image.asset(
+              url,
+              width: double.infinity,
+              height: width,
+              fit: BoxFit.cover,
+              errorBuilder: (_, __, ___) => _buildPlaceholder(width),
+            ),
+    );
+  }
+
+  Widget _buildPlaceholder(double width) {
+    return Container(
+      width: double.infinity,
+      height: width,
+      color: AppColors.lightGrey,
+      child: const Icon(Icons.image_not_supported,
+          size: 48, color: AppColors.grey),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:ttobaba/core/router/app_router.dart';
+import 'package:ttobaba/core/auth/auth_provider.dart';
 
 // Secure Storage Provider
 final secureStorageProvider = Provider<FlutterSecureStorage>((ref) {
@@ -16,10 +16,16 @@ final dioProvider = Provider<Dio>((ref) {
 
   final dio = Dio(
     BaseOptions(
-      baseUrl: "http://18.118.233.127:8001", // API Base URL (원격 백엔드 서버)
+      baseUrl: "http://localhost:8000", // API Base URL (로컬 백엔드 서버 우선 사용)
       connectTimeout: const Duration(seconds: 10),
       receiveTimeout: const Duration(seconds: 10),
       contentType: 'application/json',
+      // ✅ validateStatus를 설정해서 모든 상태코드(4xx, 5xx)를 response로 처리
+      validateStatus: (status) {
+        // null을 반환하면 Dio가 default validation을 사용 (200-299만 OK)
+        // true를 반환하면 모든 상태코드를 OK로 처리
+        return true;
+      },
     ),
   );
 
@@ -46,11 +52,12 @@ final dioProvider = Provider<Dio>((ref) {
       if (e.response?.statusCode == 401) {
         // 401 인가 실패 시 토큰 삭제 후 온보딩(또는 로그인)으로 강제 이동
         await storage.delete(key: 'access_token');
-        appRouter.go('/onboarding');
+        ref.read(authStateProvider.notifier).refresh();
       }
 
       debugPrint("❌ [ERR MSG] ${e.message}");
       debugPrint("❌ [ERR DATA] ${e.response?.data}");
+      debugPrint("❌ [Full Exception] $e");
       return handler.next(e);
     },
   ));

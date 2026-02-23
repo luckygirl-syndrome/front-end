@@ -31,7 +31,7 @@ class MyApp extends ConsumerWidget {
           elevation: 0,
         ),
       ),
-      routerConfig: router ?? appRouter,
+      routerConfig: router ?? ref.watch(appRouterStateProvider),
       builder: (context, child) {
         return Center(
           child: Container(

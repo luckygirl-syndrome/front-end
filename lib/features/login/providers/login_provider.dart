@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ttobaba/core/network/dio_provider.dart';
 import 'package:ttobaba/features/login/models/auth_model.dart';
 import 'package:ttobaba/features/login/repositories/auth_repository.dart';
+import 'package:ttobaba/core/auth/auth_provider.dart';
 
 class LoginState {
   final String email;
@@ -46,6 +47,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
 
       // 토큰 저장
       await storage.write(key: 'access_token', value: token);
+      ref.read(authStateProvider.notifier).refresh();
 
       state = state.copyWith(isLoading: false);
       return true; // 로그인 성공
