@@ -39,19 +39,23 @@ class YetDecidedItem extends StatelessWidget {
           // 왼쪽: 상품 이미지
           ClipRRect(
             borderRadius: BorderRadius.circular(8),
-            child: Image.asset(
-              imageUrl,
-              width: 80,
-              height: 80,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                width: 80,
-                height: 80,
-                color: AppColors.lightGrey,
-                child: const Icon(Icons.image_not_supported,
-                    color: AppColors.grey),
-              ),
-            ),
+            child: (imageUrl.startsWith('http'))
+                ? Image.network(
+                    imageUrl,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        _buildPlaceholder(),
+                  )
+                : Image.asset(
+                    imageUrl,
+                    width: 80,
+                    height: 80,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) =>
+                        _buildPlaceholder(),
+                  ),
           ),
 
           const SizedBox(width: 16),
@@ -96,6 +100,16 @@ class YetDecidedItem extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildPlaceholder() {
+    return Container(
+      width: 80,
+      height: 80,
+      color: AppColors.lightGrey,
+      child: const Icon(Icons.image_not_supported,
+          size: 24, color: AppColors.grey),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ttobaba/core/network/dio_provider.dart';
 import 'package:ttobaba/features/login/models/auth_model.dart';
 import 'package:ttobaba/features/login/repositories/auth_repository.dart';
+import 'package:ttobaba/core/auth/auth_provider.dart';
 
 // State는 순수하게 입력된 텍스트 값과 상태 정보만 들고있는게 좋음
 class SignupState {
@@ -137,6 +138,7 @@ class SignupNotifier extends StateNotifier<SignupState> {
 
       // 3. 토큰 저장 (로그인 성공 처리)
       await storage.write(key: 'access_token', value: token);
+      ref.read(authStateProvider.notifier).refresh();
 
       // 필요한 경우 UserProvider 초기화 등 추가 작업 가능
     } catch (e) {
