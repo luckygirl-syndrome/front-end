@@ -96,7 +96,7 @@ class HomeDecisionSection extends ConsumerWidget {
             _buildHighlightItem(
               context,
               "가장 오래 고민 중인 옷 🤔",
-              "${longest.durationDays ?? 0}일",
+              formatConsideringDaysShort(longest.durationDays),
               longest,
             ),
           const Padding(
@@ -225,7 +225,7 @@ class HomeDecisionSection extends ConsumerWidget {
                     'assets/images/products/product_sample.png',
                 title: item.productName,
                 price: formatPriceWithUnit(item.price, zeroLabel: '0원'),
-                dateTag: '${item.durationDays ?? 0}일 고민',
+                dateTag: formatConsideringDays(item.durationDays),
                 onTap: () => context.push('/chat/${item.userProductId}'),
               )),
         ],

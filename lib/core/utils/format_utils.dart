@@ -11,3 +11,15 @@ String formatPriceWithUnit(int price, {String zeroLabel = '계산 중...'}) {
   if (price == 0) return zeroLabel;
   return '${formatPrice(price)}원';
 }
+
+/// 고민 일수 → "오늘 고민" (0일) / "N일 고민" (1일 이상)
+String formatConsideringDays(int? days) {
+  final d = days ?? 0;
+  return d == 0 ? '오늘 고민' : '${d}일 고민';
+}
+
+/// 고민 일수 짧은 표기 → "오늘" / "N일" (하이라이트 등)
+String formatConsideringDaysShort(int? days) {
+  final d = days ?? 0;
+  return d == 0 ? '오늘' : '${d}일';
+}

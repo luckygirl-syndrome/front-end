@@ -24,6 +24,17 @@ class DetailChatScreen extends ConsumerStatefulWidget {
 /// "분석 중" 오버레이에서 /room 재요청 최대 횟수 (이 횟수 넘기면 오버레이 해제, 폴링 중단)
 const int _kMaxAnalysisRetries = 12; // 12 * 5초 = 1분
 
+/// 채팅 메시지 시간 표시: "2026-02-25T05:08:10" → "2월 25일 14:18"
+String _formatChatTime(String? isoString) {
+  if (isoString == null || isoString.isEmpty) return '';
+  try {
+    final dt = DateTime.parse(isoString).toLocal();
+    return DateFormat('M월 d일 HH:mm', 'ko').format(dt);
+  } catch (_) {
+    return isoString;
+  }
+}
+
 /// API의 platform 값(musinsa, zigzag, ably) → 화면 표시용 브랜드명
 String _platformToBrand(String? platform) {
   if (platform == null || platform.isEmpty) return '분석 중';
@@ -467,13 +478,13 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
           context,
           msg.message,
           isMine: msg.role == 'user',
-          time: msg.createdAt ?? "",
+          time: _formatChatTime(msg.createdAt),
         ),
       );
     }
     if (_pendingUserMessage != null && index == baseCount) {
       final timeStr = _pendingUserMessageSentAt != null
-          ? DateFormat('HH:mm').format(_pendingUserMessageSentAt!)
+          ? DateFormat('M월 d일 HH:mm', 'ko').format(_pendingUserMessageSentAt!)
           : '보냄';
       return Padding(
         padding: padding,
