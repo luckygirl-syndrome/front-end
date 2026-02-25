@@ -112,7 +112,9 @@ class SimpleNobuyReceiptSection extends ConsumerWidget {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const DetailNoBuyReceiptScreen(),
+                      builder: (context) => DetailNoBuyReceiptScreen(
+                        userProductId: item.userProductId,
+                      ),
                     ),
                   );
                 },

@@ -68,4 +68,13 @@ class HomeRepository {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> getReceiptDetail(int userProductId) async {
+    try {
+      final response = await _dio.get('/api/dashboard/receipts/$userProductId');
+      return response.data as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
 }
