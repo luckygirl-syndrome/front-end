@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/utils/format_utils.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
@@ -43,7 +44,7 @@ class HomeDecisionSection extends ConsumerWidget {
 
           return Column(
             children: [
-              _buildHighlightHeader(longest, mostExpensive),
+              _buildHighlightHeader(context, longest, mostExpensive),
               const SizedBox(height: 4),
               _buildListSection(context, items),
             ],
@@ -65,18 +66,18 @@ class HomeDecisionSection extends ConsumerWidget {
     );
   }
 
-  Widget _buildHighlightHeader(
+  Widget _buildHighlightHeader(BuildContext context,
       ConsideringListItem? longest, ConsideringListItem? mostExpensive) {
     return Container(
       width: double.infinity,
       color: AppColors.primaryMain,
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-      child: _buildHighlightCard(longest, mostExpensive),
+      child: _buildHighlightCard(context, longest, mostExpensive),
     );
   }
 
-  Widget _buildHighlightCard(
-      ConsideringListItem? longest, ConsideringListItem? mostExpensive) {
+  Widget _buildHighlightCard(BuildContext context, ConsideringListItem? longest,
+      ConsideringListItem? mostExpensive) {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(24),
@@ -93,10 +94,10 @@ class HomeDecisionSection extends ConsumerWidget {
         children: [
           if (longest != null)
             _buildHighlightItem(
+              context,
               "가장 오래 고민 중인 옷 🤔",
               "${longest.durationDays ?? 0}일",
-              longest.productName,
-              longest.productImg,
+              longest,
             ),
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
@@ -104,71 +105,78 @@ class HomeDecisionSection extends ConsumerWidget {
           ),
           if (mostExpensive != null)
             _buildHighlightItem(
+              context,
               "고민 중인 가장 비싼 옷 💰",
-              formatPriceWithUnit(mostExpensive!.price),
-              mostExpensive.productName,
-              mostExpensive.productImg,
+              formatPriceWithUnit(mostExpensive.price),
+              mostExpensive,
             ),
         ],
       ),
     );
   }
 
-  Widget _buildHighlightItem(
-      String title, String value, String desc, String? imageUrl) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title,
-            style: AppTextStyles.ptdBold(16).copyWith(color: AppColors.black)),
-        const SizedBox(height: 16),
-        SizedBox(
-          width: double.infinity,
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: (imageUrl != null && imageUrl.startsWith('http'))
-                    ? Image.network(
-                        imageUrl,
-                        width: 32,
-                        height: 32,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => _buildPlaceholder(),
-                      )
-                    : Image.asset(
-                        imageUrl ?? 'assets/images/products/product_sample.png',
-                        width: 32,
-                        height: 32,
-                        fit: BoxFit.cover,
-                        errorBuilder: (_, __, ___) => _buildPlaceholder(),
-                      ),
-              ),
-              const SizedBox(width: 20),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(value,
-                        style: AppTextStyles.ptdBold(16)
-                            .copyWith(color: AppColors.black)),
-                    Text(
-                      desc,
-                      style: AppTextStyles.ptdRegular(12)
-                          .copyWith(color: AppColors.black),
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ],
+  Widget _buildHighlightItem(BuildContext context, String title, String value,
+      ConsideringListItem item) {
+    return GestureDetector(
+      onTap: () => context.push('/chat/${item.userProductId}'),
+      behavior: HitTestBehavior.opaque,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(title,
+              style:
+                  AppTextStyles.ptdBold(16).copyWith(color: AppColors.black)),
+          const SizedBox(height: 16),
+          SizedBox(
+            width: double.infinity,
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: (item.productImg != null &&
+                          item.productImg!.startsWith('http'))
+                      ? Image.network(
+                          item.productImg!,
+                          width: 32,
+                          height: 32,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => _buildPlaceholder(),
+                        )
+                      : Image.asset(
+                          item.productImg ??
+                              'assets/images/products/product_sample.png',
+                          width: 32,
+                          height: 32,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => _buildPlaceholder(),
+                        ),
                 ),
-              ),
-              const SizedBox(width: 10),
-              _buildSmallDecisionButton(),
-            ],
+                const SizedBox(width: 20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(value,
+                          style: AppTextStyles.ptdBold(16)
+                              .copyWith(color: AppColors.black)),
+                      Text(
+                        item.productName,
+                        style: AppTextStyles.ptdRegular(12)
+                            .copyWith(color: AppColors.black),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 10),
+                _buildSmallDecisionButton(),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -218,6 +226,7 @@ class HomeDecisionSection extends ConsumerWidget {
                 title: item.productName,
                 price: formatPriceWithUnit(item.price, zeroLabel: '0원'),
                 dateTag: '${item.durationDays ?? 0}일 고민',
+                onTap: () => context.push('/chat/${item.userProductId}'),
               )),
         ],
       ),

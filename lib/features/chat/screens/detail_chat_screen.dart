@@ -89,42 +89,42 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
       child: Scaffold(
         backgroundColor: AppColors.white,
         body: detailAsync.when(
-        data: (d) => _buildChatBody(ref, d),
-        loading: () {
-          if (detail != null) {
-            return Stack(
-              children: [
-                _buildChatBody(ref, detail),
-                Positioned(
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  child: SafeArea(
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(vertical: 8),
-                      color: Colors.black26,
-                      child: const Center(
-                        child: SizedBox(
-                          width: 24,
-                          height: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2),
+          data: (d) => _buildChatBody(ref, d),
+          loading: () {
+            if (detail != null) {
+              return Stack(
+                children: [
+                  _buildChatBody(ref, detail),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: SafeArea(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 8),
+                        color: Colors.black26,
+                        child: const Center(
+                          child: SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            );
-          }
-          return const Center(child: CircularProgressIndicator());
-        },
-        error: (err, stack) => _buildErrorState(
-          context,
-          ref,
-          widget.userProductId,
-          err,
+                ],
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
+          error: (err, stack) => _buildErrorState(
+            context,
+            ref,
+            widget.userProductId,
+            err,
+          ),
         ),
-      ),
       ),
     );
   }
@@ -132,7 +132,9 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
   /// exit 버튼(FINISHED), 구매 완료(PURCHASED), 구매 포기(ABANDONED) 모두 '채팅 종료'로 간주
   static bool _isChatEndedStatus(String? status) {
     if (status == null || status.isEmpty) return false;
-    return status == 'FINISHED' || status == 'PURCHASED' || status == 'ABANDONED';
+    return status == 'FINISHED' ||
+        status == 'PURCHASED' ||
+        status == 'ABANDONED';
   }
 
   void _scrollToBottom() {
@@ -304,94 +306,99 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
               child: Row(
                 children: [
-                Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                height: 48,
-                decoration: BoxDecoration(
-                  color: AppColors.paleGrey,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: TextField(
-                  controller: _inputController,
-                  style: AppTextStyles.ptdMedium(16),
-                  decoration: InputDecoration(
-                    hintText: "메시지 쓰기..",
-                    border: InputBorder.none,
-                    hintStyle: AppTextStyles.ptdMedium(
-                      12,
-                    ).copyWith(color: AppColors.grey),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: AppColors.paleGrey,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: TextField(
+                        controller: _inputController,
+                        style: AppTextStyles.ptdMedium(16),
+                        decoration: InputDecoration(
+                          hintText: "메시지 쓰기..",
+                          border: InputBorder.none,
+                          hintStyle: AppTextStyles.ptdMedium(
+                            12,
+                          ).copyWith(color: AppColors.grey),
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  const SizedBox(width: 20),
+                  GestureDetector(
+                    onTap: () async {
+                      if (_isLoadingReply) return; // AI 응답 대기 중에는 전송 불가
+                      final text = _inputController.text.trim();
+                      if (text.isEmpty) return;
+
+                      _inputController.clear();
+                      setState(() {
+                        _pendingUserMessage = text;
+                        _pendingUserMessageSentAt = DateTime.now();
+                        _isLoadingReply = true;
+                        _pendingReply = null;
+                      });
+                      _scrollToBottom(); // 내 메시지 올라갈 때 스크롤
+                      final reply = await ref
+                          .read(chatProvider.notifier)
+                          .sendMessage(widget.userProductId, text);
+
+                      if (!mounted) return;
+                      setState(() {
+                        _isLoadingReply = false;
+                        _pendingReply = reply?.reply;
+                      });
+                      _scrollToBottom(); // AI 답 올라갈 때 스크롤
+                      if (reply == null) {
+                        setState(() {
+                          _pendingUserMessage = null;
+                          _pendingUserMessageSentAt = null;
+                          _pendingReply = null;
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("메시지 전송에 실패했습니다.")),
+                        );
+                      } else {
+                        ref.refresh(
+                            chatRoomDetailProvider(widget.userProductId));
+                        // LLM이 종료 메시지를 반환했으면 exit API 호출 → 방 상태 FINISHED, 목록 갱신
+                        if (reply.isExit == true) {
+                          debugPrint(
+                              '🏁 [Chat] LLM 종료 응답 수신 → POST /api/chat/exit 호출');
+                          await ref
+                              .read(chatProvider.notifier)
+                              .exitChat(widget.userProductId);
+                          if (mounted) {
+                            setState(() => _chatEnded = true);
+                            ref.refresh(
+                                chatRoomDetailProvider(widget.userProductId));
+                          }
+                        }
+                      }
+                    },
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: _isLoadingReply
+                            ? AppColors.darkerGrey
+                            : AppColors.primaryMain,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.send_rounded,
+                        color: AppColors.white,
+                        size: 20,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(width: 20),
-            GestureDetector(
-              onTap: () async {
-                if (_isLoadingReply) return; // AI 응답 대기 중에는 전송 불가
-                final text = _inputController.text.trim();
-                if (text.isEmpty) return;
-
-                _inputController.clear();
-                setState(() {
-                  _pendingUserMessage = text;
-                  _pendingUserMessageSentAt = DateTime.now();
-                  _isLoadingReply = true;
-                  _pendingReply = null;
-                });
-                _scrollToBottom(); // 내 메시지 올라갈 때 스크롤
-                final reply = await ref
-                    .read(chatProvider.notifier)
-                    .sendMessage(widget.userProductId, text);
-
-                if (!mounted) return;
-                setState(() {
-                  _isLoadingReply = false;
-                  _pendingReply = reply?.reply;
-                });
-                _scrollToBottom(); // AI 답 올라갈 때 스크롤
-                if (reply == null) {
-                  setState(() {
-                    _pendingUserMessage = null;
-                    _pendingUserMessageSentAt = null;
-                    _pendingReply = null;
-                  });
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text("메시지 전송에 실패했습니다.")),
-                  );
-                } else {
-                  ref.refresh(chatRoomDetailProvider(widget.userProductId));
-                  // LLM이 종료 메시지를 반환했으면 exit API 호출 → 방 상태 FINISHED, 목록 갱신
-                  if (reply.isExit == true) {
-                    debugPrint('🏁 [Chat] LLM 종료 응답 수신 → POST /api/chat/exit 호출');
-                    await ref.read(chatProvider.notifier).exitChat(widget.userProductId);
-                    if (mounted) {
-                      setState(() => _chatEnded = true);
-                      ref.refresh(chatRoomDetailProvider(widget.userProductId));
-                    }
-                  }
-                }
-              },
-              child: Container(
-                width: 36,
-                height: 36,
-                decoration: BoxDecoration(
-                  color: _isLoadingReply
-                      ? AppColors.darkerGrey
-                      : AppColors.primaryMain,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.send_rounded,
-                  color: AppColors.white,
-                  size: 20,
-                ),
-              ),
-            ),
-            ],
           ),
-        ),
-        ),
           // 맨 아래 상태바(홈 인디케이터) 영역까지 흰색 배경
           Builder(
             builder: (context) => Container(
@@ -418,11 +425,13 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
     if (i <= 1) return detail.messages;
     final firstReplyBlock = rest.sublist(0, i);
     final lastOnly = firstReplyBlock.last;
-    final filtered = detail.messages.sublist(0, surveyCount) + [lastOnly] + rest.sublist(i);
+    final filtered =
+        detail.messages.sublist(0, surveyCount) + [lastOnly] + rest.sublist(i);
     return filtered;
   }
 
-  int _itemCount(ChatRoomDetailResponse detail, List<ChatMessageResponse> displayMessages) {
+  int _itemCount(ChatRoomDetailResponse detail,
+      List<ChatMessageResponse> displayMessages) {
     int base = displayMessages.isEmpty ? 1 : displayMessages.length;
     if (_pendingUserMessage != null) {
       base += 1;
@@ -654,9 +663,9 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
             .spaceBetween, // 👈 Arrangement.SpaceBetween 구현 [cite: 2026-02-16]
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // 1. 왼쪽: 뒤로가기 → 채팅 목록(네비바 채팅 탭)으로
+          // 1. 왼쪽: 뒤로가기 → 이전 화면으로
           GestureDetector(
-            onTap: () => context.go('/chat_list'),
+            onTap: () => context.pop(),
             behavior: HitTestBehavior.opaque,
             child: const Icon(
               Icons.arrow_back_ios_new,
@@ -672,9 +681,7 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
           Row(
             children: [
               GestureDetector(
-                onTap: hasShopLink
-                    ? () => _openProductUrl(productUrl!)
-                    : null,
+                onTap: hasShopLink ? () => _openProductUrl(productUrl!) : null,
                 behavior: HitTestBehavior.opaque,
                 child: Icon(
                   Icons.shopping_bag_outlined,
@@ -695,7 +702,8 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
     final uri = Uri.parse(url);
     try {
       // canLaunchUrl은 iOS 시뮬레이터 등에서 채널 오류를 일으킬 수 있어, 바로 launchUrl 시도
-      final launched = await launchUrl(uri, mode: LaunchMode.externalApplication);
+      final launched =
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
       if (!launched && mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('링크를 열 수 없어요.')),
@@ -714,8 +722,8 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
   Widget _buildProductHeader(ChatRoomDetailResponse detail) {
     final String productName =
         (detail.productName.isEmpty || detail.productName == "null")
-        ? "분석 중인 상품입니다..."
-        : detail.productName;
+            ? "분석 중인 상품입니다..."
+            : detail.productName;
 
     return Container(
       // 디자인 가이드 수치: 좌32, 상32, 우32, 하20
@@ -918,9 +926,8 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
                 text: isPurchased ? "저 사실... 반품했어요" : "저 사실... 샀어요",
                 onPressed: () {
                   final newStatus = !isPurchased;
-                  final msg = isPurchased
-                      ? "반품(구매 포기) 처리되었습니다."
-                      : "구매 완료로 변경되었습니다.";
+                  final msg =
+                      isPurchased ? "반품(구매 포기) 처리되었습니다." : "구매 완료로 변경되었습니다.";
                   _updateStatus(context, ref, newStatus, msg);
                 },
                 backgroundColor: AppColors.black,
@@ -969,9 +976,8 @@ class _DetailChatScreenState extends ConsumerState<DetailChatScreen>
       // 1. 내 메시지는 오른쪽, 상대 메시지는 왼쪽 정렬
       alignment: isMine ? Alignment.centerRight : Alignment.centerLeft,
       child: Column(
-        crossAxisAlignment: isMine
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
+        crossAxisAlignment:
+            isMine ? CrossAxisAlignment.end : CrossAxisAlignment.start,
         children: [
           Container(
             // 최대 너비를 화면의 70% 정도로 제한하여 가독성 확보
@@ -1044,7 +1050,8 @@ class _TypingDotsState extends State<_TypingDots>
           mainAxisSize: MainAxisSize.min,
           children: List.generate(3, (i) {
             final t = (_controller.value + i / 3) % 1.0;
-            final opacity = 0.3 + 0.7 * (0.5 - (t - 0.5).abs()).clamp(0.0, 1.0) * 2;
+            final opacity =
+                0.3 + 0.7 * (0.5 - (t - 0.5).abs()).clamp(0.0, 1.0) * 2;
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 2),
               child: Text(
