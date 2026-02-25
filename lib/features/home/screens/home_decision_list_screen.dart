@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:ttobaba/core/theme/app_colors.dart';
 import 'package:ttobaba/core/theme/app_text_styles.dart';
@@ -67,7 +68,8 @@ class DecisionListScreen extends ConsumerWidget {
                     );
                   }
                   return ListView.separated(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 32, vertical: 12),
                     itemCount: items.length,
                     separatorBuilder: (context, index) =>
                         const SizedBox(height: 12),
@@ -79,6 +81,8 @@ class DecisionListScreen extends ConsumerWidget {
                         title: item.productName,
                         price: "${formatter.format(item.price)}원",
                         dateTag: '${item.durationDays ?? 0}일 고민',
+                        onTap: () =>
+                            context.push('/chat/${item.userProductId}'),
                       );
                     },
                   );
