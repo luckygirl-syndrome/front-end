@@ -73,6 +73,7 @@ class _SignupPageContentState extends ConsumerState<SignupPageContent> {
           obscureText: widget.index >= 2,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 24, vertical: 22),
+          onChanged: updateFunc,
           onSubmitted: (_) => notifier.next(() => context.push('/sbti_start')),
         ),
         const SizedBox(height: 16),

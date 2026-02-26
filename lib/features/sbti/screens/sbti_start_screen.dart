@@ -1,17 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:ttobaba/core/auth/auth_provider.dart';
+import 'package:ttobaba/core/theme/app_colors.dart';
 import '../../../core/theme/app_text_styles.dart';
 import '../widgets/sbti_background.dart';
 import '../../../core/widgets/two_buttons.dart';
 import 'package:go_router/go_router.dart';
 
-class SbtiStartScreen extends ConsumerWidget {
+class SbtiStartScreen extends ConsumerStatefulWidget {
   const SbtiStartScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<SbtiStartScreen> createState() => _SbtiStartScreenState();
+}
+
+class _SbtiStartScreenState extends ConsumerState<SbtiStartScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Refresh auth state after frame so app recognizes stored token without
+    // causing immediate redirect from signup route.
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      ref.read(authStateProvider.notifier).refresh();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.white,
       // ⭐ AppBar 제거!
       body: Stack(
         children: [
@@ -32,7 +50,7 @@ class SbtiStartScreen extends ConsumerWidget {
                   const SizedBox(height: 144),
 
                   Image.asset(
-                    'assets/images/sbti_cat.png',
+                    'assets/images/cats/sbti_cat.png',
                     height: 202,
                   ),
                   const Spacer(),
