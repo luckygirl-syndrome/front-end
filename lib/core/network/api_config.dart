@@ -5,5 +5,5 @@
 /// - 실기기에서 PC 접속: `--dart-define=API_BASE_URL=http://192.168.x.x:8001`
 final String apiBaseUrl = String.fromEnvironment(
   'API_BASE_URL',
-  defaultValue: 'http://18.118.233.127:8001',
+  defaultValue: 'https://ttobaba.pyeonch.com',
 );
